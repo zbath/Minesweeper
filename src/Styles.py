@@ -1,3 +1,5 @@
+#This is where all the styles for the program will live - make things look pretty!
+
 Styles = {
     'game': {
         'caption': 'Minesweeper',
@@ -10,6 +12,6 @@ Styles = {
         'width': 30,
     }
     'board': {
-        
+
     }
 }

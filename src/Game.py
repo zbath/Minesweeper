@@ -1,3 +1,4 @@
+#This starts the display which will call UI and Gameboard
 import pygame
 
 from src.Styles import Styles
@@ -8,7 +9,7 @@ class Game:
         self.display = display
 
     def loop(self):
-        clock = pygame.time.Clock()
+        clock = pygame.time.Clock() #adds clock imported from pygame
 
         while True: #sets the main game loop
             for event in pygame.event.get():
