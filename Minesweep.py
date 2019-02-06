@@ -1,3 +1,4 @@
+#This is the main executable of the program, it runs Game
 import pygame
 
 from src.Game import Game
