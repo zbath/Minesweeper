@@ -10,7 +10,7 @@ class Tiles:
 
     def tile_click():
         #calls tile_reveal, returns the state
-		if (!is_revealed):
+		if not is_revealed:
 			#call tile_reveal
 			tile_reveal()
 
