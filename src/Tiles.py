@@ -3,10 +3,23 @@ import pygame
 from random import randint
 
 class Tiles:
-    def __init__(self, is_revealed, is_flag, is_mine): 
+    def __init__(self, is_revealed, is_flag, is_mine, display): 
         self.is_revealed = is_revealed
         self.is_flag = is_flag
         self.is_mine = is_mine
+        self.display = display
+        #self.x_pos = Styles[x][y]
+        #self.y_pos = Styles[x][y]
+
+    def draw(self, x_pos, y_pos):
+        pygame.draw.rect(
+            self.display,
+            Styles['color']['white'],
+            [
+                self.x_pos,
+                self.y_pos,
+            ]
+        )
 
     def tile_click():
         #calls tile_reveal, returns the state
