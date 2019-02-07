@@ -26,20 +26,22 @@ class Gameboard:
 
     # Generate board and create tiles.
     def board_generator(self):
-        game_board = [[None],[None]] # Creates an empty game board, 2D list
-        while(self.mine_count > 0):# while loop for mine_count > 0
-            random_row = random.randint(0, self.board_size) # chooses a random row number
-            random_col = random.randint(0, self.board_size) # chooses a random column number
+        # Traverse game board and fill with tiles.
+        for x in range(0, self.board_size - 1):
+            for y in range(0, self.boardsize - 1):
+                (self.game_board[x][y]).append(Tile(False, False, False))
 
-            # Will this work if the actual list of tiles isn't implemented yet?
-            # Don't we need to use .append() to add things to lists?
-            if (not game_board[random_row][random_col].is_mine()):
-                game_board[random_row][random_col] = Tile(False, False, True)
+        # Randomly adds mines to the board until mine count equals zero
+        # Creates two random numbers in range of board size
+        # Adds a mine to that location if one does not already exist
+        while(self.mine_count > 0):
+            random_row = random.randint(0, self.board_size)
+            random_col = random.randint(0, self.board_size)
+            
+            if (not self.game_board[random_row][random_col].get_mine()):
+                self.game_board[random_row][random_col].set_mine()
                 self.mine_count -= 1
-        for row_index, row in enumerate(game_board): #for loop iterating through rows
-             for col_index, value in enumerate(game_board): #for loop iterating through cols
-                if not game_board[row_index][col_index].is_mine():  
-                    game_board[row_index][col_index] = Tile(False, False, False)
+        
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
