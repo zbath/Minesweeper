@@ -34,10 +34,15 @@ class Tiles:
         
 
     def tile_flag():
+        count = 0
+        if is_mine == True:
+            count = count + 1
+            
         #call is_mine, if true, add total mine counter
         #return display
+
         #features to add:
-        #physical response to button click from user (right mouse button click)
+        #physical response to button click from user (right mouse button click) (click = pygame.mouse.get_pressed())
         #keep track of the validity of user picking mine or not
         #if it is last one and all mines marked, game is won. Winning handled in "gambeboard", but include boolean
         #otherwise, just add to counter if it IS a mine
