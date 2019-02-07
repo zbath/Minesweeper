@@ -52,3 +52,16 @@ class Gameboard:
             self.rec_reveal(row, column - 1)          # (LEFT)
             self.rec_reveal(row, column + 1)          # (RIGHT)
 
+    # Counts number of mines adjacent to a given tile
+    # It accepts position through row and column parameters
+	# According to these coordinates, it determines whether an adjacent tile is valid
+	# and if it is a mine. If it is a mine, increments num_adjacent_mines
+    def count_adjacent_mines(self, row, column):
+	#increment num_adjacent_mines including diagonals
+        for row_inc in range (-1, 1):
+            for col_inc in range (-1, 1):
+			    #first check for valid indices
+                if (self.boardsize <= (row+row_inc) or self.boardsize <= (col+col_inc)):
+                    #check if adjacent tile is a mine
+                    if (game_board[row+row_inc][col+col_inc].is_mine()):
+                        game_board[row][column].num_adjacent_mines+=1
