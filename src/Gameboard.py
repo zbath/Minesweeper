@@ -2,7 +2,7 @@
 import pygame
 
 # from src.Styles import Styles
-from Tiles import Tile
+from Tiles import Tiles
 
 class Gameboard:
     m_board = []
