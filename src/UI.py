@@ -5,6 +5,9 @@ from Gameboard import Board
 
 class UI:
 
+    def __init__(self, screen):
+        self.screen = screen
+
     def start_game():
 
 		#start screen
@@ -44,5 +47,9 @@ class UI:
 
 					#Continues until a mine is hit or all tiles are revealed
 
+    screen = pygame.screen.set_mode(
+            (Styles['start_screen']['width'],
+            Styles['start_screen']['width'])
+        )
 
 
