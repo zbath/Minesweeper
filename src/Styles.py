@@ -18,5 +18,10 @@ Styles = {
     'board': {
         'width': 500,
         'height': 500,
+    },
+    'color': {
+        'white': (255, 255, 255),
+        'black': (0, 0, 0),
+        'gray': (204, 204, 204),
     }
 }
