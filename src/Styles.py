@@ -10,8 +10,13 @@ Styles = {
     'tile': {
         'height': 30,
         'width': 30,
-    }
+    },
+    'start_screen': {
+        'width': 300,
+        'height': 200,
+    },
     'board': {
-
+        'width': 500,
+        'height': 500,
     }
 }
