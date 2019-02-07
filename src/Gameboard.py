@@ -58,10 +58,10 @@ class Gameboard:
 	# and if it is a mine. If it is a mine, increments num_adjacent_mines
     def count_adjacent_mines(self, row, column):
 	#increment num_adjacent_mines including diagonals
-        for row_inc in range (-1, 1):
-            for col_inc in range (-1, 1):
+        for row_inc in range (-1, 2):
+            for col_inc in range (-1, 2):
 			    #first check for valid indices
-                if (self.boardsize <= (row+row_inc) or self.boardsize <= (col+col_inc)):
+                if (self.board_size <= (row+row_inc) or self.board_size <= (column+col_inc)):
                     #check if adjacent tile is a mine
-                    if (game_board[row+row_inc][col+col_inc].is_mine()):
-                        game_board[row][column].num_adjacent_mines+=1
+                    if (self.game_board[row+row_inc][column+col_inc].is_mine()):
+                        self.game_board[row][column].num_adjacent_mines+=1
