@@ -10,8 +10,18 @@ Styles = {
     'tile': {
         'height': 30,
         'width': 30,
-    }
+    },
+    'start_screen': {
+        'width': 300,
+        'height': 200,
+    },
     'board': {
-
+        'width': 500,
+        'height': 500,
+    },
+    'color': {
+        'white': (255, 255, 255),
+        'black': (0, 0, 0),
+        'gray': (204, 204, 204),
     }
 }
