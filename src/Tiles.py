@@ -10,6 +10,13 @@ class Tiles:
 
     def tile_click():
         #calls tile_reveal, returns the state
+		if (!is_revealed):
+			#call tile_reveal
+			tile_reveal()
+
+		#return state
+		return self
+
 
     def tile_reveal():
         #if(is_mine):
