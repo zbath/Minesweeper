@@ -41,6 +41,13 @@ class Gameboard:
             if (not self.game_board[random_row][random_col].get_mine()):
                 self.game_board[random_row][random_col].set_mine()
                 self.mine_count -= 1
+
+        # Counts number of adjacent mines at each tile
+        # A nested for loop calling count_adjacent_mines() at each tile
+        # count_adjacent_mines() will send count to Tiles object
+        for x in range(0, self.board_size - 1):
+            for y in range(0, self.board_size - 1):
+                self.count_adjacent_mines(x, y)
         
 
     # Check and reveal surrounding tiles until base case or mine
