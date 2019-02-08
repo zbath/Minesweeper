@@ -36,10 +36,6 @@ class Tiles:
             #return display
             #return boolean to board
             #is_revealed = true
-        #if(is_flag):
-            #return display
-            #return boolean to board
-            #is_revealed = false
         #if(not is_flag and not is_mine):
             #check if is_adjacent
             #recurse as needed
