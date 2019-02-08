@@ -22,17 +22,22 @@ class Tile(object):
     yPos = 0
     mine = False
     revealed = False
+    adjacent = 0
 
     def __init__(self, xPos, yPos, mine):
         self.xPos = xPos
         self.ypos = yPos
         self.mine = mine
+    
 
 # x- and y-position are set at initilization
 # as well as whather or not the tile is hiding a mine
 def make_tile(xPos, yPos, mine):
     tile = Tile(xPos, yPos, mine)
     return tile
+
+
+
 
 # For my purposes the board is always a 5x5, but its generation is actually coded to
 # be more flexible. The tiles are held in a 2D list called arr.
@@ -42,6 +47,13 @@ class Board:
     mineCount = 5
     running = True
     arr = []
+
+def count_adjacent_mines(board, row, column):
+    for row_inc in range (-1, 2):
+        for col_inc in range (-1, 2):
+            if (((row+row_inc < board.tileHeight) and (column + col_inc < board.tileWidth) and ((not row_inc == 0) and (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
+                if (board.arr[row+row_inc][column+col_inc].mine):
+                    board.arr[row][column].adjacent+=1
 
 # At startup, generate a Board object called game
 game = Board()
@@ -54,15 +66,22 @@ for i in range (0, game.tileHeight):
         x.append(make_tile(i, j, mineDecider))
     game.arr.append(x)
 
+for i in range (0, game.tileHeight):
+    for j in range (0, game.tileWidth):
+        if (not game.arr[i][j].mine):
+            count_adjacent_mines(game, i, j)
+
+
 # This is just for showing the user where the mines are after generation
 for i in range (0, game.tileHeight):
     for j in range (0, game.tileWidth):
         if (game.arr[i][j].mine):
             print ('X', end='')
         else:
-            print ('0', end='')
+            print (game.arr[i][j].adjacent, end='')
         if (j == (game.tileWidth - 1)):
             print ('')
+
 
 # The main game loop:
 while (game.running == True):
