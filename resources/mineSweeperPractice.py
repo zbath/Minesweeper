@@ -51,7 +51,7 @@ class Board:
 def count_adjacent_mines(board, row, column):
     for row_inc in range (-1, 2):
         for col_inc in range (-1, 2):
-            if (((row+row_inc < board.tileHeight) and (column + col_inc < board.tileWidth) and ((not row_inc == 0) and (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
+            if (((row+row_inc < board.tileHeight) and (column + col_inc < board.tileWidth) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
                 if (board.arr[row+row_inc][column+col_inc].mine):
                     board.arr[row][column].adjacent+=1
 
