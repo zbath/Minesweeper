@@ -37,7 +37,7 @@ class UI:
         
 			#Uses a loop to call is_not_mine (called when user clicks a tile)
 			#while not game_victory or not game_lost:
-					#obtain user input from clicking a tile
+					#obtain user input from clicking a tile (both right and left click)
                 
 					#call is_not_mine (a function in Gameboard that will call rec_reveal)
                 
