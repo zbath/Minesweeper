@@ -111,8 +111,8 @@ while (game.running == True):
 
     # The guesses need to be between 0 and (size - 1)
     # There's no protection around these, so be careful
-    xGuess = input("\nWhere would you like to click (x-position)? ")
-    yGuess = input("Where would you like to click (y-position)? ")
+    yGuess = input("\nWhere would you like to click (x-position)? ")
+    xGuess = input("Where would you like to click (y-position)? ")
 
     # There's a losing state implemented, but no winning state yet
     if (game.arr[int(xGuess)][int(yGuess)].mine):
