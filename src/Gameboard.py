@@ -54,12 +54,14 @@ class Gameboard:
     # It accepts coordinates as a position, checks if the coordinates are valid,
     # and calls other tiles recursively 
     def rec_reveal(self, row, column):
-        if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine()):
-            # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
-            self.rec_reveal(row - 1, column)          # (UP)
-            self.rec_reveal(row + 1, column)          # (DOWN)
-            self.rec_reveal(row, column - 1)          # (LEFT)
-            self.rec_reveal(row, column + 1)          # (RIGHT)
+        if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine() and not self.game_board[row][column].is_revealed):
+            self.game_board[row][column].is_revealed = True
+            if (self.game_board[row][column].num_adjacent_mines == 0):
+                # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
+                self.rec_reveal(row - 1, column)          # (UP)
+                self.rec_reveal(row + 1, column)          # (DOWN)
+                self.rec_reveal(row, column - 1)          # (LEFT)
+                self.rec_reveal(row, column + 1)          # (RIGHT)
 
     # Counts number of mines adjacent to a given tile
     # It accepts position through row and column parameters

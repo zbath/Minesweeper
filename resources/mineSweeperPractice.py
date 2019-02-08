@@ -55,6 +55,15 @@ def count_adjacent_mines(board, row, column):
                 if (board.arr[row+row_inc][column+col_inc].mine):
                     board.arr[row][column].adjacent+=1
 
+def rec_reveal(board, row, column):
+    if(((row >= 0 and row < board.tileHeight) and (column >= 0 and column < board.tileWidth)) and not board.arr[row][column].mine and not board.arr[row][column].revealed):
+        board.arr[row][column].revealed = True
+        if (board.arr[row][column].adjacent == 0):
+            rec_reveal(board, row - 1, column)          # (UP)
+            rec_reveal(board, row + 1, column)          # (DOWN)
+            rec_reveal(board, row, column - 1)          # (LEFT)
+            rec_reveal(board, row, column + 1)          # (RIGHT)        
+
 # At startup, generate a Board object called game
 game = Board()
 # below is us populating the 2d list of tiles
@@ -94,7 +103,7 @@ while (game.running == True):
     for i in range (0, game.tileHeight):
         for j in range (0, game.tileWidth):
             if (game.arr[i][j].revealed):
-                print (' ', end='')
+                print (game.arr[i][j].adjacent, end='')
             else:
                 print ('X', end='')
             if (j == (game.tileWidth - 1)):
@@ -109,6 +118,9 @@ while (game.running == True):
     if (game.arr[int(xGuess)][int(yGuess)].mine):
         print ("There was a mine there! You Lose!\n")
         game.running = False
+
+    else:
+        rec_reveal(game, int(xGuess), int(yGuess))
 
     game.arr[int(xGuess)][int(yGuess)].revealed = True
     
