@@ -42,8 +42,7 @@ def make_tile(xPos, yPos, mine):
 # For my purposes the board is always a 5x5, but its generation is actually coded to
 # be more flexible. The tiles are held in a 2D list called arr.
 class Board:
-    tileWidth = 5
-    tileHeight = 5
+    size = 0
     mineCount = 1
     running = True
     arr = []
@@ -51,12 +50,12 @@ class Board:
 def count_adjacent_mines(board, row, column):
     for row_inc in range (-1, 2):
         for col_inc in range (-1, 2):
-            if (((row+row_inc < board.tileHeight) and (column + col_inc < board.tileWidth) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
+            if (((row+row_inc < board.size) and (column + col_inc < board.size) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
                 if (board.arr[row+row_inc][column+col_inc].mine):
                     board.arr[row][column].adjacent+=1
 
 def rec_reveal(board, row, column):
-    if(((row >= 0 and row < board.tileHeight) and (column >= 0 and column < board.tileWidth)) and not board.arr[row][column].mine and not board.arr[row][column].revealed):
+    if(((row >= 0 and row < board.size) and (column >= 0 and column < board.size)) and not board.arr[row][column].mine and not board.arr[row][column].revealed):
         board.arr[row][column].revealed = True
         if (board.arr[row][column].adjacent == 0):
             rec_reveal(board, row - 1, column)          # (UP)
@@ -66,29 +65,33 @@ def rec_reveal(board, row, column):
 
 # At startup, generate a Board object called game
 game = Board()
+
+game.size = input("How big of a board would you like (n x n)? ")
+game.size = int(game.size)
+
 # below is us populating the 2d list of tiles
-for i in range (0, game.tileHeight):
+for i in range (0, game.size):
     x = []
-    for j in range(0, game.tileWidth):
+    for j in range(0, game.size):
         mineDecider = random.choice((False, False, False, False, False, True)) 
         # ^I know this is janky, I still need to learn how to do it better
         x.append(make_tile(i, j, mineDecider))
     game.arr.append(x)
 
-for i in range (0, game.tileHeight):
-    for j in range (0, game.tileWidth):
+for i in range (0, game.size):
+    for j in range (0, game.size):
         if (not game.arr[i][j].mine):
             count_adjacent_mines(game, i, j)
 
 
 # This is just for showing the user where the mines are after generation
-for i in range (0, game.tileHeight):
-    for j in range (0, game.tileWidth):
+for i in range (0, game.size):
+    for j in range (0, game.size):
         if (game.arr[i][j].mine):
             print ('X', end='')
         else:
             print (game.arr[i][j].adjacent, end='')
-        if (j == (game.tileWidth - 1)):
+        if (j == (game.size - 1)):
             print ('')
 
 
@@ -98,15 +101,15 @@ while (game.running == True):
     print("\n\n\n\n")
     print("Here is your current board: \n")
 
-    # For now, the board displays an X for every unrevealed tile and
-    # a blank space for each revealed tile
-    for i in range (0, game.tileHeight):
-        for j in range (0, game.tileWidth):
+    # The board displays an X for every unrevealed tile and the number of
+    # adjacent mines for each revealed tile
+    for i in range (0, game.size):
+        for j in range (0, game.size):
             if (game.arr[i][j].revealed):
                 print (game.arr[i][j].adjacent, end='')
             else:
                 print ('X', end='')
-            if (j == (game.tileWidth - 1)):
+            if (j == (game.size - 1)):
                 print ('')
 
     # The guesses need to be between 0 and (size - 1)
