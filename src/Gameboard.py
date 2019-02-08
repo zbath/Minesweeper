@@ -28,11 +28,11 @@ class Gameboard:
     def board_generator(self):
         # Traverse game board and fill with tiles.
         for x in range(0, self.board_size - 1):
-            for y in range(0, self.boardsize - 1):
-                (self.game_board[x][y]).append(Tile(False, False, False))
+            for y in range(0, self.board_size - 1):
+                (self.game_board[x][y]).append(Tiles(False, False, False))
 
         # Randomly adds mines to the board until mine count equals zero
-        # Creates two random numbers in range of board size
+        # Creates two random numbers in range of board size and checks arr[][] at that location
         # Adds a mine to that location if one does not already exist
         while(self.mine_count > 0):
             random_row = random.randint(0, self.board_size)
