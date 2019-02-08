@@ -44,7 +44,7 @@ def make_tile(xPos, yPos, mine):
 class Board:
     tileWidth = 5
     tileHeight = 5
-    mineCount = 5
+    mineCount = 1
     running = True
     arr = []
 

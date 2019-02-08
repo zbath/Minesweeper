@@ -70,7 +70,7 @@ class Gameboard:
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
-                if (self.board_size <= (row+row_inc) or self.board_size <= (column+col_inc) and ((not row_inc == 0) or (not col_inc == 0))):
+                if (((row+row_inc < self.board_size) and (column + col_inc < self.board_size) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine()):
                         self.game_board[row][column].num_adjacent_mines+=1
