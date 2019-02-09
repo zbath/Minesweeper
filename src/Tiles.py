@@ -8,6 +8,7 @@ class Tiles:
         self.is_flag = is_flag
         self.is_mine = is_mine
         self.display = display
+        self.num_adjacent_mines = 0
         #self.x_pos = Styles[x][y]
         #self.y_pos = Styles[x][y]
 
@@ -31,7 +32,7 @@ class Tiles:
 		return self
 
 
-    def tile_reveal():
+#    def tile_reveal():
         #if(is_mine):
             #return display
             #return boolean to board
