@@ -52,4 +52,9 @@ class UI:
             Styles['start_screen']['width'])
         )
 
+	def left_click();
+	# to be defined
+	def right_click();
+	# to be defined
+
 
