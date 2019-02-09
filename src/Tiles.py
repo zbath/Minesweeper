@@ -44,12 +44,24 @@ class Tiles:
 
     def tile_flag():
         count = 0
-        if is_mine == True:
-            count = count + 1
-            
         #call is_mine, if true, add total mine counter
         #return display
+        if is_mine == True:
+            count = count + 1
 
+        i = index[0]
+        j = index[1]
+        button_key = str(i) + "," + str(j)
+        button_val = self.view.buttons[button_key]       
+        if button_val["bg"] == "grey":
+            button_val.configure(bg="yellow", text="FLAG")
+            self.cells_flagged.append(button_key)
+        elif button_val["text"] == "FLAG":
+            button_val.configure(bg="grey", text="")
+            self.cells_flagged.remove(button_key)
+        self.update_mines()
+        
+        #pygame.mouse.get_pressed() - can return tuple (leftclick,middleclick,rightclick)
         #features to add:
         #physical response to button click from user (right mouse button click) (click = pygame.mouse.get_pressed())
         #keep track of the validity of user picking mine or not
