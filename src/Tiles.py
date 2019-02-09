@@ -8,10 +8,12 @@ class Tiles:
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
     # Tile object will have an x_pos and y_pos initialized
     # Display will be called to draw a tile on the board
-    def __init__(self, is_revealed, is_flag, is_mine, x_pos, y_pos, display): 
+    def __init__(self, is_revealed, is_flag, is_mine, x_pos, y_pos, is_adjacent, num_adjacent_mines, display): 
         self.is_revealed = is_revealed
         self.is_flag = is_flag
         self.is_mine = is_mine
+        self.is_adjacent = is_adjacent
+        self.num_adjacent_mines = num_adjacent_mines
         self.display = display
         #self.x_pos = Styles[x][y]
         #self.y_pos = Styles[x][y]
@@ -36,10 +38,8 @@ class Tiles:
             #return boolean to board
             #is_revealed = true
         #if(not is_flag and not is_mine):
-        #TO BE HANDLED IN GAMEBOARD
-            #check if is_adjacent
-            #recurse as needed
-            #return display either numerical or blank
+        #if num_adjacent_mines > 0 -> display numerical value
+        #else display blank
         
     # When called, boolean is_flag will be set to true
     # Displays a flag on the tile
@@ -59,11 +59,11 @@ class Tiles:
         #otherwise, just add to counter if it IS a mine
         #every click displays flag
 
-    #sets is_mine to true for the Tile object
+    # Sets is_mine to true for the Tile object
     def set_mine():
         is_mine = True
 
-    #returns the truth value of is_mine
+    # Returns the truth value of is_mine
     def get_mine():
         return is_mine
 
