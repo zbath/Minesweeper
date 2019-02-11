@@ -78,8 +78,9 @@ class UI:
         )
 
     def left_click():
-        # to be defined
-        click = 0 #some dummy code to make code work
+        if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+            pygame.mouse.get_pos()
+            game_board.rec_reveal()
 
     def right_click():
         # to be defined

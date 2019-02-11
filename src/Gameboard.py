@@ -52,7 +52,7 @@ class Gameboard:
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
-    # and calls other tiles recursively 
+    # and calls other tiles recursively
     def rec_reveal(self, row, column):
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine() and not self.game_board[row][column].is_revealed):
             self.game_board[row][column].is_revealed = True
