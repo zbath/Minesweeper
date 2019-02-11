@@ -10,16 +10,28 @@ class UI:
 
     def start_game(self):
 
-        #start screen
-
         board_size = 1
         number_of_mines = 0
 
         clock = pygame.time.Clock() #adds clock imported from pygame
 
+		#freezes when user input is requested
+        #board_width = input ("Enter board size (>=2): ")
+        #number_of_mines = input ("Enter number of mines: ")
+
         running = True
 
         while running: #sets the main game loop
+            #create a surface
+            surf = pygame.Surface((300,300))
+			#sets color of board
+            surf.fill((0, 0, 255))
+            rect = surf.get_rect()
+			
+			#draws the surface at these coordinates
+            self.display.blit(surf, (400, 300))
+            pygame.display.flip()
+
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -35,7 +47,6 @@ class UI:
             (Styles['game']['width'],
             Styles['game']['width'])
         )
-        pygame.display.set_caption('Play PoopScoop!')
 
 		#Use a loop to obtain valid user input
 		#while board_size < 2:
