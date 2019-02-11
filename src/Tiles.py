@@ -30,10 +30,14 @@ class Tiles:
 #         #else display blank
         
 
-#     def tile_flag(self):
-#         count = 0
-#         #call is_mine, if true, add total mine counter
-#         #return display
-#         if self.is_mine == True:
-#             count = count + 1
+     def tile_flag(self):
+         #user_mines_found tracks how many tiles are CORRECTLY flagged
+         users_mines_found = 0
+         if Tile.is_mine == True
+            #if tile clicked is mine, increment user_mines_found by 1
+            users_mines_found = users_mines_found + 1
+        #return display
+        # ^included for now - do we need to display the flags from here?
+
+        
 
