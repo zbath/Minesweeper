@@ -80,5 +80,7 @@ class Gameboard:
     def draw(self):
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
+                if self.game_board[x][y].is_mine:
+                    self.game_board[x][y].surf.fill((255,0,0))
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
