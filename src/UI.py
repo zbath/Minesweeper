@@ -17,12 +17,16 @@ class UI:
 
         clock = pygame.time.Clock() #adds clock imported from pygame
 
-        while True: #sets the main game loop
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
+        running = True
 
-            Gameboard.draw()
+        while running: #sets the main game loop
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                elif event.type == pygame.QUIT:
+                    exit()
+        Gameboard.draw()
 
         pygame.display.update()
         clock.tick(30)
