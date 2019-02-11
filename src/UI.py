@@ -2,35 +2,25 @@
 import pygame
 
 from src.Gameboard import Gameboard
+from src.Styles import Styles
 
 class UI:
 
     def __init__(self, display):
         self.display = display
 
-    def start_game(self):
+    def start_game(self,board_size,number_of_mines):
 
-        board_size = 1
-        number_of_mines = 0
+        self.board_size = int(board_size)
+        self.number_of_mines = int(number_of_mines)
 
         clock = pygame.time.Clock() #adds clock imported from pygame
 
-		#freezes when user input is requested
-        #board_width = input ("Enter board size (>=2): ")
-        #number_of_mines = input ("Enter number of mines: ")
+        game_board = Gameboard(board_size, number_of_mines, self.display)
 
         running = True
 
-        while running: #sets the main game loop
-            #create a surface
-            surf = pygame.Surface((300,300))
-			#sets color of board
-            surf.fill((0, 0, 255))
-            rect = surf.get_rect()
-			
-			#draws the surface at these coordinates
-            self.display.blit(surf, (400, 300))
-            pygame.display.flip()
+        while running:
 
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -38,15 +28,17 @@ class UI:
                         running = False
                 elif event.type == pygame.QUIT:
                     exit()
-        Gameboard.draw()
+        
+            game_board.draw()
+        pygame.display.flip()
 
-        pygame.display.update()
+        # pygame.display.update()
         clock.tick(30)
 
-        display = pygame.display.set_mode(
-            (Styles['game']['width'],
-            Styles['game']['width'])
-        )
+        # display = pygame.display.set_mode(
+        #     (Styles['game']['width'],
+        #     Styles['game']['width'])
+        # )
 
 		#Use a loop to obtain valid user input
 		#while board_size < 2:

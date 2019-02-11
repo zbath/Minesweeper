@@ -1,5 +1,6 @@
 #This is the tile class go for the game
 import pygame
+from src.Styles import Styles
 from random import randint
 
 class Tiles:
@@ -9,27 +10,29 @@ class Tiles:
         self.is_mine = is_mine
         self.display = display
         self.num_adjacent_mines = 0
+        self.surf = pygame.Surface((30,30))
+        self.surf.fill((100,100,100))
+
         #self.x_pos = Styles[x][y]
         #self.y_pos = Styles[x][y]
 
-    def draw(self, x_pos, y_pos):
-        pygame.draw.rect(
-            self.display,
-            Styles['color']['white'],
-            [
-                self.x_pos,
-                self.y_pos,
-            ]
-        )
+    # def draw(self, x_pos, y_pos):
+    #     pygame.draw.rect(
+    #         self.display,
+    #         Styles['color']['white'],
+    #         [
+    #             self.x_pos,
+    #             self.y_pos,
+    #         ]
+    #     )
 
-    def tile_click():
-        #calls tile_reveal, returns the state
-        if not is_revealed:
-            #call tile_reveal
-            tile_reveal()
+    # def tile_click(self):
+    #     #calls tile_reveal, returns the state
+    #     if not is_revealed:
+    #         #call tile_reveal
+    #         tile_reveal()
 
         #return state
-        return self
 
 
 #    def tile_reveal():
@@ -43,11 +46,11 @@ class Tiles:
             #return display either numerical or blank
         
 
-    def tile_flag():
+    def tile_flag(self):
         count = 0
         #call is_mine, if true, add total mine counter
         #return display
-        if is_mine == True:
+        if self.is_mine == True:
             count = count + 1
 
                
