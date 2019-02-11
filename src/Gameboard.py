@@ -28,7 +28,7 @@ class Gameboard:
         for x in range(0, self.board_size):
             arr = []
             for y in range(0, self.board_size):
-                (arr.append(Tiles(False, False, False, self.display)))
+                arr.append(Tiles(False, False, False, self.display))
             self.game_board.append(arr)
 
         # Randomly adds mines to the board until mine count equals zero
