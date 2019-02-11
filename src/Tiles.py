@@ -24,12 +24,12 @@ class Tiles:
 
     def tile_click():
         #calls tile_reveal, returns the state
-		if not is_revealed:
-			#call tile_reveal
-			tile_reveal()
+        if not is_revealed:
+            #call tile_reveal
+            tile_reveal()
 
-		#return state
-		return self
+        #return state
+        return self
 
 
 #    def tile_reveal():
@@ -58,9 +58,3 @@ class Tiles:
         #if it is last one and all mines marked, game is won. Winning handled in "gambeboard", but include boolean
         #otherwise, just add to counter if it IS a mine
         #every click displays flag
-
-    def set_mine():
-        #sets true to is_mine
-
-    def get_mine():
-        #returns the truth value of is_mine
