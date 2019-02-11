@@ -1,20 +1,38 @@
 #This is the UI, it will handle the initial screen in which the User chooses the size of the board and number of mines
 import pygame
 
-from Gameboard import Board
+from src.Gameboard import Gameboard
 
 class UI:
 
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self, display):
+        self.display = display
 
-    def start_game():
+    def start_game(self):
 
-		#start screen
+        #start screen
 
-			#board_size = 1
-			#number_of_mines = 0
-        
+        board_size = 1
+        number_of_mines = 0
+
+        clock = pygame.time.Clock() #adds clock imported from pygame
+
+        while True: #sets the main game loop
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+
+            Gameboard.draw()
+
+        pygame.display.update()
+        clock.tick(30)
+
+        display = pygame.display.set_mode(
+            (Styles['game']['width'],
+            Styles['game']['width'])
+        )
+        pygame.display.set_caption('Play PoopScoop!')
+
 		#Use a loop to obtain valid user input
 		#while board_size < 2:
 		#	print ("Enter board dimension (>= 2): ")
@@ -32,8 +50,8 @@ class UI:
 
     def run_game():
 
-			#game_victory = false
-			#game_lost = false
+        #game_victory = false
+        #game_lost = false
         
 			#Uses a loop to call is_not_mine (called when user clicks a tile)
 			#while not game_victory or not game_lost:
@@ -47,14 +65,17 @@ class UI:
 
 					#Continues until a mine is hit or all tiles are revealed
 
-    screen = pygame.screen.set_mode(
+        screen = pygame.screen.set_mode(
             (Styles['start_screen']['width'],
             Styles['start_screen']['width'])
         )
 
-	def left_click();
-	# to be defined
-	def right_click();
-	# to be defined
+    def left_click():
+        # to be defined
+        click = 0 #some dummy code to make code work
+
+    def right_click():
+        # to be defined
+        click = 0 #some dummy code to make code work
 
 
