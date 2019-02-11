@@ -126,8 +126,6 @@ while (game.running == True):
         rec_reveal(game, int(xGuess), int(yGuess))
 
     game.arr[int(xGuess)][int(yGuess)].revealed = True
-    
-
 
 
 

@@ -2,12 +2,19 @@
 import pygame
 from src.Styles import Styles
 from random import randint
+from src.Styles import Styles
 
 class Tiles:
-    def __init__(self, is_revealed, is_flag, is_mine, display): 
+    # Constructor initializing a Tile object
+    # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
+    # Tile object will have an x_pos and y_pos initialized
+    # Display will be called to draw a tile on the board
+    def __init__(self, is_revealed, is_flag, is_mine, x_pos, y_pos, is_adjacent, num_adjacent_mines, display): 
         self.is_revealed = is_revealed
         self.is_flag = is_flag
         self.is_mine = is_mine
+        self.is_adjacent = is_adjacent
+        self.num_adjacent_mines = num_adjacent_mines
         self.display = display
         self.num_adjacent_mines = 0
         self.surf = pygame.Surface((30,30))
@@ -41,9 +48,8 @@ class Tiles:
             #return boolean to board
             #is_revealed = true
         #if(not is_flag and not is_mine):
-            #check if is_adjacent
-            #recurse as needed
-            #return display either numerical or blank
+        #if num_adjacent_mines > 0 -> display numerical value
+        #else display blank
         
 
     def tile_flag(self):
@@ -61,3 +67,20 @@ class Tiles:
         #if it is last one and all mines marked, game is won. Winning handled in "gambeboard", but include boolean
         #otherwise, just add to counter if it IS a mine
         #every click displays flag
+
+    # Sets is_mine to true for the Tile object
+    def set_mine():
+        is_mine = True
+
+    # Returns the truth value of is_mine
+    def get_mine():
+        return is_mine
+
+    def tile_click():
+        #calls tile_reveal, returns the state
+		if not is_revealed:
+			#call tile_reveal
+			tile_reveal()
+
+		#return state
+		return self
