@@ -3,7 +3,7 @@ import pygame
 import random
 
 # from src.Styles import Styles
-from Tiles import Tiles
+from src.Tiles import Tiles
 
 class Gameboard:
 
