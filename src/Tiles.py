@@ -18,28 +18,7 @@ class Tiles:
         self.display = display
         self.surf = pygame.Surface((30,30))
         self.surf.fill((100,100,100))
-
-        #self.x_pos = Styles[x][y]
-        #self.y_pos = Styles[x][y]
-
-    # def draw(self, x_pos, y_pos):
-    #     pygame.draw.rect(
-    #         self.display,
-    #         Styles['color']['white'],
-    #         [
-    #             self.x_pos,
-    #             self.y_pos,
-    #         ]
-    #     )
-
-    # def tile_click(self):
-    #     #calls tile_reveal, returns the state
-    #     if not is_revealed:
-    #         #call tile_reveal
-    #         tile_reveal()
-
-        #return state
-
+  
 
 # #    def tile_reveal():
 #         #if(is_mine):
