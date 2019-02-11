@@ -33,7 +33,7 @@ class Tiles:
     def tile_flag(self):
         #user_mines_found tracks how many tiles are CORRECTLY flagged
         users_mines_found = 0
-        if Tile.is_mine == True
+        if (Tile.is_mine == True):
             #if tile clicked is mine, increment user_mines_found by 1
             users_mines_found = users_mines_found + 1
         #return display
