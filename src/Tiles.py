@@ -37,28 +37,3 @@ class Tiles:
 #         if self.is_mine == True:
 #             count = count + 1
 
-               
-#         #pygame.mouse.get_pressed() - can return tuple (leftclick,middleclick,rightclick)
-#         #features to add:
-#         #physical response to button click from user (right mouse button click) (click = pygame.mouse.get_pressed())
-#         #keep track of the validity of user picking mine or not
-#         #if it is last one and all mines marked, game is won. Winning handled in "gambeboard", but include boolean
-#         #otherwise, just add to counter if it IS a mine
-#         #every click displays flag
-
-#     # Sets is_mine to true for the Tile object
-#     def set_mine():
-#         is_mine = True
-
-#     # Returns the truth value of is_mine
-#     def get_mine():
-#         return is_mine
-
-#     def tile_click():
-#         #calls tile_reveal, returns the state
-# 		if not is_revealed:
-# 			#call tile_reveal
-# 			tile_reveal()
-
-# 		#return state
-# 		return self
