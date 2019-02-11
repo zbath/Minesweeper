@@ -10,7 +10,6 @@ class Tiles:
 
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
-    # Tile object will have an x_pos and y_pos initialized
     # Display will be called to draw a tile on the board
     def __init__(self, is_revealed, is_flag, is_mine, display): 
         self.is_revealed = is_revealed
