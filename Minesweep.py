@@ -11,7 +11,9 @@ def main():
     board_size = input ("Enter board size (>=2): ")
     number_of_mines = input ("Enter number of mines: ")
 
-    display = pygame.display.set_mode((1000, 800))
+    board_size = int(board_size)
+
+    display = pygame.display.set_mode((5+board_size*35, 5+board_size*35))
     pygame.display.set_caption('Play Minesweeper!')
 
     user = UI(display)
