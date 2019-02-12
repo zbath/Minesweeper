@@ -10,6 +10,10 @@ class UI:
         self.number_of_mines = 0
         self.board_size = 0
 
+    # This is a pre-game function.  It obtains information
+    # from the user about what size the board should be and
+    # how many mines they would like and passes it on to
+    # start_game() which then generates the board
     def launch(self):
         
         clock = pygame.time.Clock() #adds clock imported from pygame
@@ -24,19 +28,25 @@ class UI:
                         pre_game = False
                         exit()
                     elif event.key != pygame.K_RETURN:
-                        size_str += pygame.key.name(event.key)
+                        if pygame.key.name(event.key).isdigit():
+                            size_str += pygame.key.name(event.key)
                     else:
-                        board_size = int(size_str)
-                        pre_game = False
+                        self.board_size = int(size_str)
+                        if (self.board_size < 2) or (self.board_size > 40):
+                            self.board_size = 0
+                            size_str = ""
+                        else:
+                            pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
 
             pygame.font.init()
             pre_game_font = pygame.font.SysFont('Helvetica', 40)
             
-            temp_surf = pygame.display.set_mode((1000, 100))
-            font_surf = pre_game_font.render('How big would you like your board (2 or larger)?  ' + size_str, True, (250, 250, 250))
-            temp_surf.blit(font_surf, (5,25))
+            if (self.board_size < 2):
+                temp_surf = pygame.display.set_mode((900, 100))
+                font_surf = pre_game_font.render('How big would you like your board (1 < n < 39)?  ' + size_str, True, (250, 250, 250))
+                temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
 
@@ -53,27 +63,24 @@ class UI:
                         mines_str += pygame.key.name(event.key)
                     else:
                         number_of_mines = int(mines_str)
-                        pre_game = False
+                        if (number_of_mines > self.board_size*self.board_size) or (number_of_mines == 0):
+                            number_of_mines = 0
+                            mines_str = ""
+                        else:
+                            pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
 
-            pygame.font.init()
-            pre_game_font = pygame.font.SysFont('Helvetica', 40)
-            
-            temp_surf = pygame.display.set_mode((1000, 100))
-            font_surf = pre_game_font.render('How many mines do you want? It must be fewer than ' + str(board_size*board_size) + ": " + mines_str, True, (250, 250, 250))
-            temp_surf.blit(font_surf, (5,25))
+            temp_surf = pygame.display.set_mode((900, 100))
+            font_surf = pre_game_font.render('How many mines would you like? (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
+            temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
 
-        display = pygame.display.set_mode((5+board_size*35, 5+board_size*35))
+        display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
         user = UI(display)
-        user.start_game(board_size, number_of_mines)
-
-        self.start_game(board_size, number_of_mines)
-
-        
+        user.start_game(self.board_size, number_of_mines)      
 
     def start_game(self,board_size,number_of_mines):
 
