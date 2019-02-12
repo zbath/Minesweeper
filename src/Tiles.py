@@ -20,14 +20,15 @@ class Tiles:
         self.surf.fill((100,100,100))
   
 
-# #    def tile_reveal():
-#         #if(is_mine):
-#             #return display
-#             #return boolean to board
-#             #is_revealed = true
-#         #if(not is_flag and not is_mine):
-#         #if num_adjacent_mines > 0 -> display numerical value
-#         #else display blank
+    def tile_reveal(self):
+        if(self.is_mine):
+            return false #return a flag to Gameboard to end the game
+            self.is_revealed = true
+        if(not self.is_flag and not self.is_mine):
+            if self.num_adjacent_mines > 0:
+                #display number of adjacent
+                self.display(self.num_adjacent_tiles)
+            return true
         
 
     # def tile_flag(self):
