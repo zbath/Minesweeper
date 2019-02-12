@@ -59,6 +59,7 @@ class Gameboard:
             self.game_board[row][column].is_revealed = True
             if (self.game_board[row][column].num_adjacent_mines == 0):
                 # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
+                self.game_board[row][column].tile_reveal()
                 self.rec_reveal(row - 1, column)          # (UP)
                 self.rec_reveal(row + 1, column)          # (DOWN)
                 self.rec_reveal(row, column - 1)          # (LEFT)
@@ -85,3 +86,22 @@ class Gameboard:
                     self.game_board[x][y].surf.fill((255,0,0))
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
+
+    def detect_location(self):
+        #get mouse position
+        board_position = pygame.mouse.get_pos() #returns tuple of pixels
+
+		#check if clicking on dead space
+        for i in range(0, self.board_size+1):
+            if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
+                return #do nothing
+
+        #subtract 5 from board_position
+        board_position[0] = board_position[0] - 5
+        board_position[1] = board_position[1] - 5
+
+        #divide by 35
+        board_position /= 5
+        row = board_position[0]
+        col = board_position[1]
+        self.game_board[row][col].rec_reveal()
