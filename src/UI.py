@@ -94,6 +94,15 @@ class UI:
                         running = False
                 elif event.type == pygame.QUIT:
                     exit()
+                if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                    position = pygame.mouse.get_pos()
+                    print(position)
+                    game_board.rec_reveal(position[0], position[1])
+                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
+                    position = pygame.mouse.get_pos()
+                    print(position)
+                    #Tile.tile_flag(position[0], position[1])
+                
         
             game_board.draw()
             pygame.display.flip()
@@ -142,10 +151,6 @@ class UI:
             (Styles['start_screen']['width'],
             Styles['start_screen']['width'])
         )
-
-    def left_click():
-        # to be defined
-        click = 0 #some dummy code to make code work
 
     def right_click():
         # to be defined

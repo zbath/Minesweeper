@@ -7,7 +7,6 @@ from src.Tiles import Tiles
 
 class Gameboard:
 
-
     # This was previously in the board_generator() function, but it needs to be
     # initialized outside of that function's scope for it to last the whole game
 
@@ -17,7 +16,9 @@ class Gameboard:
         self.mine_count = int(mine_count)
         self.display    = display
         self.game_board = []
+        self.total_mines = mine_count
         self.board_generator()
+        
 
     # def loop(self): (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
         # while True:
@@ -52,7 +53,7 @@ class Gameboard:
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
-    # and calls other tiles recursively 
+    # and calls other tiles recursively
     def rec_reveal(self, row, column):
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine() and not self.game_board[row][column].is_revealed):
             self.game_board[row][column].is_revealed = True
