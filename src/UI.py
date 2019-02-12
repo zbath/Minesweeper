@@ -32,6 +32,10 @@ class UI:
                     position = pygame.mouse.get_pos()
                     print(position)
                     game_board.rec_reveal(position[0], position[1])
+                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
+                    position = pygame.mouse.get_pos()
+                    print(position)
+                    #Tile.tile_flag(position[0], position[1])
                 
         
             game_board.draw()
