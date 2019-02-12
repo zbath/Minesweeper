@@ -30,6 +30,8 @@ class UI:
                     elif event.key != pygame.K_RETURN:
                         if pygame.key.name(event.key).isdigit():
                             size_str += pygame.key.name(event.key)
+                        elif event.key == pygame.K_BACKSPACE:
+                            size_str = size_str[:-1]
                     else:
                         self.board_size = int(size_str)
                         if (self.board_size < 2) or (self.board_size > 40):
@@ -60,7 +62,10 @@ class UI:
                         pre_game = False
                         exit()
                     elif event.key != pygame.K_RETURN:
-                        mines_str += pygame.key.name(event.key)
+                        if pygame.key.name(event.key).isdigit():
+                            mines_str += pygame.key.name(event.key)
+                        elif event.key == pygame.K_BACKSPACE:
+                            mines_str = mines_str[:-1]
                     else:
                         number_of_mines = int(mines_str)
                         if (number_of_mines > self.board_size*self.board_size) or (number_of_mines == 0):
@@ -71,7 +76,7 @@ class UI:
                 elif event.type == pygame.QUIT:
                     exit()
 
-            temp_surf = pygame.display.set_mode((900, 100))
+            temp_surf = pygame.display.set_mode((1000, 100))
             font_surf = pre_game_font.render('How many mines would you like? (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
             temp_surf.blit(font_surf, (5,30))
             
