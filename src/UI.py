@@ -68,7 +68,7 @@ class UI:
                             mines_str = mines_str[:-1]
                     else:
                         number_of_mines = int(mines_str)
-                        if (number_of_mines > self.board_size*self.board_size) or (number_of_mines == 0):
+                        if (number_of_mines >= self.board_size*self.board_size) or (number_of_mines == 0):
                             number_of_mines = 0
                             mines_str = ""
                         else:
