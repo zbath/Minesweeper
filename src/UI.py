@@ -34,12 +34,13 @@ class UI:
                         elif event.key == pygame.K_BACKSPACE:
                             size_str = size_str[:-1]
                     else:
-                        self.board_size = int(size_str)
-                        if (self.board_size < 2) or (self.board_size > 40):
-                            self.board_size = 0
-                            size_str = ""
-                        else:
-                            pre_game = False
+                        if size_str != "":
+                            self.board_size = int(size_str)
+                            if (self.board_size < 2) or (self.board_size > 40):
+                                self.board_size = 0
+                                size_str = ""
+                            else:
+                                pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
 
@@ -68,12 +69,13 @@ class UI:
                         elif event.key == pygame.K_BACKSPACE:
                             mines_str = mines_str[:-1]
                     else:
-                        number_of_mines = int(mines_str)
-                        if (number_of_mines >= self.board_size*self.board_size) or (number_of_mines == 0):
-                            number_of_mines = 0
-                            mines_str = ""
-                        else:
-                            pre_game = False
+                        if mines_str != "":
+                            number_of_mines = int(mines_str)
+                            if (number_of_mines >= self.board_size*self.board_size) or (number_of_mines == 0):
+                                number_of_mines = 0
+                                mines_str = ""
+                            else:
+                                pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
 
