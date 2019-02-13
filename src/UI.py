@@ -22,6 +22,7 @@ class UI:
         pre_game = True
         size_str = ""
         while pre_game:
+            clock.tick(30)
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
