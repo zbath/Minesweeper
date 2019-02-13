@@ -22,7 +22,6 @@ class UI:
         pre_game = True
         size_str = ""
         while pre_game:
-            clock.tick(30)
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -43,6 +42,8 @@ class UI:
                                 pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
+            
+            
 
             pygame.font.init()
             pre_game_font = pygame.font.SysFont('Helvetica', 40)
@@ -53,6 +54,7 @@ class UI:
                 temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
+            clock.tick(1)
 
         # Get number of mines from user (still need to protect input)
         pre_game = True
@@ -84,6 +86,7 @@ class UI:
             temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
+            clock.tick(1)
 
         display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
@@ -111,11 +114,11 @@ class UI:
                     exit()
                 if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
                     position = pygame.mouse.get_pos()
-                    print(position)
+                    print(f"Left click at {position}")
                     game_board.rec_reveal(position[0], position[1])
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
-                    print(position)
+                    print(f"Right click at {position}")
                     #Tile.tile_flag(position[0], position[1])
                 
         
