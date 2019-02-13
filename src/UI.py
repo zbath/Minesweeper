@@ -47,7 +47,7 @@ class UI:
             pre_game_font = pygame.font.SysFont('Helvetica', 40)
             
             if (self.board_size < 2):
-                temp_surf = pygame.display.set_mode((900, 100))
+                temp_surf = pygame.display.set_mode((1200, 100))
                 font_surf = pre_game_font.render('How big would you like your board (1 < n < 39)?  ' + size_str, True, (250, 250, 250))
                 temp_surf.blit(font_surf, (5,30))
             
@@ -77,7 +77,7 @@ class UI:
                 elif event.type == pygame.QUIT:
                     exit()
 
-            temp_surf = pygame.display.set_mode((1000, 100))
+            temp_surf = pygame.display.set_mode((1200, 100))
             font_surf = pre_game_font.render('How many mines would you like? (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
             temp_surf.blit(font_surf, (5,30))
             
