@@ -56,14 +56,14 @@ class Gameboard:
     # and calls other tiles recursively
     def rec_reveal(self, row, column):
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed):
-            self.game_board[row][column].is_revealed = True
+            self.game_board[row][column].tile_reveal()
             if (self.game_board[row][column].num_adjacent_mines == 0):
                 # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
-                self.game_board[row][column].tile_reveal()
                 self.rec_reveal(row - 1, column)          # (UP)
                 self.rec_reveal(row + 1, column)          # (DOWN)
                 self.rec_reveal(row, column - 1)          # (LEFT)
                 self.rec_reveal(row, column + 1)          # (RIGHT)
+
 
     # Counts number of mines adjacent to a given tile
     # It accepts position through row and column parameters
@@ -97,11 +97,13 @@ class Gameboard:
                 return #do nothing
 
         #subtract 5 from board_position
-        board_position[0] = board_position[0] - 5
-        board_position[1] = board_position[1] - 5
+        x_pos = int(board_position[0]) - 5
+        y_pos = int(board_position[1]) - 5
 
         #divide by 35
-        board_position /= 5
-        row = board_position[0]
-        col = board_position[1]
-        self.game_board[row][col].rec_reveal()
+        x_pos /= 35
+        y_pos /= 35
+
+        print("I think you're clicking at: " + str(x_pos) + ", " + str(y_pos))
+
+        self.rec_reveal(int(x_pos), int(y_pos))

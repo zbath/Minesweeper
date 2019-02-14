@@ -5,8 +5,10 @@ from random import randint
 from src.Styles import Styles
 
 class Tiles:
+
     num_adjacent_mines = 0
-    
+    pygame.font.init()
+    mine_font = pygame.font.SysFont('Helvetica', 38)
 
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
@@ -19,16 +21,15 @@ class Tiles:
         self.surf = pygame.Surface((30,30))
         self.surf.fill((100,100,100))
   
-
+    # Draws number of adjacent mines to screen
     def tile_reveal(self):
-        if(self.is_mine):
-            return false #return a flag to Gameboard to end the game
-            self.is_revealed = true
+        self.is_revealed = True
+        self.surf.fill((50,50,50))
         if(not self.is_flag and not self.is_mine):
             if self.num_adjacent_mines > 0:
-                #display number of adjacent
-                self.display(self.num_adjacent_tiles)
-            return true
+                adj_text = str(self.num_adjacent_mines)
+                font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
+                self.surf.blit(font_surf, (2, 2))
         
 
     # def tile_flag(self):
