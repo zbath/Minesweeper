@@ -54,7 +54,7 @@ class UI:
                 temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
-            clock.tick(1)
+            clock.tick()
 
         # Get number of mines from user (still need to protect input)
         pre_game = True
@@ -86,7 +86,7 @@ class UI:
             temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
-            clock.tick(1)
+            clock.tick()
 
         display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
