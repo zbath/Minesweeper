@@ -17,6 +17,8 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
+        self.flag_count = 0 #keeps a running total of number of flags used
+        self.num_revealed_tiles = 0
         self.board_generator()
         
 
@@ -49,7 +51,18 @@ class Gameboard:
         for x in range(0, self.board_size - 1):
             for y in range(0, self.board_size - 1):
                 self.count_adjacent_mines(x, y)
-        
+
+    def win(self, x, y):
+        if (self.flag_count == self.total_mines or (self.board_size**2 - self.num_revealed_tiles) == self.total_mines):  #if number of correct used flags == total_mines
+            return True  #win
+        else:
+            return False
+
+    def lose(self, x, y):
+        if (self.game_board[x][y].is_mine):
+            return True  #lose
+        else:
+            return False        
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
@@ -57,6 +70,7 @@ class Gameboard:
     def rec_reveal(self, row, column):
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed):
             self.game_board[row][column].tile_reveal()
+            self.num_revealed_tiles += 1    #increment number of revealed tiles
             if (self.game_board[row][column].num_adjacent_mines == 0):
                 # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
                 self.rec_reveal(row - 1, column)          # (UP)
@@ -106,4 +120,11 @@ class Gameboard:
 
         print("I think you're clicking at: " + str(x_pos) + ", " + str(y_pos))
 
-        self.rec_reveal(int(x_pos), int(y_pos))
+        if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
+            self.rec_reveal(int(x_pos), int(y_pos))
+
+        if self.win(int(x_pos), int(y_pos)):
+            raise Exception('Yayy! Congratulations, you win!') #raise exception to be caught by the calling loop
+
+        if self.lose(int(x_pos), int(y_pos)):
+            raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
