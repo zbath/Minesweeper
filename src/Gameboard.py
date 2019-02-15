@@ -74,9 +74,13 @@ class Gameboard:
             if (self.game_board[row][column].num_adjacent_mines == 0):
                 # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
                 self.rec_reveal(row - 1, column)          # (UP)
+                self.rec_reveal(row - 1, column - 1)
                 self.rec_reveal(row + 1, column)          # (DOWN)
+                self.rec_reveal(row + 1, column - 1)
                 self.rec_reveal(row, column - 1)          # (LEFT)
+                self.rec_reveal(row + 1, column + 1)
                 self.rec_reveal(row, column + 1)          # (RIGHT)
+                self.rec_reveal(row - 1, column + 1)
 
 
     # Counts number of mines adjacent to a given tile
