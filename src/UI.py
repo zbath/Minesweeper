@@ -123,6 +123,7 @@ class UI:
                         break
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
+                    game_board.call_flag()
                     print(f"Right click at {position}")
                     #Tile.tile_flag(position[0], position[1])
                 

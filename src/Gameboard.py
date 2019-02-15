@@ -83,6 +83,9 @@ class Gameboard:
                 self.rec_reveal(row - 1, column + 1)
 
 
+    def flag_reveal(self, row, column):
+        self.game_board[row][column].tile_flag()
+
     # Counts number of mines adjacent to a given tile
     # It accepts position through row and column parameters
 	# According to these coordinates, it determines whether an adjacent tile is valid
@@ -132,3 +135,25 @@ class Gameboard:
 
         if self.lose(int(x_pos), int(y_pos)):
             raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
+
+    def call_flag(self):
+            #get mouse position
+            board_position = pygame.mouse.get_pos() #returns tuple of pixels
+
+            #check if clicking on dead space
+            for i in range(0, self.board_size+1):
+                if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
+                    return #do nothing
+
+            #subtract 5 from board_position
+            x_pos = int(board_position[0]) - 5
+            y_pos = int(board_position[1]) - 5
+
+            #divide by 35
+            x_pos /= 35
+            y_pos /= 35
+
+            print("I think you're clicking at: " + str(x_pos) + ", " + str(y_pos))
+
+            if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
+                self.flag_reveal(int(x_pos), int(y_pos))
