@@ -3,10 +3,10 @@ import pygame
 from src.Styles import Styles
 from random import randint
 from src.Styles import Styles
+flag_image = pygame.image.load("src/flag.png")
 
 class Tiles:
 
-    flag_image = pygame.image.load("src/flag.png")
     num_adjacent_mines = 0
     pygame.font.init()
     mine_font = pygame.font.SysFont('Helvetica', 26)
