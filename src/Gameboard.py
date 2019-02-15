@@ -48,8 +48,8 @@ class Gameboard:
         # Counts number of adjacent mines at each tile
         # A nested for loop calling count_adjacent_mines() at each tile
         # count_adjacent_mines() will send count to Tiles object
-        for x in range(0, self.board_size - 1):
-            for y in range(0, self.board_size - 1):
+        for x in range(0, self.board_size):
+            for y in range(0, self.board_size):
                 self.count_adjacent_mines(x, y)
 
     def win(self, x, y):
