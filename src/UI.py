@@ -117,8 +117,9 @@ class UI:
                     print(f"Left click at {position}")
                     try:
                         game_board.detect_location()
-                    except AssertionError as statement:
+                    except Exception as statement:
                         print (statement)
+                        break
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
                     print(f"Right click at {position}")
