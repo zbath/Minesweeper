@@ -119,6 +119,7 @@ class UI:
                         game_board.detect_location()
                     except Exception as statement:
                         print (statement)
+                        running = False
                         break
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
