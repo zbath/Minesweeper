@@ -8,7 +8,7 @@ class Tiles:
 
     num_adjacent_mines = 0
     pygame.font.init()
-    mine_font = pygame.font.SysFont('Helvetica', 38)
+    mine_font = pygame.font.SysFont('Helvetica', 26)
 
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
@@ -29,7 +29,7 @@ class Tiles:
             if self.num_adjacent_mines > 0:
                 adj_text = str(self.num_adjacent_mines)
                 font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
-                self.surf.blit(font_surf, (2, 2))
+                self.surf.blit(font_surf, (5, 5))
         
 
     # def tile_flag(self):
