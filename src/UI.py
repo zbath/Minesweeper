@@ -104,6 +104,8 @@ class UI:
 
         running = True
 
+        word = ' '
+
         while running:
 
             for event in pygame.event.get():
@@ -119,6 +121,7 @@ class UI:
                         game_board.detect_location()
                     except Exception as statement:
                         print (statement)
+                        word = str(statement)
                         running = False
                         break
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
@@ -129,4 +132,30 @@ class UI:
         
             game_board.draw()
             pygame.display.flip()
+
+        #end game screen
+        pygame.font.init()
+        end_game_font = pygame.font.SysFont('Helvetica', 40)
+        temp_surf = pygame.display.set_mode((1200, 100))
+        font_surf = end_game_font.render(word, True, (250, 250, 250))
+        temp_surf.blit(font_surf, (5,30))
+        pygame.display.flip()
+
+        running = True
+
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                elif event.type == pygame.QUIT:
+                    exit()
+                if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                    position = pygame.mouse.get_pos()
+                    print(f"Left click at {position}")
+                        
+                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
+                    position = pygame.mouse.get_pos()
+                    print(f"Right click at {position}")
+                    #Tile.tile_flag(position[0], position[1])
 
