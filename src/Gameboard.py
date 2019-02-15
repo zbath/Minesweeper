@@ -125,8 +125,6 @@ class Gameboard:
         x_pos /= 35
         y_pos /= 35
 
-        print("I think you're clicking at: " + str(x_pos) + ", " + str(y_pos))
-
         if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
             self.rec_reveal(int(x_pos), int(y_pos))
 
@@ -152,8 +150,6 @@ class Gameboard:
             #divide by 35
             x_pos /= 35
             y_pos /= 35
-
-            print("I think you're clicking at: " + str(x_pos) + ", " + str(y_pos))
 
             if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
                 self.flag_reveal(int(x_pos), int(y_pos))

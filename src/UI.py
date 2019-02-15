@@ -116,18 +116,15 @@ class UI:
                     exit()
                 if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
                     position = pygame.mouse.get_pos()
-                    print(f"Left click at {position}")
                     try:
                         game_board.detect_location()
                     except Exception as statement:
-                        print (statement)
                         word = str(statement)
                         running = False
                         break
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
                     game_board.call_flag()
-                    print(f"Right click at {position}")
                     #Tile.tile_flag(position[0], position[1])
                 
         
@@ -153,10 +150,8 @@ class UI:
                     exit()
                 if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
                     position = pygame.mouse.get_pos()
-                    print(f"Left click at {position}")
                         
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
-                    print(f"Right click at {position}")
                     #Tile.tile_flag(position[0], position[1])
 
