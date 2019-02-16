@@ -6,7 +6,6 @@ from src.Styles import Styles
 flag_image = pygame.image.load("src/flag.png")
 
 class Tiles:
-
     num_adjacent_mines = 0
     pygame.font.init()
     mine_font = pygame.font.SysFont('Helvetica', 26)
@@ -34,14 +33,22 @@ class Tiles:
         
 
     def tile_flag(self):
-        #user_mines_found tracks how many tiles are CORRECTLY flagged
-        users_mines_found = 0
-        if self.is_flag == True:
-            self.is_flag = False
+        if self.is_revealed == False:
+            if self.is_flag == False:
+                self.is_flag = True
+                self.surf.blit(flag_image, (5, 5))
+                if self.is_mine == True:
+                    self.surf.blit(flag_image, (5, 5))
+                    return(1)
+                else: 
+                    return 0
+            elif self.is_flag == True:
+                self.is_flag = False
+                self.surf.fill((100, 100, 100))
+                if self.is_mine == True:
+                    self.surf.fill((100, 100, 100))
+                    return(-1)
+                else:
+                    return 0
         else:
-            self.is_flag = True
-
-            self.surf.blit(flag_image, (5, 5))
-        if self.is_mine == True:
-            #if tile clicked is mine, increment user_mines_found by 1
-            users_mines_found = users_mines_found + 1
+            return 0

@@ -9,6 +9,7 @@ class UI:
         self.display = display
         self.number_of_mines = 0
         self.board_size = 0
+        self.users_mines_found = 0
 
     # This is a pre-game function.  It obtains information
     # from the user about what size the board should be and
@@ -119,15 +120,19 @@ class UI:
                     try:
                         game_board.detect_location()
                     except Exception as statement:
+                        word = str(statement) 
+                        running = False
+                        break
+                if ((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 3)):
+                    position = pygame.mouse.get_pos()
+                    try:
+                        game_board.call_flag()
+                        print(f"{position}")
+                    except Exception as statement:
                         word = str(statement)
                         running = False
                         break
-                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
-                    position = pygame.mouse.get_pos()
-                    game_board.call_flag()
-                    #Tile.tile_flag(position[0], position[1])
-                
-        
+                    # print(f"{self.user_mines_found}")
             game_board.draw()
             pygame.display.flip()
 
