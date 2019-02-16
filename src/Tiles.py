@@ -3,7 +3,7 @@ import pygame
 from src.Styles import Styles
 from random import randint
 from src.Styles import Styles
-flag_image = pygame.image.load("src/flag.png")
+flag_image = pygame.image.load("src/pixel_flag.png")
 
 class Tiles:
     num_adjacent_mines = 0
