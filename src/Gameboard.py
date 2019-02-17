@@ -17,11 +17,7 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
-<<<<<<< HEAD
         self.flag_count = self.total_mines #keeps a running total of number of flags used
-=======
-        self.flag_count = 0 #keeps a running total of number of flags used
->>>>>>> 1f0af1ba5b7cd391babc5875f0e0f0d4a79679b2
         self.num_revealed_tiles = 0
         self.board_generator()
         
