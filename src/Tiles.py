@@ -1,14 +1,12 @@
-#This is the tile class go for the game
+"""
+The tiles class handles the states of each tile object, letting the program know if a certain tile is a flag, a mine, or already revealed.
+"""
 import pygame
-from src.Styles import Styles
 from random import randint
-from src.Styles import Styles
 flag_image = pygame.image.load("src/pixel_flag.png")
 
 class Tiles:
-    """
-    tile class creates the tiles on the gameboard and it's functionality per reveal
-    """
+    
     num_adjacent_mines = 0
     pygame.font.init()
     mine_font = pygame.font.SysFont('Helvetica', 26)
@@ -16,14 +14,16 @@ class Tiles:
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
     # Display will be called to draw a tile on the board
-    def __init__(self, is_revealed, is_flag, is_mine, display): 
+    def __init__(self, is_revealed, is_flag, is_mine, display):
         """
-        initialize tile objects
-        :param is_revealed:boolean of if tile is revealed
-        :param is_flag: identifies if tile is flagged by user
-        :param is_mine: boolean of tile being mine or not
-        :param display: tile being seen on gameboard
-        """
+        @pre Initialization of a tile object
+        @param
+            is_revealed: takes a bool if tile object is already revealed
+            is_flag: takes a bool if tile object is flagged
+            is_mine: takes a bool if tile object is a mine
+        @post Initializes display to display, surf to a surface size of 30x30 pixels, then fills each surface with a gray color"
+        @return None
+        """ 
         self.is_revealed = is_revealed
         self.is_flag = is_flag
         self.is_mine = is_mine
@@ -34,9 +34,12 @@ class Tiles:
     # Draws number of adjacent mines to screen
     def tile_reveal(self):
         """
-        determine the actual object of tile - mine or flag or just square
-        @pre:none
-        @post: reveals that tile identity
+        Displays the number of mines surrounding a revealed tile (if any exist)
+
+        @pre Expects a call from a user right-click
+        @param None
+        @post Revealed tiles will now display number of adjacent mines
+        @return None
         """
         self.is_revealed = True
         self.surf.fill((50,50,50))
@@ -48,10 +51,13 @@ class Tiles:
         
 
     def tile_flag(self):
-         """
-        sets flag image on tile
-        @pre:none
-        @post: reveal flag or no flag based upon user interaction with tile
+        """
+        Adds or removes flag image on tile
+
+        @pre Expects a call from a user left-click
+        @param None
+        @post Flag is displayed or removed from tile
+        @return Returns an integer that will add or subtract from the flag count that is being compared to the mine count
         """
         if self.is_revealed == False:
             if self.is_flag == False:

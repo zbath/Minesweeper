@@ -192,15 +192,17 @@ class UI:
                     try:
                         game_board.detect_location()
                     except Exception as statement:
+                        word = str(statement) 
+                        running = False
+                        break
+                if ((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 3)):
+                    position = pygame.mouse.get_pos()
+                    try:
+                        game_board.call_flag()
+                    except Exception as statement:
                         word = str(statement)
                         running = False
                         break
-                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
-                    position = pygame.mouse.get_pos()
-                    game_board.call_flag()
-                    #Tile.tile_flag(position[0], position[1])
-                
-        
             game_board.draw()
             pygame.display.flip()
 
@@ -226,5 +228,4 @@ class UI:
                         
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
-                    #Tile.tile_flag(position[0], position[1])
 
