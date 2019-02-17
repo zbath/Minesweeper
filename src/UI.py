@@ -140,7 +140,6 @@ class UI:
 
     def start_game(self,board_size,number_of_mines):
         """
-<<<<<<< HEAD
         Runs the start of the game, calls to initialize creation of a game board
 
         @pre Expects valid user input to be passed into launch.
@@ -149,9 +148,6 @@ class UI:
             number_of_mines: int value such that number_of_mines = (nxn) - 1 
         @post Initializes a screen for user to play minesweeper based on params passed in by user
         @return None
-=======
-        begin game by pygame clock and interact with key pressed by user
->>>>>>> 620cb4cb896f2dd8af81de0c2834b8f5b8dd9912
         """
 
         self.board_size = int(board_size)
