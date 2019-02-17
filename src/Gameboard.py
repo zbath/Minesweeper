@@ -151,14 +151,14 @@ class Gameboard:
 	# and if it is a mine. If it is a mine, increments num_adjacent_mines
     def count_adjacent_mines(self, row, column):
 
-    """
-    This function counts the number of mines adjacent to a given tile.
+        """
+        This function counts the number of mines adjacent to a given tile.
 
-    @pre: Gameboard has already been created and mines have been randomly assigned to tiles.
-    @post: Updates each tile with the number of mines adjacent to it.
-    @param row: the current row of the gameboard
-    @param col: the current col of the gameboard
-    """
+        @pre: Gameboard has already been created and mines have been randomly assigned to tiles.
+        @post: Updates each tile with the number of mines adjacent to it.
+        @param row: the current row of the gameboard
+        @param col: the current col of the gameboard
+        """
 
 	#increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
@@ -206,7 +206,7 @@ class Gameboard:
         x_pos /= 35
         y_pos /= 35
 
-        if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
+        if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag))):
             self.rec_reveal(int(x_pos), int(y_pos))
         elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
             self.lose(int(x_pos), int(y_pos))
