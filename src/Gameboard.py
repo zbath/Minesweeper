@@ -227,30 +227,30 @@ class Gameboard:
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
         """
-            #get mouse position
-            board_position = pygame.mouse.get_pos() #returns tuple of pixels
+        #get mouse position
+        board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
-            #check if clicking on dead space
-            for i in range(0, self.board_size+1):
-                if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
-                    return #do nothing
+        #check if clicking on dead space
+        for i in range(0, self.board_size+1):
+            if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
+                return #do nothing
 
-            #subtract 5 from board_position
-            x_pos = int(board_position[0]) - 5
-            y_pos = int(board_position[1]) - 5
+        #subtract 5 from board_position
+        x_pos = int(board_position[0]) - 5
+        y_pos = int(board_position[1]) - 5
 
-            #divide by 35
-            x_pos /= 35
-            y_pos /= 35
+        #divide by 35
+        x_pos /= 35
+        y_pos /= 35
             
-            if(self.game_board[int(x_pos)][int(y_pos)].is_flag):
-                self.flag_count += 1
-                self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
-            elif(self.flag_count == 0 and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
-                return 0
-            else:
-                self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
-                self.flag_count -= 1
+        if(self.game_board[int(x_pos)][int(y_pos)].is_flag):
+            self.flag_count += 1
+            self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
+        elif(self.flag_count == 0 and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
+            return 0
+        else:
+            self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
+            self.flag_count -= 1
 
-            if self.win(int(x_pos), int(y_pos)):
-                raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
+        if self.win(int(x_pos), int(y_pos)):
+            raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
