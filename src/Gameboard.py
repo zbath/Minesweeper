@@ -6,12 +6,20 @@ import random
 from src.Tiles import Tiles
 
 class Gameboard:
-
+"""
+Gameboard class creation. TO handle the board and display of board
+"""
     # This was previously in the board_generator() function, but it needs to be
     # initialized outside of that function's scope for it to last the whole game
 
     # Constructor for initializing board values
     def __init__(self, board_size, mine_count, display):
+    """
+    initialization
+    :param board_size: handled by user, create board of n^2
+    :param mine_count: mine count handled by user
+    :param display : create display of board based upon past two params
+    """
         self.board_size = int(board_size)
         self.mine_count = int(mine_count)
         self.display    = display
@@ -27,6 +35,10 @@ class Gameboard:
 
     # Generate board and create tiles.
     def board_generator(self):
+        """
+        create gameboard with params passed in. 
+        add mines randomly based upon number given in mine_count
+        """
         # Traverse game board and fill with tiles.
         for x in range(0, self.board_size):
             arr = []
@@ -53,12 +65,18 @@ class Gameboard:
                 self.count_adjacent_mines(x, y)
 
     def win(self, x, y):
+        """
+        rules for winning game: once all mines flagged or all other mines left alone
+        """
         if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
             return True  #win
         else:
             return False
 
     def lose(self, x, y):
+        """
+        game lost conditions
+        """
         if (self.game_board[x][y].is_mine):
             return True  #lose
         else:
@@ -68,6 +86,11 @@ class Gameboard:
     # It accepts coordinates as a position, checks if the coordinates are valid,
     # and calls other tiles recursively
     def rec_reveal(self, row, column):
+        """
+        recursively reveal tiles around, based upon click by user in gameboard
+        :param row: identify row of mine
+        :param column: identify column of mine
+        """
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed and not self.game_board[row][column].is_flag):
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
@@ -84,6 +107,9 @@ class Gameboard:
 
 
     def flag_reveal(self, row, column):
+        """
+        rules for winning game: once all mines flagged or all other mines left alone
+        """
         if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
             return(self.game_board[row][column].tile_flag())
         elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
@@ -96,6 +122,11 @@ class Gameboard:
 	# According to these coordinates, it determines whether an adjacent tile is valid
 	# and if it is a mine. If it is a mine, increments num_adjacent_mines
     def count_adjacent_mines(self, row, column):
+        """
+        accepts position through row and column
+        counts number of adjacent mines
+        increment accordingly
+        """
 	#increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
@@ -106,6 +137,9 @@ class Gameboard:
                         self.game_board[row][column].num_adjacent_mines+=1
 
     def draw(self):
+        """
+        display of gameboard and fill mines or tiles accordingly.
+        """
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
                 # if self.game_board[x][y].is_mine:
@@ -114,6 +148,10 @@ class Gameboard:
         pygame.display.flip()
 
     def detect_location(self):
+        """
+        pygame exact mouse click location
+        helpful to identify if tile pressed has mine at location
+        """
         #get mouse position
         board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
