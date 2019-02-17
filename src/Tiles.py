@@ -33,6 +33,11 @@ class Tiles:
   
     # Draws number of adjacent mines to screen
     def tile_reveal(self):
+        """
+        determine the actual object of tile - mine or flag or just square
+        @pre:none
+        @post: reveals that tile identity
+        """
         self.is_revealed = True
         self.surf.fill((50,50,50))
         if(not self.is_flag and not self.is_mine):
@@ -43,6 +48,11 @@ class Tiles:
         
 
     def tile_flag(self):
+         """
+        sets flag image on tile
+        @pre:none
+        @post: reveal flag or no flag based upon user interaction with tile
+        """
         if self.is_revealed == False:
             if self.is_flag == False:
                 self.is_flag = True
