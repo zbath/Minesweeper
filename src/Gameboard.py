@@ -1,3 +1,7 @@
+"""
+Gameboard is responsible for managing the state of the game.  It is called by UI and in turn calls instances of Tiles.
+"""
+
 #This is the Gameboard class which will render the gameboard after a size and number of mines is initiated
 import pygame
 import random
@@ -6,20 +10,41 @@ import random
 from src.Tiles import Tiles
 
 class Gameboard:
+<<<<<<< HEAD
 """
 Gameboard class creation. TO handle the board and display of board
 """
+=======
+    """
+    The Gameboard class maintains a 2-D list of Tiles objects in game_board, as well as various
+    values that keep track of the game state.
+    """
+
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
     # This was previously in the board_generator() function, but it needs to be
     # initialized outside of that function's scope for it to last the whole game
 
     # Constructor for initializing board values
     def __init__(self, board_size, mine_count, display):
+<<<<<<< HEAD
     """
     initialization
     :param board_size: handled by user, create board of n^2
     :param mine_count: mine count handled by user
     :param display : create display of board based upon past two params
     """
+=======
+        """
+        Creates a new Gameboard object
+
+        @pre: A board size and mine count are already determined by the user, and a Pygame display object is already created.
+        @param board_size: The n dimension of the n x n board
+        @param mine_count: The number of mines determined by user 
+        @param display: the Pygame display object created by UI
+        @post: A new Gameboard object is created
+        @return: nothing
+        """
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         self.board_size = int(board_size)
         self.mine_count = int(mine_count)
         self.display    = display
@@ -36,8 +61,16 @@ Gameboard class creation. TO handle the board and display of board
     # Generate board and create tiles.
     def board_generator(self):
         """
+<<<<<<< HEAD
         create gameboard with params passed in. 
         add mines randomly based upon number given in mine_count
+=======
+        The gameboard is populated with tiles and randomly assigns mines to those tiles
+
+        @pre: An empty Gameboard object exists
+        @post: The Gameboard's game_board list is a 2D list filled with tiles
+        @return: nothing
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         # Traverse game board and fill with tiles.
         for x in range(0, self.board_size):
@@ -64,9 +97,19 @@ Gameboard class creation. TO handle the board and display of board
             for y in range(0, self.board_size):
                 self.count_adjacent_mines(x, y)
 
+<<<<<<< HEAD
     def win(self, x, y):
         """
         rules for winning game: once all mines flagged or all other mines left alone
+=======
+    def win(self):
+        """
+        win() is called along with lose() in every main gameplay loop, checking to see if the player has won
+
+        @pre: win is called for every iteration of the main loop
+        @post: Gameboard will decide whether or not to play the win screen  
+        @return: True if the game is won, False otherwise
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
             return True  #win
@@ -75,7 +118,17 @@ Gameboard class creation. TO handle the board and display of board
 
     def lose(self, x, y):
         """
+<<<<<<< HEAD
         game lost conditions
+=======
+        Lose() is called along with win() in every main gameplay loop, as well as every time a Tiles object is clicked
+
+        @pre: A tile is clicked or the win() condition is checked
+        @param x: the x coordinate of the clicked tile
+        @param y: the y coordinate of the clicked tile
+        @post: Gameboard will decide whether or not to play the lose screen  
+        @return: True if the game is lost, False otherwise
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         if (self.game_board[x][y].is_mine):
             return True  #lose
@@ -87,9 +140,19 @@ Gameboard class creation. TO handle the board and display of board
     # and calls other tiles recursively
     def rec_reveal(self, row, column):
         """
+<<<<<<< HEAD
         recursively reveal tiles around, based upon click by user in gameboard
         :param row: identify row of mine
         :param column: identify column of mine
+=======
+        This function recursively checks which tiles should be revealed, and adjusts the properties of each Tiles objects respectively
+
+        @pre: A mine is clicked or rec_reveal() is called on by another Tiles object
+        @param row: the row index of the revealed Tiles object
+        @param column: the column index of the revealed Tiles object
+        @post: The Tiles object is altered to be revealed or not, and its display is updated appropriately
+        @return: nothing
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed and not self.game_board[row][column].is_flag):
             self.game_board[row][column].tile_reveal()
@@ -108,7 +171,16 @@ Gameboard class creation. TO handle the board and display of board
 
     def flag_reveal(self, row, column):
         """
+<<<<<<< HEAD
         rules for winning game: once all mines flagged or all other mines left alone
+=======
+        flag_reveal() is called when a flag is placed, checks the win condition and updates the Tiles object accordingly
+
+        @pre: a flag is placed (right click)
+        @param row: the row index of the placed flag
+        @param column: the column index of the placed flag
+        @post: the win condition is checked and the flag property of the Tiles object is updated
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
             return(self.game_board[row][column].tile_flag())
@@ -122,11 +194,24 @@ Gameboard class creation. TO handle the board and display of board
 	# According to these coordinates, it determines whether an adjacent tile is valid
 	# and if it is a mine. If it is a mine, increments num_adjacent_mines
     def count_adjacent_mines(self, row, column):
+<<<<<<< HEAD
         """
         accepts position through row and column
         counts number of adjacent mines
         increment accordingly
         """
+=======
+
+    """
+    This function counts the number of mines adjacent to a given tile.
+
+    @pre: Gameboard has already been created and mines have been randomly assigned to tiles.
+    @post: Updates each tile with the number of mines adjacent to it.
+    @param row: the current row of the gameboard
+    @param col: the current col of the gameboard
+    """
+
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
 	#increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
@@ -138,19 +223,33 @@ Gameboard class creation. TO handle the board and display of board
 
     def draw(self):
         """
+<<<<<<< HEAD
         display of gameboard and fill mines or tiles accordingly.
+=======
+        This function creates and displays the board on the screen.
+
+        @pre: user has inputted board_size and mine count.
+        @post: Draws the board and displays on screen.
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
-                # if self.game_board[x][y].is_mine:
-                #     self.game_board[x][y].surf.fill((255,0,0))
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
 
+
     def detect_location(self):
         """
+<<<<<<< HEAD
         pygame exact mouse click location
         helpful to identify if tile pressed has mine at location
+=======
+        This function detects click location and calculates where the click occurs with respect to the gameboard.
+
+        @pre: User has clicked the screen.
+        @post: Determines where the user has clicked with respect to the gameboard and determines winning/losing conditions.
+        @exception: throws an exception when the game should end (win/lose)
+>>>>>>> c379a490cd87e4280441ecf8e37955fbf8d37044
         """
         #get mouse position
         board_position = pygame.mouse.get_pos() #returns tuple of pixels
@@ -168,7 +267,7 @@ Gameboard class creation. TO handle the board and display of board
         x_pos /= 35
         y_pos /= 35
 
-        if ((not (self.win(int(x_pos), int(y_pos))) and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
+        if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
             self.rec_reveal(int(x_pos), int(y_pos))
         elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
             self.lose(int(x_pos), int(y_pos))
@@ -176,13 +275,19 @@ Gameboard class creation. TO handle the board and display of board
         else:
             return 0
 
-        if self.win(int(x_pos), int(y_pos)):
+        if self.win():
             raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
 
         if self.lose(int(x_pos), int(y_pos)):
             raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
 
+
     def call_flag(self):
+        """
+        @pre: The user has "right-clicked" and method is called from UI.
+        @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
+        @exception: throws an exception when the game should end (win/lose)
+        """
             #get mouse position
             board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
