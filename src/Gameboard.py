@@ -17,7 +17,11 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
+<<<<<<< HEAD
         self.flag_count = self.total_mines #keeps a running total of number of flags used
+=======
+        self.flag_count = 0 #keeps a running total of number of flags used
+>>>>>>> 1f0af1ba5b7cd391babc5875f0e0f0d4a79679b2
         self.num_revealed_tiles = 0
         self.board_generator()
         
@@ -53,7 +57,7 @@ class Gameboard:
                 self.count_adjacent_mines(x, y)
 
     def win(self, x, y):
-        if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
+        if (self.flag_count == self.total_mines or (self.board_size**2 - self.num_revealed_tiles) == self.total_mines):  #if number of correct used flags == total_mines
             return True  #win
         else:
             return False
@@ -84,12 +88,7 @@ class Gameboard:
 
 
     def flag_reveal(self, row, column):
-        if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
-            return(self.game_board[row][column].tile_flag())
-        elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
-            return(self.game_board[row][column].tile_flag())
-        else:
-            return(self.game_board[row][column].tile_flag())
+        self.game_board[row][column].tile_flag()
 
     # Counts number of mines adjacent to a given tile
     # It accepts position through row and column parameters
@@ -108,8 +107,8 @@ class Gameboard:
     def draw(self):
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
-                # if self.game_board[x][y].is_mine:
-                #     self.game_board[x][y].surf.fill((255,0,0))
+                if self.game_board[x][y].is_mine:
+                    self.game_board[x][y].surf.fill((255,0,0))
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
 
@@ -130,19 +129,14 @@ class Gameboard:
         x_pos /= 35
         y_pos /= 35
 
-        if ((not (self.win(int(x_pos), int(y_pos))) and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
+        if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
             self.rec_reveal(int(x_pos), int(y_pos))
-        elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
-            self.lose(int(x_pos), int(y_pos))
-            raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
-        else:
-            return 0
 
         if self.win(int(x_pos), int(y_pos)):
-            raise Exception('Yayy! Congratulations, you win!') #raise exception to be caught by the calling loop
+            raise Exception("Congratulations, you didn't explode!") #raise exception to be caught by the calling loop
 
         if self.lose(int(x_pos), int(y_pos)):
-            raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
+            raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
 
     def call_flag(self):
             #get mouse position
@@ -161,20 +155,5 @@ class Gameboard:
             x_pos /= 35
             y_pos /= 35
 
-            print(f"This is where a flag should be ({x_pos},{y_pos})")
-            if(self.game_board[int(x_pos)][int(y_pos)].is_flag):
-                self.flag_count += 1
-                self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
-            elif(self.flag_count == 0 and not (self.game_board[int(x_pos)][int(y_pos)].is_flag)):
-                print(f"Current flag count is: {self.flag_count}")
-                return 0
-            else:
-                self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
-                self.flag_count -= 1
-            print(f"Current flag count is: {self.flag_count}")
-
-            if self.win(int(x_pos), int(y_pos)):
-                raise Exception('Yayy! Congratulations, you win!') #raise exception to be caught by the calling loop
-
-            print(f"{self.mine_count}")
-            print(f"{self.total_mines}")
+            if (not self.win(int(x_pos), int(y_pos)) and not self.lose(int(x_pos), int(y_pos))):
+                self.flag_reveal(int(x_pos), int(y_pos)) 
