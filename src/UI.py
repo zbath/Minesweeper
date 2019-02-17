@@ -20,6 +20,23 @@ class UI:
         
         clock = pygame.time.Clock() #adds clock imported from pygame
 
+        #instruction screen
+        pygame.font.init()
+        instructions_font = pygame.font.SysFont('Helvetica', 40)
+        temp_surf = pygame.display.set_mode((1200, 400))
+        temp_surf.blit(instructions_image, (5,30))
+        pygame.display.flip()
+
+        running = True
+
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                elif event.type == pygame.QUIT:
+                    exit()
+
         #Get board size from user (still need to protect input)
         pre_game = True
         size_str = ""
@@ -52,7 +69,7 @@ class UI:
             
             if (self.board_size < 2):
                 temp_surf = pygame.display.set_mode((1200, 100))
-                font_surf = pre_game_font.render('How big would you like your board (1 < n < 39)?  ' + size_str, True, (250, 250, 250))
+                font_surf = pre_game_font.render('Enter board size (1 < n < 39):  ' + size_str, True, (250, 250, 250))
                 temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
@@ -84,30 +101,12 @@ class UI:
                     exit()
 
             temp_surf = pygame.display.set_mode((1200, 100))
-            font_surf = pre_game_font.render('How many mines would you like? (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
+            font_surf = pre_game_font.render('Enter number of mines (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
             temp_surf.blit(font_surf, (5,30))
             
             pygame.display.flip()
             clock.tick()
 
-#######################################################
-        #instruction screen
-#        pygame.font.init()
-#        instructions_font = pygame.font.SysFont('Helvetica', 40)
-#        temp_surf = pygame.display.set_mode((1200, 400))
-#        temp_surf.blit(instructions_image, (5,30))
-#        pygame.display.flip()
-
-#        running = True
-
-#        while running:
-#            for event in pygame.event.get():
-#                if event.type == pygame.KEYDOWN:
-#                    if event.key == pygame.K_ESCAPE:
-#                        running = False
-#                elif event.type == pygame.QUIT:
-#                    exit()
-##########################################################
 
         display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
