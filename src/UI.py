@@ -1,18 +1,27 @@
+"""
+Class UI handles the ins and outs of the User Interface including but not limited to the start of the program window, user input, and game loop.
+
+    pydoc -w UI
+"""
+
 #This is the UI, it will handle the initial screen in which the User chooses the size of the board and number of mines
 import pygame
-
 from src.Gameboard import Gameboard
 instructions_image = pygame.image.load("src/user_instructions.png")
 
 class UI:
     """
-    create user interface 
+    UI initializes a display for the user to interact with the program.
     """
-
     def __init__(self, display):
         """
-        initialize UI
-        :param display: display of board
+        Constructs a new 'UI' object.
+
+        @pre Initialized at start of program called from executive 'Minesweep.py'
+        @param
+            display: Takes a display mode from executive 'Minesweep.py'
+        @post Initializes display to the param passed in
+        @return None
         """
         self.display = display
         self.number_of_mines = 0
@@ -24,8 +33,13 @@ class UI:
     # start_game() which then generates the board
     def launch(self):
         """
-        create board initialization
-        User input of size of board and number of mines
+        Initializes the launch of the game, receives input from user and passes input to 'start_game()'.
+
+        @pre Expects a UI to be initialized
+        @param
+            self: One entire self of UI object
+        @post Starts game based on user input of board size and number of mines
+        @return None
         """
         
         clock = pygame.time.Clock() #adds clock imported from pygame
@@ -144,7 +158,14 @@ class UI:
 
     def start_game(self,board_size,number_of_mines):
         """
-        begin game by pygame clock and interact with key pressed by user
+        Runs the start of the game, calls to initialize creation of a game board
+
+        @pre Expects valid user input to be passed into launch.
+        @param
+            board_size: int value such that 2 <= board_size <= 39 to set an nxn board size
+            number_of_mines: int value such that number_of_mines = (nxn) - 1 
+        @post Initializes a screen for user to play minesweeper based on params passed in by user
+        @return None
         """
 
         self.board_size = int(board_size)
@@ -171,15 +192,17 @@ class UI:
                     try:
                         game_board.detect_location()
                     except Exception as statement:
+                        word = str(statement) 
+                        running = False
+                        break
+                if ((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 3)):
+                    position = pygame.mouse.get_pos()
+                    try:
+                        game_board.call_flag()
+                    except Exception as statement:
                         word = str(statement)
                         running = False
                         break
-                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
-                    position = pygame.mouse.get_pos()
-                    game_board.call_flag()
-                    #Tile.tile_flag(position[0], position[1])
-                
-        
             game_board.draw()
             pygame.display.flip()
 
@@ -205,5 +228,4 @@ class UI:
                         
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
-                    #Tile.tile_flag(position[0], position[1])
 
