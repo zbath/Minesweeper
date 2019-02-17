@@ -254,5 +254,5 @@ class Gameboard:
             self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
             self.flag_count -= 1
 
-        if self.win(int(x_pos), int(y_pos)):
+        if self.win():
             raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
