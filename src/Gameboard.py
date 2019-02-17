@@ -174,7 +174,7 @@ class Gameboard:
             print(f"Current flag count is: {self.flag_count}")
 
             if self.win(int(x_pos), int(y_pos)):
-                raise Exception('Yayy! Congratulations, you win!') #raise exception to be caught by the calling loop
+                raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
 
             print(f"{self.mine_count}")
             print(f"{self.total_mines}")
