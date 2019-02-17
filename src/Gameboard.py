@@ -17,7 +17,7 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
-        self.flag_count = self.mine_count + 1 #keeps a running total of number of flags used
+        self.flag_count = self.mine_count #keeps a running total of number of flags used
         self.num_revealed_tiles = 0
         self.board_generator()
         
@@ -68,7 +68,7 @@ class Gameboard:
     # It accepts coordinates as a position, checks if the coordinates are valid,
     # and calls other tiles recursively
     def rec_reveal(self, row, column):
-        if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed):
+        if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed and not self.game_board[row][column].is_flag):
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
             if (self.game_board[row][column].num_adjacent_mines == 0):
@@ -134,15 +134,15 @@ class Gameboard:
             self.rec_reveal(int(x_pos), int(y_pos))
         elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
             self.lose(int(x_pos), int(y_pos))
-            raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
+            raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
         else:
             return 0
 
         if self.win(int(x_pos), int(y_pos)):
-            raise Exception('Yayy! Congratulations, you win!') #raise exception to be caught by the calling loop
+            raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
 
         if self.lose(int(x_pos), int(y_pos)):
-            raise Exception('Oh no! You lost!') #raise exception to be caught by the calling loop
+            raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
 
     def call_flag(self):
             #get mouse position
