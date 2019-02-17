@@ -223,6 +223,8 @@ class Gameboard:
 
     def call_flag(self):
         """
+        This function manages flagging behavior.
+        
         @pre: The user has "right-clicked" and method is called from UI.
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
