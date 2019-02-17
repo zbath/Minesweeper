@@ -6,6 +6,9 @@ from src.Styles import Styles
 flag_image = pygame.image.load("src/pixel_flag.png")
 
 class Tiles:
+    """
+    tile class creates the tiles on the gameboard and it's functionality per reveal
+    """
     num_adjacent_mines = 0
     pygame.font.init()
     mine_font = pygame.font.SysFont('Helvetica', 26)
@@ -14,6 +17,13 @@ class Tiles:
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
     # Display will be called to draw a tile on the board
     def __init__(self, is_revealed, is_flag, is_mine, display): 
+        """
+        initialize tile objects
+        :param is_revealed:boolean of if tile is revealed
+        :param is_flag: identifies if tile is flagged by user
+        :param is_mine: boolean of tile being mine or not
+        :param display: tile being seen on gameboard
+        """
         self.is_revealed = is_revealed
         self.is_flag = is_flag
         self.is_mine = is_mine
