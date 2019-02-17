@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module UI</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>UI</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/rcp/eecs448/Minesweeper/src/UI.py">/home/rcp/eecs448/Minesweeper/src/UI.py</a></font></td></tr></table>
+    <p><tt>Class&nbsp;<a href="#UI">UI</a>&nbsp;handles&nbsp;the&nbsp;ins&nbsp;and&nbsp;outs&nbsp;of&nbsp;the&nbsp;User&nbsp;Interface&nbsp;including&nbsp;but&nbsp;not&nbsp;limited&nbsp;to&nbsp;the&nbsp;start&nbsp;of&nbsp;the&nbsp;program&nbsp;window,&nbsp;user&nbsp;input,&nbsp;and&nbsp;game&nbsp;loop.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pydoc&nbsp;-w&nbsp;<a href="#UI">UI</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pygame.html">pygame</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="UI.html#UI">UI</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UI">class <strong>UI</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#UI">UI</a>(display)<br>
+&nbsp;<br>
+<a href="#UI">UI</a>&nbsp;initializes&nbsp;a&nbsp;display&nbsp;for&nbsp;the&nbsp;user&nbsp;to&nbsp;interact&nbsp;with&nbsp;the&nbsp;program.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="UI-__init__"><strong>__init__</strong></a>(self, display)</dt><dd><tt>Constructs&nbsp;a&nbsp;new&nbsp;'<a href="#UI">UI</a>'&nbsp;<a href="builtins.html#object">object</a>.<br>
+&nbsp;<br>
+@pre&nbsp;Initialized&nbsp;at&nbsp;start&nbsp;of&nbsp;program&nbsp;called&nbsp;from&nbsp;executive&nbsp;'Minesweep.py'<br>
+@param<br>
+&nbsp;&nbsp;&nbsp;&nbsp;display:&nbsp;Takes&nbsp;a&nbsp;display&nbsp;mode&nbsp;from&nbsp;executive&nbsp;'Minesweep.py'<br>
+@post&nbsp;Initializes&nbsp;display&nbsp;to&nbsp;the&nbsp;param&nbsp;passed&nbsp;in<br>
+@return&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="UI-launch"><strong>launch</strong></a>(self)</dt><dd><tt>Initializes&nbsp;the&nbsp;launch&nbsp;of&nbsp;the&nbsp;game,&nbsp;receives&nbsp;input&nbsp;from&nbsp;user&nbsp;and&nbsp;passes&nbsp;input&nbsp;to&nbsp;'<a href="#UI-start_game">start_game</a>()'.<br>
+&nbsp;<br>
+@pre&nbsp;Expects&nbsp;a&nbsp;<a href="#UI">UI</a>&nbsp;to&nbsp;be&nbsp;initialized<br>
+@param<br>
+&nbsp;&nbsp;&nbsp;&nbsp;self:&nbsp;One&nbsp;entire&nbsp;self&nbsp;of&nbsp;<a href="#UI">UI</a>&nbsp;<a href="builtins.html#object">object</a><br>
+@post&nbsp;Starts&nbsp;game&nbsp;based&nbsp;on&nbsp;user&nbsp;input&nbsp;of&nbsp;board&nbsp;size&nbsp;and&nbsp;number&nbsp;of&nbsp;mines<br>
+@return&nbsp;None</tt></dd></dl>
+
+<dl><dt><a name="UI-start_game"><strong>start_game</strong></a>(self, board_size, number_of_mines)</dt><dd><tt>Runs&nbsp;the&nbsp;start&nbsp;of&nbsp;the&nbsp;game,&nbsp;calls&nbsp;to&nbsp;initialize&nbsp;creation&nbsp;of&nbsp;a&nbsp;game&nbsp;board<br>
+&nbsp;<br>
+@pre&nbsp;Expects&nbsp;valid&nbsp;user&nbsp;input&nbsp;to&nbsp;be&nbsp;passed&nbsp;into&nbsp;launch.<br>
+@param<br>
+&nbsp;&nbsp;&nbsp;&nbsp;board_size:&nbsp;int&nbsp;value&nbsp;such&nbsp;that&nbsp;2&nbsp;&lt;=&nbsp;board_size&nbsp;&lt;=&nbsp;39&nbsp;to&nbsp;set&nbsp;an&nbsp;nxn&nbsp;board&nbsp;size<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number_of_mines:&nbsp;int&nbsp;value&nbsp;such&nbsp;that&nbsp;number_of_mines&nbsp;=&nbsp;(nxn)&nbsp;-&nbsp;1&nbsp;<br>
+@post&nbsp;Initializes&nbsp;a&nbsp;screen&nbsp;for&nbsp;user&nbsp;to&nbsp;play&nbsp;minesweeper&nbsp;based&nbsp;on&nbsp;params&nbsp;passed&nbsp;in&nbsp;by&nbsp;user<br>
+@return&nbsp;None</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>instructions_image</strong> = &lt;Surface(724x344x32 SW)&gt;</td></tr></table>
+</body></html>
