@@ -36,6 +36,7 @@ class UI:
                         running = False
                 elif event.type == pygame.QUIT:
                     exit()
+            pygame.display.flip()
 
         #Get board size from user (still need to protect input)
         pre_game = True
