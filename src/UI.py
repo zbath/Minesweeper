@@ -44,6 +44,24 @@ class UI:
         
         clock = pygame.time.Clock() #adds clock imported from pygame
 
+        #instruction screen
+        pygame.font.init()
+        instructions_font = pygame.font.SysFont('Helvetica', 40)
+        temp_surf = pygame.display.set_mode((1200, 400))
+        temp_surf.blit(instructions_image, (5,30))
+        pygame.display.flip()
+
+        running = True
+
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        running = False
+                elif event.type == pygame.QUIT:
+                    exit()
+            pygame.display.flip()
+
         #Get board size from user (still need to protect input)
         pre_game = True
         size_str = ""
