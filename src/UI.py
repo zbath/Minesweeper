@@ -146,12 +146,10 @@ class UI:
                     position = pygame.mouse.get_pos()
                     try:
                         game_board.call_flag()
-                        print(f"{position}")
                     except Exception as statement:
                         word = str(statement)
                         running = False
                         break
-                    # print(f"{self.user_mines_found}")
             game_board.draw()
             pygame.display.flip()
 
@@ -177,5 +175,4 @@ class UI:
                         
                 elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
                     position = pygame.mouse.get_pos()
-                    #Tile.tile_flag(position[0], position[1])
 
