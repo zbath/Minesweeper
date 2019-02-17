@@ -132,25 +132,6 @@ class UI:
             pygame.display.flip()
             clock.tick()
 
-#######################################################
-        #instruction screen
-#        pygame.font.init()
-#        instructions_font = pygame.font.SysFont('Helvetica', 40)
-#        temp_surf = pygame.display.set_mode((1200, 400))
-#        temp_surf.blit(instructions_image, (5,30))
-#        pygame.display.flip()
-
-#        running = True
-
-#        while running:
-#            for event in pygame.event.get():
-#                if event.type == pygame.KEYDOWN:
-#                    if event.key == pygame.K_ESCAPE:
-#                        running = False
-#                elif event.type == pygame.QUIT:
-#                    exit()
-##########################################################
-
         display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
         user = UI(display)
