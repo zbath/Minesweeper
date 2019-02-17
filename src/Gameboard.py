@@ -96,6 +96,16 @@ class Gameboard:
 	# According to these coordinates, it determines whether an adjacent tile is valid
 	# and if it is a mine. If it is a mine, increments num_adjacent_mines
     def count_adjacent_mines(self, row, column):
+
+    """
+    This function counts the number of mines adjacent to a given tile.
+
+    @pre: Gameboard has already been created and mines have been randomly assigned to tiles.
+    @post: Updates each tile with the number of mines adjacent to it.
+    @param row: the current row of the gameboard
+    @param col: the current col of the gameboard
+    """
+
 	#increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
@@ -106,14 +116,26 @@ class Gameboard:
                         self.game_board[row][column].num_adjacent_mines+=1
 
     def draw(self):
+        """
+        This function creates and displays the board on the screen.
+
+        @pre: user has inputted board_size and mine count.
+        @post: Draws the board and displays on screen.
+        """
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
-                # if self.game_board[x][y].is_mine:
-                #     self.game_board[x][y].surf.fill((255,0,0))
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
 
+
     def detect_location(self):
+        """
+        This function detects click location and calculates where the click occurs with respect to the gameboard.
+
+        @pre: User has clicked the screen.
+        @post: Determines where the user has clicked with respect to the gameboard and determines winning/losing conditions.
+        @exception: throws an exception when the game should end (win/lose)
+        """
         #get mouse position
         board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
@@ -144,7 +166,13 @@ class Gameboard:
         if self.lose(int(x_pos), int(y_pos)):
             raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
 
+
     def call_flag(self):
+        """
+        @pre: The user has "right-clicked" and method is called from UI.
+        @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
+        @exception: throws an exception when the game should end (win/lose)
+        """
             #get mouse position
             board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
