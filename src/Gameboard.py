@@ -24,20 +24,71 @@ class Gameboard:
 
         @pre: A board size and mine count are already determined by the user, and a Pygame display object is already created.
         @param board_size: The n dimension of the n x n board
-        @param mine_count: The number of mines determined by user 
+        @param mine_count: The number of mines determined by user
         @param display: the Pygame display object created by UI
         @post: A new Gameboard object is created
         @return: nothing
         """
-        self.board_size = int(board_size)
+
+        #the only way a new gameboard object is created is when sufficient parameters are handed to it.  -M
+
+        self.board_size = int(board_size) #if given a number that isn't an integer, it turns board_size into an integer. -M
         self.mine_count = int(mine_count)
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
-        self.flag_count = mine_count #keeps a running total of number of flags used
-        self.num_revealed_tiles = 0
+        self.flag_count = mine_count #keeps a running total of number of flags used --
+        self.num_revealed_tiles = 0 #we can probably use this to look at the required updates we have. see below -M
         self.board_generator()
-        
+
+        # It is not a win condition to have all mines flagged with unrevealed spaces. -M
+            #Our solution:
+            # numberRegularTiles = total_mines - total_tiles
+            # numberRegularTilesRevealed = num_revealed_tiles
+            # if(flag_count != 0) then the only win condition possible is that
+            #all mines are properly flagged and all non bomb tiles are revealed.
+
+            #You cant win, when, you have all the mines flagged and still haven't revealed everything
+            #You CAN win, when, you have all the not bomb(regular tiles) tiles
+            #revealed/clicked. (don't have to have all the flags on bombs).
+
+            #There are only two win conditions, one of which I listed above. (I think?)
+            #The last win condition is if you mark all spaces and reveal all the tiles
+            #1. Reveal all the non bomb spaces = win
+            #2. Mark all the bombs with flags.
+            #2.1 Then have to reveal all the tiles that don't have bombs.
+
+        #A win condition occurs even when not all bombs have flags, but every non-bomb space is revealed.
+            #Our solution:
+            #if
+
+
+
+            #win() function
+                #There are two avenues the user can go down. Don't use any flags and click all non bomb tiles
+                #or
+                #Flag all appropriate bomb tiles and reveal all non bomb tiles
+
+                #if(flag_counter != 0)
+                    #then user goes down this path and must also complete the condition that
+                    #numberRegularTiles == numberRegularTilesRevealed
+                    #and
+                    #flags_are_placed_correctly (theyre all on bomb spots)
+                        #win
+                #else if(flag_counter == 0)
+                    #then numberRegularTiles == numberRegularTilesRevealed
+                        #win
+
+        #I can't figure out where the flag pool is. Not sure what is limiting
+        #the user from putting flags on every tile.
+        #We will have to look into how we want to handle the fact the grid number
+        #is a single digit rather than two digits passed into all the function calls.
+        #
+
+
+
+
+
 
     # Generate board and create tiles.
     def board_generator(self):
@@ -61,7 +112,7 @@ class Gameboard:
         while(self.mine_count > 0):
             random_row = random.randint(0, self.board_size - 1)
             random_col = random.randint(0, self.board_size - 1)
-            
+
             if (not self.game_board[random_row][random_col].is_mine):
                 self.game_board[random_row][random_col].is_mine = True
                 self.mine_count -= 1
@@ -78,7 +129,7 @@ class Gameboard:
         win() is called along with lose() in every main gameplay loop, checking to see if the player has won
 
         @pre: win is called for every iteration of the main loop
-        @post: Gameboard will decide whether or not to play the win screen  
+        @post: Gameboard will decide whether or not to play the win screen
         @return: True if the game is won, False otherwise
         """
         if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
@@ -93,13 +144,13 @@ class Gameboard:
         @pre: A tile is clicked or the win() condition is checked
         @param x: the x coordinate of the clicked tile
         @param y: the y coordinate of the clicked tile
-        @post: Gameboard will decide whether or not to play the lose screen  
+        @post: Gameboard will decide whether or not to play the lose screen
         @return: True if the game is lost, False otherwise
         """
         if (self.game_board[x][y].is_mine):
             return True  #lose
         else:
-            return False        
+            return False
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
@@ -224,7 +275,7 @@ class Gameboard:
     def call_flag(self):
         """
         This function manages flagging behavior.
-        
+
         @pre: The user has "right-clicked" and method is called from UI.
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
@@ -244,7 +295,7 @@ class Gameboard:
         #divide by 35
         x_pos /= 35
         y_pos /= 35
-            
+
         if(self.game_board[int(x_pos)][int(y_pos)].is_flag):
             self.flag_count += 1
             self.mine_count += self.flag_reveal(int(x_pos), int(y_pos))
