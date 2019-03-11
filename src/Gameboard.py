@@ -18,7 +18,7 @@ class Gameboard:
     # initialized outside of that function's scope for it to last the whole game
 
     # Constructor for initializing board values
-    def __init__(self, board_size, mine_count, display):
+    def __init__(self, width, height, mine_count, display):
         """
         Creates a new Gameboard object
 
@@ -30,7 +30,8 @@ class Gameboard:
         @return: nothing
         """
         # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
-        self.board_size = int(board_size)
+        self.width = int(width)
+        self.height = int(height)
         self.mine_count = int(mine_count)
         self.display    = display
         self.game_board = []

@@ -35,7 +35,7 @@ class UI:
         self.isGameOver = False
 
         #Create gameboard, draw UI, and resize the window to conform to gameboard size
-        self.gameBoard = Gameboard(width, bombs, self.display) 
+        self.gameBoard = Gameboard(width, height, bombs, self.display)
             ## add mode and height parameter when the function can handle it
             ## self.gameBoard = Gameboard(width, height, bombs, self.display, self.mode)
             ## doing it this way will allow the mode to persist throughout the lifetime
