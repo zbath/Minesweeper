@@ -29,6 +29,7 @@ class Gameboard:
         @post: A new Gameboard object is created
         @return: nothing
         """
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         self.board_size = int(board_size)
         self.mine_count = int(mine_count)
         self.display    = display
@@ -49,6 +50,7 @@ class Gameboard:
         @return: nothing
         """
         # Traverse game board and fill with tiles.
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         for x in range(0, self.board_size):
             arr = []
             for y in range(0, self.board_size):
@@ -59,6 +61,7 @@ class Gameboard:
         # Creates two random numbers in range of board size and checks arr[][] at that location
         # Adds a mine to that location if one does not already exist
         while(self.mine_count > 0):
+            # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
             random_row = random.randint(0, self.board_size - 1)
             random_col = random.randint(0, self.board_size - 1)
             
@@ -69,6 +72,7 @@ class Gameboard:
         # Counts number of adjacent mines at each tile
         # A nested for loop calling count_adjacent_mines() at each tile
         # count_adjacent_mines() will send count to Tiles object
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         for x in range(0, self.board_size):
             for y in range(0, self.board_size):
                 self.count_adjacent_mines(x, y)
@@ -114,6 +118,8 @@ class Gameboard:
         @post: The Tiles object is altered to be revealed or not, and its display is updated appropriately
         @return: nothing
         """
+        # TODO: Buy a bigger screen
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         if(((row >= 0 and row < self.board_size) and (column >= 0 and column < self.board_size)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed and not self.game_board[row][column].is_flag):
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
@@ -138,7 +144,7 @@ class Gameboard:
         @param column: the column index of the placed flag
         @post: the win condition is checked and the flag property of the Tiles object is updated
         """
-        if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
+        if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True: # TODO: clean up conditionals
             return(self.game_board[row][column].tile_flag())
         elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
             return(self.game_board[row][column].tile_flag())
@@ -164,6 +170,8 @@ class Gameboard:
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
+                # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
+                # TODO: Clean up this monster
                 if (((row+row_inc < self.board_size) and (column + col_inc < self.board_size) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine):
@@ -176,7 +184,7 @@ class Gameboard:
         @pre: user has inputted board_size and mine count.
         @post: Draws the board and displays on screen.
         """
-        for x in range(0, self.board_size):
+        for x in range(0, self.board_size): # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
             for y in range(0, self.board_size):
                 self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
         pygame.display.flip()
@@ -194,6 +202,7 @@ class Gameboard:
         board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
 		#check if clicking on dead space
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         for i in range(0, self.board_size+1):
             if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
                 return #do nothing
@@ -206,7 +215,7 @@ class Gameboard:
         x_pos //= 35
         y_pos //= 35
 
-        if(x_pos < len(self.game_board) and y_pos < len(self.game_board[0])):
+        if(x_pos < len(self.game_board) and y_pos < len(self.game_board[0])): # TODO: un-hardcode x and y bounds
             if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag))):
                 self.rec_reveal(int(x_pos), int(y_pos))
             elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
@@ -234,6 +243,7 @@ class Gameboard:
         board_position = pygame.mouse.get_pos() #returns tuple of pixels
 
         #check if clicking on dead space
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         for i in range(0, self.board_size+1):
             if (board_position[0] in range (35*i, 35*i+5)) or (board_position[1] in range (35*i, 35*i+5)):
                 return #do nothing
@@ -245,7 +255,8 @@ class Gameboard:
         #divide by 35
         x_pos //= 35
         y_pos //= 35
-        
+
+        # TODO: convert to width/height, CHECK WIDTH IS 'x' and 'y' is HEIGHT
         if(x_pos < len(self.game_board) and y_pos < len(self.game_board[0])):
             if(self.game_board[int(x_pos)][int(y_pos)].is_flag):
                 self.flag_count += 1
