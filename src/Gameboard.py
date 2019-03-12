@@ -115,8 +115,12 @@ class Gameboard:
         @post: The Tiles object is altered to be revealed or not, and its display is updated appropriately
         @return: nothing
         """
-        # TODO: Buy a bigger screen
-        if(((row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)) and not self.game_board[row][column].is_mine and not self.game_board[row][column].is_revealed and not self.game_board[row][column].is_flag):
+        in_bounds = (row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)
+        not_mine = not self.game_board[row][column].is_mine
+        not_revealed = not self.game_board[row][column].is_revealed
+        not_flagged = not self.game_board[row][column].is_flag
+
+        if in_bounds and not_mine and not_revealed and not_flagged:
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
             if (self.game_board[row][column].num_adjacent_mines == 0):
@@ -140,9 +144,9 @@ class Gameboard:
         @param column: the column index of the placed flag
         @post: the win condition is checked and the flag property of the Tiles object is updated
         """
-        if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True: # TODO: clean up conditionals
+        if self.game_board[row][column].is_mine and self.game_board[row][column].is_flag: # TODO: clean up conditionals
             return(self.game_board[row][column].tile_flag())
-        elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
+        elif self.game_board[row][column].is_mine and not self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
         else:
             return(self.game_board[row][column].tile_flag())
@@ -166,7 +170,9 @@ class Gameboard:
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
-                if (((row+row_inc < self.rows) and (column + col_inc < self.cols) and ((not row_inc == 0) or (not col_inc == 0))) and row+row_inc >= 0 and column+col_inc >= 0):
+                increment_coord_in_bounds = (0 <= row+row_inc < self.rows) and ( 0 <= column + col_inc < self.cols)
+                increment_not_zero = (not row_inc == 0) or (not col_inc == 0)  # TODO: Change range(-1, 2) to tuple
+                if increment_coord_in_bounds and increment_not_zero:
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine):
                         self.game_board[row][column].num_adjacent_mines+=1
