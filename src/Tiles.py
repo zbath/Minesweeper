@@ -30,8 +30,7 @@ class Tiles:
         self.is_flag = is_flag
         self.is_mine = is_mine
         self.display = display
-        self.surf = pygame.Surface((30,30))
-        self.surf.fill((100,100,100))
+        self.Rect = None
 
     def get_coords(self):
         coords = (self.i, self.j)
