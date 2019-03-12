@@ -50,10 +50,10 @@ class Gameboard:
         @return: nothing
         """
         # Traverse game board and fill with tiles.
-        for x in range(self.rows):
+        for i in range(self.rows):
             arr = []
-            for y in range(self.cols):
-                arr.append(Tiles(False, False, False, self.display))
+            for j in range(self.cols):
+                arr.append(Tiles(i, j, False, False, False, self.display))
             self.game_board.append(arr)
 
         # Randomly adds mines to the board until mine count equals zero

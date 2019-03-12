@@ -14,7 +14,7 @@ class Tiles:
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
     # Display will be called to draw a tile on the board
-    def __init__(self, is_revealed, is_flag, is_mine, display):
+    def __init__(self, i, j, is_revealed, is_flag, is_mine, display):
         """
         @pre Initialization of a tile object
         @param
@@ -25,12 +25,18 @@ class Tiles:
         @return None
         """ 
         self.is_revealed = is_revealed
+        self.i = i
+        self.j = j
         self.is_flag = is_flag
         self.is_mine = is_mine
         self.display = display
         self.surf = pygame.Surface((30,30))
         self.surf.fill((100,100,100))
-  
+
+    def get_coords(self):
+        coords = (self.i, self.j)
+        return coords
+
     # Draws number of adjacent mines to screen
     def tile_reveal(self):
         """
