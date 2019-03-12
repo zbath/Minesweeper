@@ -37,7 +37,7 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
-        self.flag_count = mine_count #keeps a running total of number of flags used --
+        self.flag_count = mine_count #keeps a running total of number of flags used
         self.num_revealed_tiles = 0 #we can probably use this to look at the required updates we have. see below -M
         self.board_generator()
 
@@ -59,11 +59,6 @@ class Gameboard:
             #2.1 Then have to reveal all the tiles that don't have bombs.
 
         #A win condition occurs even when not all bombs have flags, but every non-bomb space is revealed.
-            #Our solution:
-            #if
-
-
-
             #win() function
                 #There are two avenues the user can go down. Don't use any flags and click all non bomb tiles
                 #or
@@ -81,13 +76,6 @@ class Gameboard:
 
         #I can't figure out where the flag pool is. Not sure what is limiting
         #the user from putting flags on every tile.
-        #We will have to look into how we want to handle the fact the grid number
-        #is a single digit rather than two digits passed into all the function calls.
-        #
-
-
-
-
 
 
     # Generate board and create tiles.
