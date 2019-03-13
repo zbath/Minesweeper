@@ -30,7 +30,7 @@ class Tiles:
         self.is_flag = is_flag
         self.is_mine = is_mine
         self.display = display
-        self.Rect = None
+        self.Rect = pygame.Rect((5 + 35 * self.j), (5 + 35 * self.i), 30, 30)
 
     def get_coords(self):
         coords = (self.i, self.j)
@@ -47,12 +47,12 @@ class Tiles:
         @return None
         """
         self.is_revealed = True
-        self.surf.fill((50,50,50))
-        if(not self.is_flag and not self.is_mine):
-            if self.num_adjacent_mines > 0:
-                adj_text = str(self.num_adjacent_mines)
-                font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
-                self.surf.blit(font_surf, (5, 5))
+        pygame.draw.rect(self.display, (50, 50, 50), self.Rect)
+        if self.num_adjacent_mines > 0:
+            adj_text = str(self.num_adjacent_mines)
+            font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
+            self.display.blit(font_surf, self.Rect)
+            pygame.display.flip()
         
 
     def tile_flag(self):

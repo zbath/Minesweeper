@@ -45,6 +45,7 @@ class UI:
 
         #Event handling loop
         running = True
+        self.gameBoard.draw()
         while(running):
             for event in pygame.event.get():
                 
@@ -64,7 +65,8 @@ class UI:
                         
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
-                            self.gameBoard.detect_location()
+                            coords = self.gameBoard.detect_location()
+                            self.gameBoard.on_left_click(coords[0], coords[1])
                         except Exception as thrown:
                             self.EndGame(thrown)
                     
@@ -81,8 +83,8 @@ class UI:
             self.DrawInput()
 
             #if UI has a gameboard and the game is not over, draw the board
-            if hasattr(self, "gameBoard") and not self.isGameOver:
-                self.gameBoard.draw()
+            # if hasattr(self, "gameBoard") and not self.isGameOver:
+            #     self.gameBoard.draw()
 
             #Refresh the screen
             pygame.display.flip()
@@ -214,8 +216,8 @@ class UI:
         ##self.gameBoard.RevealAll()
 
         #Draws the revealed board
-        self.gameBoard.draw()
-        pygame.display.flip()
+        # self.gameBoard.draw()
+        # pygame.display.flip()
         
         del self.gameBoard
 

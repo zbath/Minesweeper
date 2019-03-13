@@ -87,7 +87,7 @@ class Gameboard:
         else:
             return False
 
-    def lose(self, x, y):
+    def lose(self, i, j):
         """
         Lose() is called along with win() in every main gameplay loop, as well as every time a Tiles object is clicked
 
@@ -97,7 +97,7 @@ class Gameboard:
         @post: Gameboard will decide whether or not to play the lose screen  
         @return: True if the game is lost, False otherwise
         """
-        if (self.game_board[x][y].is_mine):
+        if (self.game_board[i][j].is_mine):
             return True  #lose
         else:
             return False        
@@ -144,7 +144,7 @@ class Gameboard:
         @param column: the column index of the placed flag
         @post: the win condition is checked and the flag property of the Tiles object is updated
         """
-        if self.game_board[row][column].is_mine and self.game_board[row][column].is_flag: # TODO: clean up conditionals
+        if self.game_board[row][column].is_mine and self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
         elif self.game_board[row][column].is_mine and not self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
@@ -184,10 +184,9 @@ class Gameboard:
         @pre: user has inputted board_size and mine count.
         @post: Draws the board and displays on screen.
         """
-        for x in range(self.cols):
-            for y in range(self.rows):
-                self.game_board[y][x].Rect = pygame.Rect((5+35*x),(5+35*y), 30, 30)
-                pygame.draw.rect(self.display, (100, 100, 100), self.game_board[y][x].Rect)
+        for i in range(self.rows):
+            for j in range(self.cols):
+                pygame.draw.rect(self.display, (100, 100, 100), self.game_board[i][j].Rect)
         pygame.display.flip()
 
     def detect_location(self):
@@ -195,10 +194,27 @@ class Gameboard:
         for i in range(len(self.game_board)):
             for j in range(len(self.game_board[i])):
                 if(self.game_board[i][j].Rect.collidepoint(coords)):
-                    print(f'{self.game_board[i][j].i}, {self.game_board[i][j].j}')
+                    print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
+                    return (i, j)
+
 
                     #TODO: replace checks for win/loss IN A DIFFERENT FUNCTION
                     #TODO: rewrite backend logic to use [i][j] values
+
+    def on_left_click(self, i, j):
+        exploded = self.lose(i, j) and not self.game_board[i][j].is_flag
+        valid_tile = not (self.game_board[i][j].is_flag or self.game_board[i][j].is_revealed)
+        end_state = self.win() or exploded
+
+        if not end_state and not self.game_board[i][j].is_flag:
+            self.rec_reveal(i, j)
+
+        elif exploded:
+            raise Exception('Oh no! You exploded!')  # raise exception to be caught by the calling loop
+
+        elif self.win():
+            raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
+
 
 
     # def detect_location(self):
