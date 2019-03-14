@@ -32,6 +32,20 @@ class Tiles:
         self.display = display
         self.Rect = pygame.Rect((5 + 35 * self.j), (5 + 35 * self.i), 30, 30)
 
+    def draw_self(self):
+        if self.is_flag:
+            self.display.blit(flag_image, self.Rect)
+
+        elif self.is_revealed:
+            pygame.draw.rect(self.display, (50, 50, 50), self.Rect)
+            if self.num_adjacent_mines > 0:
+                adj_text = str(self.num_adjacent_mines)
+                font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
+                self.display.blit(font_surf, self.Rect)
+                pygame.display.flip()
+        else:
+            pygame.draw.rect(self.display, (100, 100, 100), self.Rect)
+
     def get_coords(self):
         coords = (self.i, self.j)
         return coords
@@ -47,13 +61,6 @@ class Tiles:
         @return None
         """
         self.is_revealed = True
-        pygame.draw.rect(self.display, (50, 50, 50), self.Rect)
-        if self.num_adjacent_mines > 0:
-            adj_text = str(self.num_adjacent_mines)
-            font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
-            self.display.blit(font_surf, self.Rect)
-            pygame.display.flip()
-        
 
     def tile_flag(self):
         """
@@ -64,21 +71,17 @@ class Tiles:
         @post Flag is displayed or removed from tile
         @return Returns an integer that will add or subtract from the flag count that is being compared to the mine count
         """
-        if self.is_revealed == False:
-            if self.is_flag == False:
+        if not self.is_revealed:
+            if not self.is_flag:
                 self.is_flag = True
-                self.surf.blit(flag_image, (5, 5))
-                if self.is_mine == True:
-                    self.surf.blit(flag_image, (5, 5))
-                    return(1)
+                if self.is_mine:
+                    return 1
                 else: 
                     return 0
-            elif self.is_flag == True:
+            elif self.is_flag:
                 self.is_flag = False
-                self.surf.fill((100, 100, 100))
-                if self.is_mine == True:
-                    self.surf.fill((100, 100, 100))
-                    return(-1)
+                if self.is_mine:
+                    return -1
                 else:
                     return 0
         else:
