@@ -263,7 +263,7 @@ class Gameboard:
     #             raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
 
 
-    def call_flag(self, i, j):
+    def on_right_click(self, i, j):
         """
         This function manages flagging behavior.
         

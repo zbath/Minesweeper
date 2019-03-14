@@ -66,7 +66,8 @@ class UI:
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
-                            self.gameBoard.on_left_click(coords[0], coords[1])
+                            if coords is not None:
+                                self.gameBoard.on_left_click(coords[0], coords[1])
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
@@ -77,7 +78,8 @@ class UI:
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
-                            self.gameBoard.call_flag(coords[0], coords[1])
+                            if coords is not None:
+                                self.gameBoard.on_right_click(coords[0], coords[1])
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
