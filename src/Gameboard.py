@@ -70,9 +70,9 @@ class Gameboard:
         # Counts number of adjacent mines at each tile
         # A nested for loop calling count_adjacent_mines() at each tile
         # count_adjacent_mines() will send count to Tiles object
-        for x in range(self.rows):
-            for y in range(self.cols):
-                self.count_adjacent_mines(x, y)
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.count_adjacent_mines(i, j)
 
     def win(self):
         """
@@ -196,9 +196,6 @@ class Gameboard:
                 if(self.game_board[i][j].Rect.collidepoint(coords)):
                     print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
                     return (i, j)
-
-
-                    #TODO: replace checks for win/loss IN A DIFFERENT FUNCTION
                     #TODO: rewrite backend logic to use [i][j] values
 
     def on_left_click(self, i, j):
