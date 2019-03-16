@@ -24,7 +24,7 @@ class UI:
 
     def clock_time(self,InPlay):
        
-       start = time.time()
+        start = time.time()
         time.clock()
         elapsed =0
         while InPlay == True: 
