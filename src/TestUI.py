@@ -32,6 +32,7 @@ class UI:
             elapsed = time.time() - self.start 
             print  (time.clock() , elapsed)
             time.sleep(1)
+         
     #Sets the window size and starts the game
     def launch(self):
         pygame.font.init()
