@@ -115,12 +115,15 @@ class Gameboard:
         @post: The Tiles object is altered to be revealed or not, and its display is updated appropriately
         @return: nothing
         """
-        in_bounds = (row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)
+        in_bounds = (0 <= row < self.rows) and (0 <= column < self.cols)
+        if not in_bounds:
+            return
+
         not_mine = not self.game_board[row][column].is_mine
         not_revealed = not self.game_board[row][column].is_revealed
         not_flagged = not self.game_board[row][column].is_flag
 
-        if in_bounds and not_mine and not_revealed and not_flagged:
+        if not_mine and not_revealed and not_flagged:
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
             if (self.game_board[row][column].num_adjacent_mines == 0):
