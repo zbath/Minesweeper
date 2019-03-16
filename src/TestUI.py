@@ -80,6 +80,8 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_right_click(coords[0], coords[1])
+                            else:
+                                self.gameBoard.shuffle_tiles()
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)

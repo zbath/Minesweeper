@@ -6,6 +6,7 @@ Gameboard is responsible for managing the state of the game.  It is called by UI
 import pygame
 import random
 
+
 from src.Tiles import Tiles
 
 class Gameboard:
@@ -35,10 +36,39 @@ class Gameboard:
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
-        self.flag_count = mine_count #keeps a running total of number of flags used
+        self.flag_count = mine_count
+        self.flagged_mines = 0
         self.num_revealed_tiles = 0
         self.board_generator()
-        
+
+    def shuffle_tiles(self):
+        # append all tiles to a 1-D list and shuffle
+        tile_list = []
+        for i in range(len(self.game_board)):
+            for j in range(len(self.game_board[i])):
+                tile_list.append(self.game_board[i][j])
+        random.shuffle(tile_list)
+
+        # assign shuffled tile its new coordinates, update member vars, and append to new_board
+        new_board = []
+        for i in range(len(self.game_board)):
+            new_board.append([])
+            for j in range (len(self.game_board)):
+                tile_list[0].i = i
+                tile_list[0].j = j
+                tile_list[0].num_adjacent_mines = 0
+                tile_list[0].Rect = pygame.Rect((5 + 35 * tile_list[0].j), (5 + 35 * tile_list[0].i), 30, 30)
+                new_board[i].append(tile_list[0])
+                tile_list.pop(0)
+
+        # replace self.game_board
+        self.game_board = new_board
+
+        # recount mines
+        for i in range(len(self.game_board)):
+            for j in range(len(self.game_board[i])):
+                self.count_adjacent_mines(i, j)
+
 
     # Generate board and create tiles.
     def board_generator(self):
