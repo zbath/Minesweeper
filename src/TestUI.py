@@ -28,8 +28,8 @@ class UI:
         self.start = time.time()
         time.clock()
         elapsed =0
-        while inPlay: 
-            elapsed = time.time() - start 
+        while self.InPlay == True: 
+            elapsed = time.time() - self.start 
             print  (time.clock() , elapsed)
             time.sleep(1)
     #Sets the window size and starts the game
