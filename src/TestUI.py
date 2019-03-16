@@ -1,7 +1,7 @@
 import pygame
 from src.Gameboard import Gameboard
 from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle
-
+import time
 TestBoardSize = 15
 MaxBoardSize = 25
 UIColumnWidth = 225
@@ -9,6 +9,7 @@ UIHeight = 500
 
 #Class to handle creating input boxes and buttons, also to handle taking input
 class UI:
+    
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
@@ -16,6 +17,21 @@ class UI:
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
 
+        
+        # Function will create a clock and will continue to increment up 
+        # by one representing the seconds passed, till the boolean value of InPlay 
+        # becomes false. 
+        # Essentially, the clock will continue as long as the event (gamebeing played) is true 
+
+    def clock_time(self,InPlay):
+        self.InPlay = InPlay
+        self.start = time.time()
+        time.clock()
+        elapsed =0
+        while inPlay: 
+            elapsed = time.time() - start 
+            print  (time.clock() , elapsed)
+            time.sleep(1)
     #Sets the window size and starts the game
     def launch(self):
         pygame.font.init()
