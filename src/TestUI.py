@@ -19,17 +19,16 @@ class UI:
 
         
         # Function will create a clock and will continue to increment up 
-        # by one representing the seconds passed, till the boolean value of InPlay 
-        # becomes false. 
+        # by one representing the seconds passed, till the boolean value of InPlay becomes false. 
         # Essentially, the clock will continue as long as the event (gamebeing played) is true 
 
     def clock_time(self,InPlay):
-        self.InPlay = InPlay
-        self.start = time.time()
+       
+       start = time.time()
         time.clock()
         elapsed =0
-        while self.InPlay == True: 
-            elapsed = time.time() - self.start 
+        while InPlay == True: 
+            elapsed = time.time() - start 
             print  (time.clock() , elapsed)
             time.sleep(1)
          
