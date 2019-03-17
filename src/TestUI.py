@@ -257,8 +257,9 @@ class UI:
             self.PrintMessage(["Oh No!", "You Lose!", "Click New Game", "to play again"])
 
     def ToggleCheatMode(self):
-        self.CheatModeEnabled = not self.CheatModeEnabled
-        self.shuffleButton.Toggle()
-        print("Cheat Mode Toggled")
-        self.gameBoard.ToggleCheatMode(self.shuffleButton.isActive, self.display)
+        if hasattr(self, "gameBoard"):
+            self.CheatModeEnabled = not self.CheatModeEnabled
+            self.shuffleButton.Toggle()
+            print("Cheat Mode Toggled")
+            self.gameBoard.ToggleCheatMode(self.shuffleButton.isActive, self.display)
 
