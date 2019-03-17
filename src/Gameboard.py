@@ -25,7 +25,7 @@ class Gameboard:
 
         @pre: A board size and mine count are already determined by the user, and a Pygame display object is already created.
         @param board_size: The n dimension of the n x n board
-        @param mine_count: The number of mines determined by user 
+        @param mine_count: The number of mines determined by user
         @param display: the Pygame display object created by UI
         @post: A new Gameboard object is created
         @return: nothing
@@ -39,6 +39,7 @@ class Gameboard:
         self.flag_count = mine_count
         self.flagged_mines = 0
         self.num_revealed_tiles = 0
+        self.number_of_tiles = 0
         self.board_generator()
 
     def shuffle_tiles(self):
@@ -92,7 +93,7 @@ class Gameboard:
         while(self.mine_count > 0):
             random_row = random.randint(0, self.rows - 1)
             random_col = random.randint(0, self.cols - 1)
-            
+
             if (not self.game_board[random_row][random_col].is_mine):
                 self.game_board[random_row][random_col].is_mine = True
                 self.mine_count -= 1
@@ -104,15 +105,20 @@ class Gameboard:
             for j in range(self.cols):
                 self.count_adjacent_mines(i, j)
 
+        #attempting to count the number of tiles in the game
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.number_of_tiles += 1
+
     def win(self):
         """
         win() is called along with lose() in every main gameplay loop, checking to see if the player has won
 
         @pre: win is called for every iteration of the main loop
-        @post: Gameboard will decide whether or not to play the win screen  
+        @post: Gameboard will decide whether or not to play the win screen
         @return: True if the game is won, False otherwise
         """
-        if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
+        if (self.mine_count == self.total_mines):
             return True  #win
         else:
             return False
@@ -124,13 +130,13 @@ class Gameboard:
         @pre: A tile is clicked or the win() condition is checked
         @param x: the x coordinate of the clicked tile
         @param y: the y coordinate of the clicked tile
-        @post: Gameboard will decide whether or not to play the lose screen  
+        @post: Gameboard will decide whether or not to play the lose screen
         @return: True if the game is lost, False otherwise
         """
         if (self.game_board[i][j].is_mine):
             return True  #lose
         else:
-            return False        
+            return False
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
@@ -179,6 +185,7 @@ class Gameboard:
         """
         if self.game_board[row][column].is_mine and self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
+            #they have already checked if this is one of the following which is already implemented in the flag_reval logic...??
         elif self.game_board[row][column].is_mine and not self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
         else:
@@ -247,7 +254,7 @@ class Gameboard:
     def on_right_click(self, i, j):
         """
         This function manages flagging behavior.
-        
+
         @pre: The user has "right-clicked" and method is called from UI.
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
