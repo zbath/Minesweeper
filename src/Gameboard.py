@@ -119,9 +119,11 @@ class Gameboard:
         @return: nothing
         """
         in_bounds = (row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)
-        not_mine = not self.game_board[row][column].is_mine
-        not_revealed = not self.game_board[row][column].is_revealed
-        not_flagged = not self.game_board[row][column].is_flag
+        
+        if in_bounds:
+            not_mine = not self.game_board[row][column].is_mine
+            not_revealed = not self.game_board[row][column].is_revealed
+            not_flagged = not self.game_board[row][column].is_flag
 
         if in_bounds and not_mine and not_revealed and not_flagged:
             self.game_board[row][column].tile_reveal()
