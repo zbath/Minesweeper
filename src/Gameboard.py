@@ -232,7 +232,7 @@ class Gameboard:
         pygame.display.flip()
 
     def DrawTile(self, tile, display, CheatModeEnabled):
-        if tile.is_flag:
+        if tile.is_flag and not CheatModeEnabled:
             display.blit(flag_image, tile.Rect)
         elif tile.is_mine and CheatModeEnabled:
             display.blit(bomb_image, tile.Rect)
