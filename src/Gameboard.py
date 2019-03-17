@@ -225,6 +225,12 @@ class Gameboard:
                 self.DrawTile(self.game_board[i][j], display, CheatModeEnabled)
         pygame.display.flip()
 
+    def RevealAll(self, display):
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.DrawTile(self.game_board[i][j], display, True)
+        pygame.display.flip()
+
     def DrawTile(self, tile, display, CheatModeEnabled):
         if tile.is_flag:
             display.blit(flag_image, tile.Rect)

@@ -244,6 +244,7 @@ class UI:
         self.gameBoard.update_board(self.display)
         pygame.display.flip()
         
+        self.gameBoard.RevealAll(self.display)
         del self.gameBoard
 
         #Game is over, so take no input on the gameboard.
