@@ -23,6 +23,7 @@ class UI:
         @post Initializes display to the param passed in
         @return None
         """
+        #self.click_sound=click_sound
         self.display = display
         self.number_of_mines = 0
         self.board_size = 0
@@ -41,15 +42,14 @@ class UI:
         @post Starts game based on user input of board size and number of mines
         @return None
         """
-        
-        clock = pygame.time.Clock() #adds clock imported from pygame
+
 
         #instruction screen
         pygame.font.init()
         instructions_font = pygame.font.SysFont('Helvetica', 40)
         temp_surf = pygame.display.set_mode((1200, 400))
         temp_surf.blit(instructions_image, (5,30))
-        pygame.display.flip()
+        pygame.display.update()
 
         running = True
 
@@ -60,7 +60,7 @@ class UI:
                         running = False
                 elif event.type == pygame.QUIT:
                     exit()
-            pygame.display.flip()
+            pygame.display.update()
 
         #Get board size from user (still need to protect input)
         pre_game = True
@@ -86,19 +86,19 @@ class UI:
                                 pre_game = False
                 elif event.type == pygame.QUIT:
                     exit()
-            
-            
+
+
 
             pygame.font.init()
             pre_game_font = pygame.font.SysFont('Helvetica', 40)
-            
+
             if (self.board_size < 2):
                 temp_surf = pygame.display.set_mode((1200, 100))
                 font_surf = pre_game_font.render('How big would you like your board (1 < n < 39)?  ' + size_str, True, (250, 250, 250))
                 temp_surf.blit(font_surf, (5,30))
-            
-            pygame.display.flip()
-            clock.tick()
+
+            pygame.display.update()
+            #clock.tick()
 
         # Get number of mines from user (still need to protect input)
         pre_game = True
@@ -128,14 +128,14 @@ class UI:
             temp_surf = pygame.display.set_mode((1200, 100))
             font_surf = pre_game_font.render('How many mines would you like? (It must be fewer than ' + str(self.board_size*self.board_size) + "): " + mines_str, True, (250, 250, 250))
             temp_surf.blit(font_surf, (5,30))
-            
-            pygame.display.flip()
-            clock.tick()
+
+            pygame.display.update()
+            #clock.tick()
 
         display = pygame.display.set_mode((5+self.board_size*35, 5+self.board_size*35))
         pygame.display.set_caption('Play Minesweeper!')
         user = UI(display)
-        user.start_game(self.board_size, number_of_mines)      
+        user.start_game(self.board_size, number_of_mines)
 
     def start_game(self,board_size,number_of_mines):
         """
@@ -144,24 +144,25 @@ class UI:
         @pre Expects valid user input to be passed into launch.
         @param
             board_size: int value such that 2 <= board_size <= 39 to set an nxn board size
-            number_of_mines: int value such that number_of_mines = (nxn) - 1 
+            number_of_mines: int value such that number_of_mines = (nxn) - 1
         @post Initializes a screen for user to play minesweeper based on params passed in by user
         @return None
         """
-
+        click_sound=pygame.mixer.Sound("src/Tiny Button Push-SoundBible.com-513260752.wav")
+        clock = pygame.time.Clock()
         self.board_size = int(board_size)
         self.number_of_mines = int(number_of_mines)
+        game_win=False
 
         game_board = Gameboard(board_size, number_of_mines, self.display)
 
-        clock = pygame.time.Clock() #adds clock imported from pygame
+        #clock = pygame.time.Clock() #adds clock imported from pygame
 
         running = True
 
         word = ' '
 
         while running:
-
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -169,11 +170,12 @@ class UI:
                 elif event.type == pygame.QUIT:
                     exit()
                 if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                    click_sound.play()
                     position = pygame.mouse.get_pos()
                     try:
                         game_board.detect_location()
                     except Exception as statement:
-                        word = str(statement) 
+                        word = str(statement)
                         running = False
                         break
                 if ((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 3)):
@@ -183,30 +185,31 @@ class UI:
                     except Exception as statement:
                         word = str(statement)
                         running = False
+                        game_win= True
                         break
             game_board.draw()
-            pygame.display.flip()
+            #pygame.display.update()
 
         #end game screen
-        pygame.font.init()
-        end_game_font = pygame.font.SysFont('Helvetica', 40)
-        temp_surf = pygame.display.set_mode((1200, 100))
-        font_surf = end_game_font.render(word, True, (250, 250, 250))
-        temp_surf.blit(font_surf, (5,30))
-        pygame.display.flip()
+        if not game_win:
+            pygame.font.init()
+            end_game_font = pygame.font.SysFont('Helvetica', 40)
+            temp_surf = pygame.display.set_mode((1200, 100))
+            font_surf = end_game_font.render(word, True, (250, 250, 250))
+            temp_surf.blit(font_surf, (5,30))
+            pygame.display.update()
 
-        running = True
+            running = True
 
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        running = False
-                elif event.type == pygame.QUIT:
-                    exit()
-                if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
-                    position = pygame.mouse.get_pos()
-                        
-                elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
-                    position = pygame.mouse.get_pos()
+            while running:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            running = False
+                    elif event.type == pygame.QUIT:
+                        exit()
+                    if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                        position = pygame.mouse.get_pos()
 
+                    elif (event.type == pygame.MOUSEBUTTONDOWN and event.button == 3):
+                        position = pygame.mouse.get_pos()

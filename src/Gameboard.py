@@ -7,6 +7,7 @@ import pygame
 import random
 
 from src.Tiles import Tiles
+from src.Animations_test import windisplay
 
 class Gameboard:
     """
@@ -36,6 +37,7 @@ class Gameboard:
         self.mine_count = int(mine_count)
         self.display    = display
         self.game_board = []
+        self.winning=False
         self.total_mines = mine_count
         self.flag_count = mine_count #keeps a running total of number of flags used
         self.num_revealed_tiles = 0 #we can probably use this to look at the required updates we have. see below -M
@@ -121,7 +123,7 @@ class Gameboard:
         @return: True if the game is won, False otherwise
         """
         if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
-            return True  #win
+             return True #win
         else:
             return False
 
@@ -177,12 +179,12 @@ class Gameboard:
         @param column: the column index of the placed flag
         @post: the win condition is checked and the flag property of the Tiles object is updated
         """
-        if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
-            return(self.game_board[row][column].tile_flag())
-        elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
-            return(self.game_board[row][column].tile_flag())
-        else:
-            return(self.game_board[row][column].tile_flag())
+        # if self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == True:
+        #     return(self.game_board[row][column].tile_flag())
+        # elif self.game_board[row][column].is_mine == True and self.game_board[row][column].is_flag == False:
+        #     return(self.game_board[row][column].tile_flag())
+        #else:
+        return(self.game_board[row][column].tile_flag())
 
     # Counts number of mines adjacent to a given tile
     # It accepts position through row and column parameters
@@ -215,10 +217,25 @@ class Gameboard:
         @pre: user has inputted board_size and mine count.
         @post: Draws the board and displays on screen.
         """
-        for x in range(0, self.board_size):
-            for y in range(0, self.board_size):
-                self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
-        pygame.display.flip()
+
+        if not self.winning:
+         board_position = pygame.mouse.get_pos()
+         x_pos = int(board_position[0]) - 5
+         y_pos = int(board_position[1]) - 5
+         x_pos /= 35
+         y_pos /= 35
+
+         if int(x_pos) in range(0,self.board_size) and int(y_pos) in range(0, self.board_size) and not self.game_board[int(x_pos)][int(y_pos)].is_revealed and not self.game_board[int(x_pos)][int(y_pos)].is_flag:
+                  self.game_board[int(x_pos)][int(y_pos)].refill()
+         for x in range(0, self.board_size):
+                for y in range(0, self.board_size):
+                    if self.game_board[x][y].isHover() and (y != int(y_pos) or x != int(x_pos)):
+                        if self.game_board[x][y].is_flag:
+                            pass
+                        else:
+                            self.game_board[x][y].recoverColor()
+                    self.display.blit(self.game_board[x][y].surf, ((5+35*x),(5+35*y)))
+         pygame.display.update()
 
 
     def detect_location(self):
@@ -246,6 +263,8 @@ class Gameboard:
         y_pos /= 35
 
         if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag))):
+            if not self.game_board[int(x_pos)][int(y_pos)].is_revealed:
+             self.game_board[int(x_pos)][int(y_pos)].recoverColor()
             self.rec_reveal(int(x_pos), int(y_pos))
         elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
             self.lose(int(x_pos), int(y_pos))
@@ -294,4 +313,8 @@ class Gameboard:
             self.flag_count -= 1
 
         if self.win():
-            raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
+            #) #raise exception to be caught by the calling loop
+            self.winning = True
+            win= windisplay(int(self.board_size), int(self.board_size), self.display)
+            win.displayfireworks()
+            raise Exception('Congratulations, you win!')
