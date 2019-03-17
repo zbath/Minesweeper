@@ -11,7 +11,7 @@ import copy
 from src.Tiles import Tiles
 
 flag_image = pygame.image.load("src/pixel_flag.png")
-bomb_image = pygame.image.load("src/pixel_flag.png")
+bomb_image = pygame.image.load("src/mine.jpg")
 
 class Gameboard:
     """
