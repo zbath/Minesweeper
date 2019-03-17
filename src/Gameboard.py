@@ -229,7 +229,6 @@ class Gameboard:
                 if(self.game_board[i][j].Rect.collidepoint(coords)):
                     print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
                     return (i, j)
-                    #TODO: rewrite backend logic to use [i][j] values
 
     def on_left_click(self, i, j):
         exploded = self.lose(i, j) and not self.game_board[i][j].is_flag
@@ -244,54 +243,6 @@ class Gameboard:
 
         elif self.win():
             raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
-
-
-
-    # def detect_location(self):
-    #     """
-    #     This function detects click location and calculates where the click occurs with respect to the gameboard.
-    #
-    #     @pre: User has clicked the screen.
-    #     @post: Determines where the user has clicked with respect to the gameboard and determines winning/losing conditions.
-    #     @exception: throws an exception when the game should end (win/lose)
-    #     """
-    #     #get mouse position
-    #     board_position = pygame.mouse.get_pos() #returns tuple of pixels
-    #
-		# #check if clicking on dead space
-    #     for i in range(0, self.rows+1):
-    #         if board_position[1] in range (35*i, 35*i+5):
-    #             print ("Bad click (y-dir)")
-    #             return #do nothing
-    #
-    #     for i in range(0, self.cols+1):
-    #         if board_position[0] in range (35*i, 35*i+5):
-    #             print ("Bad click (x-dir)")
-    #             return #do nothing
-    #
-    #     #subtract 5 from board_position
-    #     y_pos = int(board_position[0]) - 5
-    #     x_pos = int(board_position[1]) - 5
-    #
-    #     #divide by 35
-    #     x_pos //= 35
-    #     y_pos //= 35
-    #
-    #     if x_pos < self.cols and y_pos < self.rows:
-    #         if ((not (self.win() and not (self.lose(int(x_pos), int(y_pos)))) and not (self.game_board[int(x_pos)][int(y_pos)].is_flag))):
-    #             self.rec_reveal(int(x_pos), int(y_pos))
-    #         elif (self.game_board[int(x_pos)][int(y_pos)].is_mine and not self.game_board[int(x_pos)][int(y_pos)].is_flag):
-    #             self.lose(int(x_pos), int(y_pos))
-    #             raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
-    #         else:
-    #             return 0
-    #
-    #         if self.win():
-    #             raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
-    #
-    #         if self.lose(int(x_pos), int(y_pos)):
-    #             raise Exception('Oh no! You exploded!') #raise exception to be caught by the calling loop
-
 
     def on_right_click(self, i, j):
         """

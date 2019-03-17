@@ -1,6 +1,7 @@
 import pygame
 from src.Gameboard import Gameboard
 from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle
+from random import randint
 
 TestBoardSize = 15
 MaxBoardSize = 25
@@ -23,10 +24,10 @@ class UI:
         #This sets the window size.
         surface = pygame.display.set_mode((UIColumnWidth + TestBoardSize * 35, 5 + TestBoardSize * 35))
         pygame.display.flip()
-        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, True)
+        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, self, True)
 
     #Creates the initial game board, draws the UI, and handles all input
-    def startGame(self, width, height, bombs, firstGame):
+    def startGame(self, width, height, bombs, UI, firstGame):
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -68,6 +69,10 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_left_click(coords[0], coords[1])
+                                if UI.mode == 1:
+                                    if randint(0, 99) <= 25:
+                                        self.gameBoard.shuffle_tiles()
+
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
@@ -80,8 +85,9 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_right_click(coords[0], coords[1])
-                            else:
-                                self.gameBoard.shuffle_tiles()
+                                if UI.mode == 1:
+                                    if randint(0, 99) <= 25:
+                                        self.gameBoard.shuffle_tiles()
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
@@ -153,7 +159,7 @@ class UI:
         self.NewGameButton = ButtonInput("New Game", 25 + width * 35, 260, self.display, "lightgreen", self.NewGame)
         
         #Create the shuffle button
-        self.shuffleButton = ButtonInput("Shuffle Mines", 25 + width * 35, 456, self.display, "lightblue", self.ShuffleMines)
+        self.shuffleButton = ButtonInput("Shuffle Mines", 25 + width * 35, 456, self.display, "lightblue", self.gameBoard.shuffle_tiles)
         
         #Create each text input. They need to be in this order to tab to the next one.
         self.BombInput = TextInput("Bombs: ", str(bombs), 25 + width * 35, 110, self.display, None)
@@ -179,7 +185,8 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
-            self.startGame(width, height, bombs, False)
+            self.mode = 0
+            self.startGame(width, height, bombs, self, False)
 
     #Checks if the input given is valid
     def GoodInput(self, width, height, bombs):
