@@ -283,8 +283,6 @@ class Gameboard:
             if(self.game_board[i][j].is_flag):
                 self.flag_count += 1
                 self.mine_count += self.flag_reveal(i, j)
-            elif(self.flag_count == 0 and not (self.game_board[i][j].is_flag)):
-                return 0
             else:
                 self.mine_count += self.flag_reveal(i, j)
                 self.flag_count -= 1
