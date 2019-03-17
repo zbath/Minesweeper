@@ -24,10 +24,10 @@ class UI:
         #This sets the window size.
         surface = pygame.display.set_mode((UIColumnWidth + TestBoardSize * 35, 5 + TestBoardSize * 35))
         pygame.display.flip()
-        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, self, True)
+        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, True)
 
     #Creates the initial game board, draws the UI, and handles all input
-    def startGame(self, width, height, bombs, UI, firstGame):
+    def startGame(self, width, height, bombs, firstGame):
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -69,7 +69,7 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_left_click(coords[0], coords[1])
-                                if UI.mode == 1:
+                                if self.mode == 1:
                                     if randint(0, 99) <= 25:
                                         self.gameBoard.shuffle_tiles()
 
@@ -85,7 +85,7 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_right_click(coords[0], coords[1])
-                                if UI.mode == 1:
+                                if self.mode == 1:
                                     if randint(0, 99) <= 25:
                                         self.gameBoard.shuffle_tiles()
                         except Exception as thrown:
@@ -186,7 +186,7 @@ class UI:
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
             self.mode = 0
-            self.startGame(width, height, bombs, self, False)
+            self.startGame(width, height, bombs, False)
 
     #Checks if the input given is valid
     def GoodInput(self, width, height, bombs):
