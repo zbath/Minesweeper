@@ -9,7 +9,7 @@ class Tiles:
 
     num_adjacent_mines = 0
     pygame.font.init()
-    mine_font = pygame.font.SysFont('Helvetica', 26)
+    mine_font = pygame.font.SysFont('Helvetica', 30)
 
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
@@ -34,22 +34,24 @@ class Tiles:
         self.org_color=(50,205,50)
         self.isHoverbool = False
         self.hover_color = (152, 251, 152)
+        self.randompick=random.randint(0, 2)
 
     def draw_self(self):
         if self.is_flag:
             self.display.blit(flag_image, self.Rect)
 
         elif self.is_revealed:
-            pygame.draw.rect(self.display, ((222,184,135)), self.Rect)
+            newRec=self.Rect
+            pygame.draw.rect(self.display, ((222,184,135)), newRec)
             if self.num_adjacent_mines > 0:
-                randompick=random.randint(0, 2)
                 color_plate=[(30, 144, 255), (0, 255, 0), (220, 20, 60)]
                 adj_text = str(self.num_adjacent_mines)
-                font_surf = self.mine_font.render(adj_text, True, color_plate[randompick])
-                self.display.blit(font_surf, self.Rect)
-                pygame.display.update()
+                font_surf = self.mine_font.render(adj_text, True, color_plate[self.randompick])
+                self.display.blit(font_surf, newRec)
+                #pygame.display.update()
         else:
             pygame.draw.rect(self.display, (self.org_color), self.Rect)
+            #pygame.display.update()
 
     def get_coords(self):
         coords = (self.i, self.j)

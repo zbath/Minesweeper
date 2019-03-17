@@ -119,7 +119,7 @@ class Gameboard:
         @return: nothing
         """
         in_bounds = (row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)
-        
+
         if in_bounds:
             not_mine = not self.game_board[row][column].is_mine
             not_revealed = not self.game_board[row][column].is_revealed
@@ -212,7 +212,7 @@ class Gameboard:
                 else:
                    self.game_board[i][j].recoverColor()
             self.game_board[i][j].draw_self()
-        pygame.display.update()
+        #pygame.display.update()
 
     def detect_location(self):
         coords = pygame.mouse.get_pos()
