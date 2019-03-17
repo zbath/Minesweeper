@@ -33,6 +33,7 @@ class Gameboard:
         self.cols = int(width)
         self.rows = int(height)
         self.mine_count = int(mine_count)
+        #^^this shit broken^^, does some weird count that is not the mine count, see trueMineCount for accurate mines given to the gameBoard
         self.display    = display
         self.game_board = []
         self.total_mines = mine_count
@@ -40,6 +41,7 @@ class Gameboard:
         self.flagged_mines = 0
         self.num_revealed_tiles = 0
         self.number_of_tiles = 0
+        self.trueMineCount = mine_count
         self.board_generator()
 
     def shuffle_tiles(self):
@@ -105,7 +107,7 @@ class Gameboard:
             for j in range(self.cols):
                 self.count_adjacent_mines(i, j)
 
-        #attempting to count the number of tiles in the game
+        #Count the number of tiles in the game (bomb or not) e.g. 15 by 15 board has 225 total tiles
         for i in range(self.rows):
             for j in range(self.cols):
                 self.number_of_tiles += 1
@@ -118,10 +120,22 @@ class Gameboard:
         @post: Gameboard will decide whether or not to play the win screen
         @return: True if the game is won, False otherwise
         """
-        if (self.mine_count == self.total_mines):
+        #calculations for win condition
+            #win condition is: user has clicked all tiles except bombs. so,
+            #for a win, the num_revealed_tiles should be number_of_tiles minus number_of_bombs
+        tilesToWin = self.number_of_tiles - self.trueMineCount
+
+        if (int(self.num_revealed_tiles) == int(tilesToWin)):
             return True  #win
         else:
-            return False
+            return False #haven't won yet
+
+
+    #have to call this function in the while running loop so that pygame does not catch the exception for a possible win condition
+    #otherwise the game will crash after winning
+    def winCondition(self):
+        raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
+
 
     def lose(self, i, j):
         """
@@ -134,7 +148,7 @@ class Gameboard:
         @return: True if the game is lost, False otherwise
         """
         if (self.game_board[i][j].is_mine):
-            return True  #lose
+            return True  #lose, lost the game
         else:
             return False
 
@@ -235,6 +249,10 @@ class Gameboard:
             for j in range(len(self.game_board[i])):
                 if(self.game_board[i][j].Rect.collidepoint(coords)):
                     print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
+                    print(f'Number of revealed tiles: {self.num_revealed_tiles}')
+                    winTiles = self.number_of_tiles - self.trueMineCount
+                    print(f'Number revealed needed to win: {winTiles}')
+                    print(f'Mines given to game: {self.trueMineCount}')
                     return (i, j)
 
     def on_left_click(self, i, j):
