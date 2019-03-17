@@ -29,22 +29,8 @@ class Tiles:
         self.j = j
         self.is_flag = is_flag
         self.is_mine = is_mine
-        self.display = display
+        #self.display = display
         self.Rect = pygame.Rect((5 + 35 * self.j), (5 + 35 * self.i), 30, 30)
-
-    def draw_self(self):
-        if self.is_flag:
-            self.display.blit(flag_image, self.Rect)
-
-        elif self.is_revealed:
-            pygame.draw.rect(self.display, (50, 50, 50), self.Rect)
-            if self.num_adjacent_mines > 0:
-                adj_text = str(self.num_adjacent_mines)
-                font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
-                self.display.blit(font_surf, self.Rect)
-                pygame.display.flip()
-        else:
-            pygame.draw.rect(self.display, (100, 100, 100), self.Rect)
 
     def get_coords(self):
         coords = (self.i, self.j)

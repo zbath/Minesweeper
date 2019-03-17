@@ -99,13 +99,14 @@ class TextInput:
 
 #Class to create a button that is interactable
 class ButtonInput:
-    def __init__(self, text, x, y, display, color, eventFunction):
+    def __init__(self, text, x, y, display, color, eventFunction, active=False):
         self.text = text
         self.rect = pygame.Rect(x, y, 175, 32)
         self.color = pygame.Color(color)
         self.textBox = FONT.render(self.text, True, pygame.Color("black"))
         self.display = display
         self.eventFunction = eventFunction
+        self.isActive = active
     
     #Handles the events passed to the button
     def eventControl(self, event, UI):
@@ -121,6 +122,18 @@ class ButtonInput:
         display.blit(self.textBox, (self.rect.x + 5, self.rect.y + 5))
         pygame.draw.rect(display, self.color, self.rect, 0)
         display.blit(FONT.render(self.text, True, pygame.Color("black")), (self.rect.x + 5, self.rect.y + 5))   
+
+    #Set the current Button to active
+    def Toggle(self):
+        if(not self.isActive):
+            self.isActive = True
+            self.text += "   X"
+            self.draw(self.display)
+        else:
+            self.text = self.text[:-4]
+            self.isActive = False
+            self.draw(self.display)
+
 
 #Class to create a message box that has no user interaction
 class MessageBox:

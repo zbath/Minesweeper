@@ -1,8 +1,7 @@
 import pygame
 from src.Gameboard import Gameboard
 from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle
-from random import randint
-
+import time
 TestBoardSize = 15
 MaxBoardSize = 25
 UIColumnWidth = 225
@@ -10,13 +9,30 @@ UIHeight = 500
 
 #Class to handle creating input boxes and buttons, also to handle taking input
 class UI:
+    
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
 
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
+        self.CheatModeEnabled = False
 
+        
+        # Function will create a clock and will continue to increment up 
+        # by one representing the seconds passed, till the boolean value of InPlay becomes false. 
+        # Essentially, the clock will continue as long as the event (gamebeing played) is true 
+
+    def clock_time(self,InPlay):
+       
+        start = time.time()
+        time.clock()
+        elapsed =0
+        while InPlay == True: 
+            elapsed = time.time() - start 
+            print  (time.clock() , elapsed)
+            time.sleep(1)
+         
     #Sets the window size and starts the game
     def launch(self):
         pygame.font.init()
@@ -24,10 +40,10 @@ class UI:
         #This sets the window size.
         surface = pygame.display.set_mode((UIColumnWidth + TestBoardSize * 35, 5 + TestBoardSize * 35))
         pygame.display.flip()
-        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, self, True)
+        self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, True)
 
     #Creates the initial game board, draws the UI, and handles all input
-    def startGame(self, width, height, bombs, UI, firstGame):
+    def startGame(self, width, height, bombs, firstGame):
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -46,7 +62,7 @@ class UI:
 
         #Event handling loop
         running = True
-        self.gameBoard.update_board()
+        self.gameBoard.update_board(self.display)
         while(running):
             for event in pygame.event.get():
                 
@@ -59,7 +75,7 @@ class UI:
                 
                 #If the game is not over handle the events thrown from the gameboard
                 ##Might have to change this based on what is changed from the win and lose condition function
-                if not self.isGameOver:
+                if not self.isGameOver and not self.CheatModeEnabled:
 
                     #Detect left click on the location of the click
                     if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
@@ -69,10 +85,6 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_left_click(coords[0], coords[1])
-                                if UI.mode == 1:
-                                    if randint(0, 99) <= 25:
-                                        self.gameBoard.shuffle_tiles()
-
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
@@ -85,19 +97,19 @@ class UI:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
                                 self.gameBoard.on_right_click(coords[0], coords[1])
-                                if UI.mode == 1:
-                                    if randint(0, 99) <= 25:
-                                        self.gameBoard.shuffle_tiles()
+                            else:
+                                self.gameBoard.shuffle_tiles()
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
 
             #Update the input every loop
             self.DrawInput()
-
-            #if UI has a gameboard and the game is not over, draw the board
-            if hasattr(self, "gameBoard") and not self.isGameOver:
-                self.gameBoard.update_board()
+            
+            if not self.CheatModeEnabled:
+                #if UI has a gameboard and the game is not over, draw the board
+                if hasattr(self, "gameBoard") and not self.isGameOver:
+                    self.gameBoard.update_board(self.display)
 
             #Refresh the screen
             pygame.display.flip()
@@ -158,8 +170,8 @@ class UI:
         #Create the new game button
         self.NewGameButton = ButtonInput("New Game", 25 + width * 35, 260, self.display, "lightgreen", self.NewGame)
         
-        #Create the shuffle button
-        self.shuffleButton = ButtonInput("Shuffle Mines", 25 + width * 35, 456, self.display, "lightblue", self.gameBoard.shuffle_tiles)
+        #Create the Cheat Mode button
+        self.shuffleButton = ButtonInput("Cheat Mode", 25 + width * 35, 456, self.display, "lightblue", self.ToggleCheatMode)
         
         #Create each text input. They need to be in this order to tab to the next one.
         self.BombInput = TextInput("Bombs: ", str(bombs), 25 + width * 35, 110, self.display, None)
@@ -185,8 +197,7 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
-            self.mode = 0
-            self.startGame(width, height, bombs, self, False)
+            self.startGame(width, height, bombs, False)
 
     #Checks if the input given is valid
     def GoodInput(self, width, height, bombs):
@@ -230,7 +241,7 @@ class UI:
         ##self.gameBoard.RevealAll()
 
         #Draws the revealed board
-        self.gameBoard.update_board()
+        self.gameBoard.update_board(self.display)
         pygame.display.flip()
         
         del self.gameBoard
@@ -245,4 +256,9 @@ class UI:
         elif str(exceptionThrown) == "Oh no! You exploded!":
             self.PrintMessage(["Oh No!", "You Lose!", "Click New Game", "to play again"])
 
+    def ToggleCheatMode(self):
+        self.CheatModeEnabled = not self.CheatModeEnabled
+        self.shuffleButton.Toggle()
+        print("Cheat Mode Toggled")
+        self.gameBoard.ToggleCheatMode(self.shuffleButton.isActive, self.display)
 
