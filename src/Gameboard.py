@@ -249,10 +249,6 @@ class Gameboard:
             for j in range(len(self.game_board[i])):
                 if(self.game_board[i][j].Rect.collidepoint(coords)):
                     print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
-                    print(f'Number of revealed tiles: {self.num_revealed_tiles}')
-                    winTiles = self.number_of_tiles - self.trueMineCount
-                    print(f'Number revealed needed to win: {winTiles}')
-                    print(f'Mines given to game: {self.trueMineCount}')
                     return (i, j)
 
     def on_left_click(self, i, j):
