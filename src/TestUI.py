@@ -22,11 +22,12 @@ class UI:
 
         #This sets the window size.
         surface = pygame.display.set_mode((UIColumnWidth + TestBoardSize * 35, 5 + TestBoardSize * 35))
-        pygame.display.flip()
+        pygame.display.update()
         self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, True)
 
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
+        click_sound=pygame.mixer.Sound("src/Tiny Button Push-SoundBible.com-513260752.wav")
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -48,21 +49,21 @@ class UI:
         self.gameBoard.update_board()
         while(running):
             for event in pygame.event.get():
-                
+
                 #if you quit the window, exit the game
                 if event.type == pygame.QUIT:
                     exit()
 
                 #For every event, check if the event affects the inputs
                 self.GetInput(event)
-                
+
                 #If the game is not over handle the events thrown from the gameboard
                 ##Might have to change this based on what is changed from the win and lose condition function
                 if not self.isGameOver:
 
                     #Detect left click on the location of the click
                     if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
-                        
+                        click_sound.play()
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
@@ -71,10 +72,10 @@ class UI:
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
                             self.EndGame(thrown)
-                    
+
                     #Detect right click on the location of the right click
                     if ((event.type == pygame.MOUSEBUTTONDOWN) and (event.button == 3)):
-                        
+
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
@@ -92,7 +93,7 @@ class UI:
                 self.gameBoard.update_board()
 
             #Refresh the screen
-            pygame.display.flip()
+            pygame.display.update()
 
     #Draw each of the UI elements on the screen
     def DrawInput(self):
@@ -108,7 +109,7 @@ class UI:
         #Draw the message boxes
         for Message in self.Messages:
             Message.draw(self.display)
-        
+
         #Draw the toggles
         self.NormalToggle.draw()
         self.HardToggle.draw()
@@ -131,7 +132,7 @@ class UI:
     #Creates the UI elements
     def drawUI(self, width, height, bombs):
 
-        #create the message boxes. There are currently 4, but can add more if necessary 
+        #create the message boxes. There are currently 4, but can add more if necessary
         self.Message1 = MessageBox(25 + width * 35, 310, "", self.display)
         self.Message2 = MessageBox(25 + width * 35, 342, "", self.display)
         self.Message3 = MessageBox(25 + width * 35, 374, "", self.display)
@@ -149,10 +150,10 @@ class UI:
 
         #Create the new game button
         self.NewGameButton = ButtonInput("New Game", 25 + width * 35, 260, self.display, "lightgreen", self.NewGame)
-        
+
         #Create the shuffle button
         self.shuffleButton = ButtonInput("Shuffle Mines", 25 + width * 35, 456, self.display, "lightblue", self.ShuffleMines)
-        
+
         #Create each text input. They need to be in this order to tab to the next one.
         self.BombInput = TextInput("Bombs: ", str(bombs), 25 + width * 35, 110, self.display, None)
         self.HeightInput = TextInput("Height: ", str(height), 25 + width * 35, 60, self.display, self.BombInput)
@@ -172,7 +173,7 @@ class UI:
         width = int(self.WidthInput.value) if self.WidthInput.value != "" else 0
         height = int(self.HeightInput.value) if self.HeightInput.value != "" else 0
         bombs = int(self.BombInput.value) if self.BombInput.value != "" else 0
-        
+
         #Check to see if the input is valid
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
@@ -212,7 +213,7 @@ class UI:
         print("Mines have been shuffled")
         ##Whatever you end up calling the shuffle mine function
         ##self.gameBoard.shuffleMines()
-    
+
     #Reveals all tiles on the gameboard and redraws it.
     #Deletes the board, so the user cannot interact with it.
     #Prints a message in the message boxes.
@@ -222,8 +223,8 @@ class UI:
 
         #Draws the revealed board
         self.gameBoard.update_board()
-        pygame.display.flip()
-        
+        pygame.display.update()
+
         del self.gameBoard
 
         #Game is over, so take no input on the gameboard.
@@ -235,5 +236,3 @@ class UI:
             self.PrintMessage(["Congratulations!", "You Win!", "Click New Game", "to play again"])
         elif str(exceptionThrown) == "Oh no! You exploded!":
             self.PrintMessage(["Oh No!", "You Lose!", "Click New Game", "to play again"])
-
-

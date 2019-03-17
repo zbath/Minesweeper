@@ -7,6 +7,7 @@ import pygame
 import random
 
 from src.Tiles import Tiles
+from src.Animations_test import windisplay
 
 class Gameboard:
     """
@@ -24,11 +25,12 @@ class Gameboard:
 
         @pre: A board size and mine count are already determined by the user, and a Pygame display object is already created.
         @param board_size: The n dimension of the n x n board
-        @param mine_count: The number of mines determined by user 
+        @param mine_count: The number of mines determined by user
         @param display: the Pygame display object created by UI
         @post: A new Gameboard object is created
         @return: nothing
         """
+        self.winning=False
         self.cols = int(width)
         self.rows = int(height)
         self.mine_count = int(mine_count)
@@ -37,8 +39,9 @@ class Gameboard:
         self.total_mines = mine_count
         self.flag_count = mine_count #keeps a running total of number of flags used
         self.num_revealed_tiles = 0
+        self.winning=False
         self.board_generator()
-        
+
 
     # Generate board and create tiles.
     def board_generator(self):
@@ -62,7 +65,7 @@ class Gameboard:
         while(self.mine_count > 0):
             random_row = random.randint(0, self.rows - 1)
             random_col = random.randint(0, self.cols - 1)
-            
+
             if (not self.game_board[random_row][random_col].is_mine):
                 self.game_board[random_row][random_col].is_mine = True
                 self.mine_count -= 1
@@ -79,7 +82,7 @@ class Gameboard:
         win() is called along with lose() in every main gameplay loop, checking to see if the player has won
 
         @pre: win is called for every iteration of the main loop
-        @post: Gameboard will decide whether or not to play the win screen  
+        @post: Gameboard will decide whether or not to play the win screen
         @return: True if the game is won, False otherwise
         """
         if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
@@ -94,13 +97,13 @@ class Gameboard:
         @pre: A tile is clicked or the win() condition is checked
         @param x: the x coordinate of the clicked tile
         @param y: the y coordinate of the clicked tile
-        @post: Gameboard will decide whether or not to play the lose screen  
+        @post: Gameboard will decide whether or not to play the lose screen
         @return: True if the game is lost, False otherwise
         """
         if (self.game_board[i][j].is_mine):
             return True  #lose
         else:
-            return False        
+            return False
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
@@ -184,10 +187,30 @@ class Gameboard:
         @pre: user has inputted board_size and mine count.
         @post: Draws the board and displays on screen.
         """
+        if not self.winning:
+         x_pos=0
+         y_pos=0
+         Pass=False
+         coords = pygame.mouse.get_pos()
+        for i in range(len(self.game_board)):
+         for j in range(len(self.game_board[i])):
+           if(self.game_board[i][j].Rect.collidepoint(coords)):
+                Pass=True
+                x_pos=i
+                y_pos=j
+
+        if not self.game_board[x_pos][y_pos].is_revealed and not self.game_board[x_pos][y_pos].is_flag and Pass:
+                  self.game_board[x_pos][y_pos].refill()
+
         for i in range(self.rows):
-            for j in range(self.cols):
-                self.game_board[i][j].draw_self()
-        pygame.display.flip()
+         for j in range(self.cols):
+            if self.game_board[i][j].isHover() and (i != x_pos or j != y_pos):
+                if self.game_board[i][j].is_flag:
+                        pass
+                else:
+                   self.game_board[i][j].recoverColor()
+            self.game_board[i][j].draw_self()
+        pygame.display.update()
 
     def detect_location(self):
         coords = pygame.mouse.get_pos()
@@ -263,7 +286,7 @@ class Gameboard:
     def on_right_click(self, i, j):
         """
         This function manages flagging behavior.
-        
+
         @pre: The user has "right-clicked" and method is called from UI.
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
@@ -281,4 +304,7 @@ class Gameboard:
                 self.flag_count -= 1
 
             if self.win():
+                self.winning=True
+                win= windisplay(self.rows, self.cols, self.display)
+                win.displayfireworks()
                 raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
