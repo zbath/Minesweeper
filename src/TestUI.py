@@ -13,7 +13,7 @@ class UI:
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
-
+        # TODO: create clock var
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
 
@@ -61,24 +61,25 @@ class UI:
 
         #Event handling loop
         running = True
+        # TODO: Set 'start' time
         self.gameBoard.update_board()
         while(running):
             for event in pygame.event.get():
-                
+
                 #if you quit the window, exit the game
                 if event.type == pygame.QUIT:
                     exit()
 
                 #For every event, check if the event affects the inputs
                 self.GetInput(event)
-                
+
                 #If the game is not over handle the events thrown from the gameboard
                 ##Might have to change this based on what is changed from the win and lose condition function
                 if not self.isGameOver:
 
                     #Detect left click on the location of the click
                     if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
-                        
+
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
@@ -107,10 +108,14 @@ class UI:
 
             #if UI has a gameboard and the game is not over, draw the board
             if hasattr(self, "gameBoard") and not self.isGameOver:
+                text = int(time.time() - start())
+                # TODO: Call update/draw clock method
                 self.gameBoard.update_board()
 
             #Refresh the screen
             pygame.display.flip()
+
+    # TODO: Create update/draw  clock method (taking start)
 
     #Draw each of the UI elements on the screen
     def DrawInput(self):
