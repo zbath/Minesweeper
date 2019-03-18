@@ -6,10 +6,11 @@ class windisplay:
 
     def __init__(self, board_size_x, board_size_y, display):
       self.run = True
-      self.board_size_x=5+board_size_x*35
+      self.board_size_x=225+board_size_x*35
       self.board_size_y=5+board_size_y*35
       self.display=display
     def displayfireworks(self):
+        #self.NewGameButton = ButtonInput("Restart game", (self.board_size_y/2)-100, 260, self.display, "lightgreen", self.NewGame)
         font =pygame.font.SysFont('comicsans', 50, True)
         text= font.render("You win!", 1, (250, 250, 250))
         screen_size=[self.board_size_x, self.board_size_y]
@@ -17,6 +18,7 @@ class windisplay:
         BLACK_FADED = [0, 0, 0, 10]
         blackSurf = pygame.Surface(screen_size).convert_alpha()
         blackSurf.fill(BLACK_FADED)
+        lifespan=300
         while self.run:
             self.display.blit(blackSurf, (0,0))
             for event in pygame.event.get():
@@ -32,6 +34,8 @@ class windisplay:
               if element.done():
                 firework0.pop(firework0.index(element))
             pygame.display.update()
+            #self.NewGameButton.draw(self.display)
+            #lifespan-=1
         pygame.quit()
 
 class particle:

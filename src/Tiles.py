@@ -41,13 +41,12 @@ class Tiles:
             self.display.blit(flag_image, self.Rect)
 
         elif self.is_revealed:
-            newRec=self.Rect
-            pygame.draw.rect(self.display, ((222,184,135)), newRec)
+            pygame.draw.rect(self.display, ((222,184,135)), self.Rect)
             if self.num_adjacent_mines > 0:
                 color_plate=[(30, 144, 255), (0, 255, 0), (220, 20, 60)]
                 adj_text = str(self.num_adjacent_mines)
                 font_surf = self.mine_font.render(adj_text, True, color_plate[self.randompick])
-                self.display.blit(font_surf, newRec)
+                self.display.blit(font_surf, self.Rect)
                 #pygame.display.update()
         else:
             pygame.draw.rect(self.display, (self.org_color), self.Rect)

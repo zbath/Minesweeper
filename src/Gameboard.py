@@ -235,6 +235,9 @@ class Gameboard:
             raise Exception('Oh no! You exploded!')  # raise exception to be caught by the calling loop
 
         elif self.win():
+            self.winning=True
+            win= windisplay(self.cols, self.rows, self.display)
+            win.displayfireworks()
             raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
 
 
@@ -307,6 +310,6 @@ class Gameboard:
 
             if self.win():
                 self.winning=True
-                win= windisplay(self.rows, self.cols, self.display)
+                win= windisplay(self.cols, self.rows, self.display)
                 win.displayfireworks()
                 raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
