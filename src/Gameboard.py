@@ -49,23 +49,25 @@ class Gameboard:
         tile_list = []
         for i in range(len(self.game_board)):
             for j in range(len(self.game_board[i])):
-                tile_list.append(self.game_board[i][j])
+                tempTile = self.game_board[i][j]
+                if not tempTile.is_revealed:
+                    if not tempTile.is_flag:
+                        tile_list.append(self.game_board[i][j])
+                        self.game_board[i][j] = None
+                
         random.shuffle(tile_list)
 
         # assign shuffled tile its new coordinates, update member vars, and append to new_board
-        new_board = []
         for i in range(len(self.game_board)):
-            new_board.append([])
             for j in range (len(self.game_board)):
-                tile_list[0].i = i
-                tile_list[0].j = j
-                tile_list[0].num_adjacent_mines = 0
-                tile_list[0].Rect = pygame.Rect((5 + 35 * tile_list[0].j), (5 + 35 * tile_list[0].i), 30, 30)
-                new_board[i].append(tile_list[0])
-                tile_list.pop(0)
-
-        # replace self.game_board
-        self.game_board = new_board
+                if not self.game_board[i][j]:
+                    tempTile = tile_list[0]
+                    tempTile.i = i
+                    tempTile.j = j
+                    tempTile.num_adjacent_mines = 0
+                    tempTile.Rect = pygame.Rect((5 + 35 * tempTile.j), (5 + 35 * tempTile.i), 30, 30)
+                    self.game_board[i][j] = tempTile
+                    tile_list.pop(0)
 
         # recount mines
         for i in range(len(self.game_board)):
@@ -219,8 +221,8 @@ class Gameboard:
         @param row: the current row of the gameboard
         @param col: the current col of the gameboard
         """
-
-	#increment num_adjacent_mines including diagonals
+        self.game_board[row][column].num_adjacent_mines = 0
+	    #increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
@@ -229,7 +231,7 @@ class Gameboard:
                 if increment_coord_in_bounds and increment_not_zero:
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine):
-                        self.game_board[row][column].num_adjacent_mines+=1
+                        self.game_board[row][column].num_adjacent_mines += 1
 
     def update_board(self):
         """
