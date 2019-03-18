@@ -190,23 +190,23 @@ class Gameboard:
         @post: Draws the board and displays on screen.
         """
         if not self.winning:
-         x_pos=0
-         y_pos=0
-         Pass=False
-         coords = pygame.mouse.get_pos()
-        for i in range(len(self.game_board)):
-         for j in range(len(self.game_board[i])):
-           if(self.game_board[i][j].Rect.collidepoint(coords)):
-                Pass=True
-                x_pos=i
-                y_pos=j
+            x_pos=0
+            y_pos=0
+            Pass=False
+            coords = pygame.mouse.get_pos()
+            for i in range(len(self.game_board)):
+             for j in range(len(self.game_board[i])):
+               if(self.game_board[i][j].Rect.collidepoint(coords)):
+                    Pass=True
+                    x_pos=i
+                    y_pos=j
 
-        if not self.game_board[x_pos][y_pos].is_revealed and not self.game_board[x_pos][y_pos].is_flag and Pass:
+            if not self.game_board[x_pos][y_pos].is_revealed and not self.game_board[x_pos][y_pos].is_flag and Pass:
                   self.game_board[x_pos][y_pos].refill()
 
         for i in range(self.rows):
          for j in range(self.cols):
-            if self.game_board[i][j].isHover() and (i != x_pos or j != y_pos):
+            if not self.winning and self.game_board[i][j].isHover() and (i != x_pos or j != y_pos):
                 if self.game_board[i][j].is_flag:
                         pass
                 else:

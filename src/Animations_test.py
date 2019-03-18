@@ -36,7 +36,7 @@ class windisplay:
             pygame.display.update()
             #self.NewGameButton.draw(self.display)
             #lifespan-=1
-        pygame.quit()
+        #pygame.quit()
 
 class particle:
 
