@@ -28,6 +28,9 @@ class UI:
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
         click_sound=pygame.mixer.Sound("src/Tiny Button Push-SoundBible.com-513260752.wav")
+        pygame.mixer.music.load("src/sandstorm.mp3")
+        pygame.mixer.music.set_volume(4)
+        pygame.mixer.music.play(-1)
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -93,6 +96,7 @@ class UI:
                 self.gameBoard.update_board()
 
             #Refresh the screen
+
             pygame.display.update()
 
     #Draw each of the UI elements on the screen
