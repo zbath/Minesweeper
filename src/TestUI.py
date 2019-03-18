@@ -130,7 +130,7 @@ class UI:
         elapsed =0
         self.start = start 
         self.mytime = str(int(time.clock()))
-        time.sleep(1)
+        #time.sleep(1)
         pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
         pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
         text2= self.clock_font.render( "Time: ", True, (250, 250, 250))
