@@ -222,6 +222,7 @@ class UI:
         ##self.gameBoard.RevealAll()
 
         #Draws the revealed board
+        self.display.fill((0, 0, 0))
         self.gameBoard.update_board()
         pygame.display.update()
 
