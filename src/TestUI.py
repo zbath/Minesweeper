@@ -9,11 +9,16 @@ UIHeight = 500
 
 #Class to handle creating input boxes and buttons, also to handle taking input
 class UI:
-    
+   
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
-        # TODO: create clock var
+        self.clock_font  = pygame.font.SysFont('Helvetica', 26)
+        self.secondsTimer = pygame.Rect(580,326,120,30)
+        self.myClock = pygame.Rect(580,350,120,30)
+  
+        self.start= time.time()
+        #self.clock = time.clock()
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
 
@@ -22,15 +27,15 @@ class UI:
         # by one representing the seconds passed, till the boolean value of InPlay becomes false. 
         # Essentially, the clock will continue as long as the event (gamebeing played) is true 
 
-    def clock_time(self,InPlay):
+    # def clock_time(self,InPlay):
        
-        start = time.time()
-        time.clock()
-        elapsed =0
-        while InPlay == True: 
-            elapsed = time.time() - start 
-            print  (time.clock() , elapsed)
-            time.sleep(1)
+    #     start = time.time()
+    #     time.clock()
+    #     elapsed =0
+    #     while InPlay == True: 
+    #         elapsed = time.time() - start 
+    #         print  (time.clock() , elapsed)
+    #         time.sleep(1)
          
     #Sets the window size and starts the game
     def launch(self):
@@ -43,6 +48,7 @@ class UI:
 
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
+        
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -61,7 +67,8 @@ class UI:
 
         #Event handling loop
         running = True
-        # TODO: Set 'start' time
+        # clock= 0 
+        self.start = 0 
         self.gameBoard.update_board()
         while(running):
             for event in pygame.event.get():
@@ -108,15 +115,29 @@ class UI:
 
             #if UI has a gameboard and the game is not over, draw the board
             if hasattr(self, "gameBoard") and not self.isGameOver:
-                text = int(time.time() - start())
+                
                 # TODO: Call update/draw clock method
+                self.draw_clock(self.start)
                 self.gameBoard.update_board()
 
             #Refresh the screen
+
+            # TODO: Create update/draw  clock method (taking start)
+            
             pygame.display.flip()
 
-    # TODO: Create update/draw  clock method (taking start)
-
+    def draw_clock(self,start):
+        elapsed =0
+        self.start = start 
+        self.mytime = str(int(time.clock()))
+        time.sleep(1)
+        pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
+        pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
+        text2= self.clock_font.render( "Time: ", True, (250, 250, 250))
+        text = self.clock_font.render( self.mytime  + " seconds", True, (250, 250, 250))
+        self.display.blit(text, self.myClock)
+        self.display.blit(text2, self.secondsTimer)
+    
     #Draw each of the UI elements on the screen
     def DrawInput(self):
         #Draw the text inputs
