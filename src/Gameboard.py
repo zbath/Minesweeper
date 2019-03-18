@@ -59,7 +59,7 @@ class Gameboard:
 
         # assign shuffled tile its new coordinates, update member vars, and append to new_board
         for i in range(len(self.game_board)):
-            for j in range (len(self.game_board)):
+            for j in range (len(self.game_board[i])):
                 if not self.game_board[i][j]:
                     tempTile = tile_list[0]
                     tempTile.i = i
