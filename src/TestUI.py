@@ -95,10 +95,10 @@ class UI:
                         try:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
+                                self.gameBoard.on_left_click(coords[0], coords[1], self.display)
                                 if self.mode == 1:
                                     if randint(0, 99) <= 25:
                                         self.gameBoard.shuffle_tiles()
-                                self.gameBoard.on_left_click(coords[0], coords[1], self.display)
 
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
@@ -224,6 +224,7 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
+            self.CheatModeEnabled = False
             self.Clock.offset = time.clock()
             self.startGame(width, height, bombs, False)
            
