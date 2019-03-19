@@ -160,8 +160,8 @@ class UI:
         self.Messages = [self.Message1, self.Message2, self.Message3, self.Message4]
 
         #Create two toggles, one Normal and one hard. Default to normal mode
-        self.NormalToggle = Toggle("NORMAL", 25 + width * 35, 160, self.display, True)
-        self.HardToggle = Toggle("HARD", 25 + width * 35, 210, self.display, False)
+        self.NormalToggle = Toggle("NORMAL", 25 + width * 35, 160, self.display, not self.mode)
+        self.HardToggle = Toggle("HARD", 25 + width * 35, 210, self.display, self.mode)
 
         #Link the toggle elements together, so when you toggle one, the other won't stay active
         self.NormalToggle.SetOtherToggle(self.HardToggle)
