@@ -77,7 +77,7 @@ class particle:
         def __init__(self, x, y, first, color_A, color_B, color_C, display):
 
          #Row coordinate of a particle.
-         self.x=x
+          self.x=x
 
          #Colum coordinate of a particle.
           self.y=y
