@@ -59,6 +59,11 @@ class UI:
         surface = pygame.display.set_mode((UIColumnWidth + width * 35, max(5 + height * 35, UIHeight)))
         self.drawUI(width, height, bombs)
 
+        if self.mode == 0:
+            self.PrintMessage(["Normal Mode", "is normal", "Minesweeper", ""])
+        if self.mode == 1:
+            self.PrintMessage(["Hard Mode", "randomizes", "the mines", "periodically"])
+
         self.Clock.offset = time.clock()
 
         #Event handling loop
@@ -90,10 +95,10 @@ class UI:
                         try:
                             coords = self.gameBoard.detect_location()
                             if coords is not None:
-                                self.gameBoard.on_left_click(coords[0], coords[1], self.display)
                                 if self.mode == 1:
                                     if randint(0, 99) <= 25:
                                         self.gameBoard.shuffle_tiles()
+                                self.gameBoard.on_left_click(coords[0], coords[1], self.display)
 
                         except Exception as thrown:
                             print(f'Caught Exception: {str(thrown)} \nEnding Game')
@@ -181,6 +186,7 @@ class UI:
         self.Messages = [self.Message1, self.Message2, self.Message3, self.Message4]
 
         #Create two toggles, one Normal and one hard. Default to normal mode
+        print(self.mode)
         self.NormalToggle = Toggle("NORMAL", 25 + width * 35, 160, self.display, not self.mode)
         self.HardToggle = Toggle("HARD", 25 + width * 35, 210, self.display, self.mode)
 
@@ -218,7 +224,6 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
-            self.mode = 0
             self.Clock.offset = time.clock()
             self.startGame(width, height, bombs, False)
            
@@ -250,6 +255,7 @@ class UI:
         if mode == 1:
             self.PrintMessage(["Hard Mode", "randomizes", "the mines", "periodically"])
         self.mode = mode
+        print(self.mode)
 
     ##Called to shuffle the mines. This is for testing only. In the final product, the function should be called
     ## from the gameboard
