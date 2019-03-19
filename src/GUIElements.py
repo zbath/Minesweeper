@@ -200,12 +200,12 @@ class Clock:
         self.secondsTimer = pygame.Rect(x, y, 120, 30)
         self.myClock = pygame.Rect(x, y + 24, 120, 30)
         self.display = display
-        self.start= time.clock()
+        self.mytime = 0
+        self.start = 0
+        self.offset = 0
     
     def draw_clock(self,start):
-        self.start = start
-        self.elapsed = time.clock() - start
-        self.mytime = str(int(start))
+        self.mytime = str(int(start) - int(self.offset))
         pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
         pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
         text2= self.clock_font.render( "Time: ", True, (250, 250, 250))
