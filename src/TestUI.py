@@ -1,11 +1,11 @@
 import pygame
 from src.Gameboard import Gameboard
-from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle
+from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle, Clock
 import time
 TestBoardSize = 15
 MaxBoardSize = 25
 UIColumnWidth = 225
-UIHeight = 500
+UIHeight = 575
 
 #Class to handle creating input boxes and buttons, also to handle taking input
 class UI:
@@ -13,11 +13,6 @@ class UI:
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
-        self.clock_font  = pygame.font.SysFont('Helvetica', 26)
-        self.secondsTimer = pygame.Rect(580,326,120,30)
-        self.myClock = pygame.Rect(580,350,120,30)
-  
-        self.start= time.clock()
         #self.clock = time.clock()
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
@@ -120,7 +115,7 @@ class UI:
                 
                 # TODO: Call update/draw clock method
                 self.start = time.clock()
-                self.draw_clock(self.start)
+                self.Clock.draw_clock(self.start)
                 self.gameBoard.update_board()
 
             #Refresh the screen
@@ -128,18 +123,6 @@ class UI:
             # TODO: Create update/draw  clock method (taking start)
             
             pygame.display.flip()
-
-    def draw_clock(self,start):
-        
-        self.start = start
-        self.mytime = str(int(start))
-        #time.sleep(1)
-        pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
-        pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
-        text2= self.clock_font.render( "Time: ", True, (250, 250, 250))
-        text = self.clock_font.render( self.mytime  + " seconds", True, (250, 250, 250))
-        self.display.blit(text, self.myClock)
-        self.display.blit(text2, self.secondsTimer)
         
     #Draw each of the UI elements on the screen
     def DrawInput(self):
@@ -177,6 +160,7 @@ class UI:
 
     #Creates the UI elements
     def drawUI(self, width, height, bombs):
+        self.Clock = Clock(25 + width * 35, 500, self.display)
 
         #create the message boxes. There are currently 4, but can add more if necessary 
         self.Message1 = MessageBox(25 + width * 35, 310, "", self.display)
@@ -224,7 +208,6 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
-            
             self.startGame(width, height, bombs, False)
 
     #Checks if the input given is valid

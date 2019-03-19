@@ -1,5 +1,6 @@
 import pygame
 import src.TestUI as TestUI
+import time
 
 FONT = pygame.font.Font(None, 32)
 InactiveColor = pygame.Color("white")
@@ -192,4 +193,22 @@ class Toggle:
     def UpdateToggle(self):
         pygame.draw.rect(self.display, pygame.Color("black"), self.rect, 0)
         self.textBox = FONT.render(self.text, True, self.color)
+
+class Clock:
+    def __init__(self, x, y, display):
+        self.clock_font  = pygame.font.SysFont('Helvetica', 26)
+        self.secondsTimer = pygame.Rect(x, y, 120, 30)
+        self.myClock = pygame.Rect(x, y + 24, 120, 30)
+        self.display = display
+        self.start= time.clock()
+    
+    def draw_clock(self,start):
+        self.start = time.clock()
+        self.mytime = str(int(start))
+        pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
+        pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
+        text2= self.clock_font.render( "Time: ", True, (250, 250, 250))
+        text = self.clock_font.render( self.mytime + " seconds", True, (250, 250, 250))
+        self.display.blit(text, self.myClock)
+        self.display.blit(text2, self.secondsTimer)
     
