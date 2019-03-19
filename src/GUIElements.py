@@ -203,7 +203,8 @@ class Clock:
         self.start= time.clock()
     
     def draw_clock(self,start):
-        self.start = time.clock()
+        self.start = start
+        self.elapsed = time.clock() - start
         self.mytime = str(int(start))
         pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
         pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
@@ -211,4 +212,6 @@ class Clock:
         text = self.clock_font.render( self.mytime + " seconds", True, (250, 250, 250))
         self.display.blit(text, self.myClock)
         self.display.blit(text2, self.secondsTimer)
+        
+    
     

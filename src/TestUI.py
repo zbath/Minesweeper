@@ -43,13 +43,13 @@ class UI:
 
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
+        self.Clock = Clock(25 + width * 35, 500, self.display)
         
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
-
-        self.mytime=0 
-        self.start=0
+    
+        
         #The game is not over, so isGameOver is false
         self.isGameOver = False
 
@@ -65,9 +65,11 @@ class UI:
         #Event handling loop
         running = True
         # clock= 0 
-        self.start = 0 
+        self.start =0
         self.gameBoard.update_board()
         while(running):
+            
+            
             for event in pygame.event.get():
 
                 #if you quit the window, exit the game
@@ -113,7 +115,7 @@ class UI:
             #if UI has a gameboard and the game is not over, draw the board
             if hasattr(self, "gameBoard") and not self.isGameOver:
                 
-                # TODO: Call update/draw clock method
+                
                 self.start = time.clock()
                 self.Clock.draw_clock(self.start)
                 self.gameBoard.update_board()
@@ -208,7 +210,11 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
+           
+            
             self.startGame(width, height, bombs, False)
+           
+           
 
     #Checks if the input given is valid
     def GoodInput(self, width, height, bombs):
@@ -258,6 +264,7 @@ class UI:
         del self.gameBoard
 
         #Game is over, so take no input on the gameboard.
+        
         self.isGameOver = True
 
         #Print the game ending message
