@@ -29,7 +29,7 @@ class Gameboard:
 
         @pre: A board size and mine count are already determined by the user, and a Pygame display object is already created.
         @param board_size: The n dimension of the n x n board
-        @param mine_count: The number of mines determined by user 
+        @param mine_count: The number of mines determined by user
         @param display: the Pygame display object created by UI
         @post: A new Gameboard object is created
         @return: nothing
@@ -42,6 +42,8 @@ class Gameboard:
         self.flag_count = mine_count
         self.flagged_mines = 0
         self.num_revealed_tiles = 0
+        self.number_of_tiles = 0
+        self.trueMineCount = mine_count
         self.board_generator(display)
 
     def shuffle_tiles(self):
@@ -49,23 +51,25 @@ class Gameboard:
         tile_list = []
         for i in range(len(self.game_board)):
             for j in range(len(self.game_board[i])):
-                tile_list.append(self.game_board[i][j])
+                tempTile = self.game_board[i][j]
+                if not tempTile.is_revealed:
+                    if not tempTile.is_flag:
+                        tile_list.append(self.game_board[i][j])
+                        self.game_board[i][j] = None
+                
         random.shuffle(tile_list)
 
         # assign shuffled tile its new coordinates, update member vars, and append to new_board
-        new_board = []
         for i in range(len(self.game_board)):
-            new_board.append([])
             for j in range (len(self.game_board)):
-                tile_list[0].i = i
-                tile_list[0].j = j
-                tile_list[0].num_adjacent_mines = 0
-                tile_list[0].Rect = pygame.Rect((5 + 35 * tile_list[0].j), (5 + 35 * tile_list[0].i), 30, 30)
-                new_board[i].append(tile_list[0])
-                tile_list.pop(0)
-
-        # replace self.game_board
-        self.game_board = new_board
+                if not self.game_board[i][j]:
+                    tempTile = tile_list[0]
+                    tempTile.i = i
+                    tempTile.j = j
+                    tempTile.num_adjacent_mines = 0
+                    tempTile.Rect = pygame.Rect((5 + 35 * tempTile.j), (5 + 35 * tempTile.i), 30, 30)
+                    self.game_board[i][j] = tempTile
+                    tile_list.pop(0)
 
         # recount mines
         for i in range(len(self.game_board)):
@@ -95,7 +99,7 @@ class Gameboard:
         while(self.mine_count > 0):
             random_row = random.randint(0, self.rows - 1)
             random_col = random.randint(0, self.cols - 1)
-            
+
             if (not self.game_board[random_row][random_col].is_mine):
                 self.game_board[random_row][random_col].is_mine = True
                 self.mine_count -= 1
@@ -107,18 +111,35 @@ class Gameboard:
             for j in range(self.cols):
                 self.count_adjacent_mines(i, j)
 
+        #Count the number of tiles in the game (bomb or not) e.g. 15 by 15 board has 225 total tiles
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.number_of_tiles += 1
+
     def win(self):
         """
         win() is called along with lose() in every main gameplay loop, checking to see if the player has won
 
         @pre: win is called for every iteration of the main loop
-        @post: Gameboard will decide whether or not to play the win screen  
+        @post: Gameboard will decide whether or not to play the win screen
         @return: True if the game is won, False otherwise
         """
-        if (self.mine_count == self.total_mines):  #if number of correct used flags == total_mines
+        #calculations for win condition
+            #win condition is: user has clicked all tiles except bombs. so,
+            #for a win, the num_revealed_tiles should be number_of_tiles minus number_of_bombs
+        tilesToWin = self.number_of_tiles - self.trueMineCount
+
+        if (int(self.num_revealed_tiles) == int(tilesToWin)):
             return True  #win
         else:
-            return False
+            return False #haven't won yet
+
+
+    #have to call this function in the while running loop so that pygame does not catch the exception for a possible win condition
+    #otherwise the game will crash after winning
+    def winCondition(self):
+        raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
+
 
     def lose(self, i, j):
         """
@@ -127,13 +148,13 @@ class Gameboard:
         @pre: A tile is clicked or the win() condition is checked
         @param x: the x coordinate of the clicked tile
         @param y: the y coordinate of the clicked tile
-        @post: Gameboard will decide whether or not to play the lose screen  
+        @post: Gameboard will decide whether or not to play the lose screen
         @return: True if the game is lost, False otherwise
         """
         if (self.game_board[i][j].is_mine):
-            return True  #lose
+            return True  #lose, lost the game
         else:
-            return False        
+            return False
 
     # Check and reveal surrounding tiles until base case or mine
     # It accepts coordinates as a position, checks if the coordinates are valid,
@@ -182,6 +203,7 @@ class Gameboard:
         """
         if self.game_board[row][column].is_mine and self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
+            #they have already checked if this is one of the following which is already implemented in the flag_reval logic...??
         elif self.game_board[row][column].is_mine and not self.game_board[row][column].is_flag:
             return(self.game_board[row][column].tile_flag())
         else:
@@ -201,8 +223,8 @@ class Gameboard:
         @param row: the current row of the gameboard
         @param col: the current col of the gameboard
         """
-
-	#increment num_adjacent_mines including diagonals
+        self.game_board[row][column].num_adjacent_mines = 0
+	    #increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
@@ -211,7 +233,7 @@ class Gameboard:
                 if increment_coord_in_bounds and increment_not_zero:
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine):
-                        self.game_board[row][column].num_adjacent_mines+=1
+                        self.game_board[row][column].num_adjacent_mines += 1
 
     def update_board(self, display, CheatModeEnabled=False):
         """
@@ -271,7 +293,7 @@ class Gameboard:
     def on_right_click(self, i, j):
         """
         This function manages flagging behavior.
-        
+
         @pre: The user has "right-clicked" and method is called from UI.
         @post: Detects location of mouse with respect to the gameboard and manages flagging behavior. Also determines if the game has been won or lost.
         @exception: throws an exception when the game should end (win/lose)
@@ -282,8 +304,6 @@ class Gameboard:
             if(self.game_board[i][j].is_flag):
                 self.flag_count += 1
                 self.mine_count += self.flag_reveal(i, j)
-            elif(self.flag_count == 0 and not (self.game_board[i][j].is_flag)):
-                return 0
             else:
                 self.mine_count += self.flag_reveal(i, j)
                 self.flag_count -= 1

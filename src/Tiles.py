@@ -6,7 +6,7 @@ from random import randint
 flag_image = pygame.image.load("src/pixel_flag.png")
 
 class Tiles:
-    
+
     num_adjacent_mines = 0
     pygame.font.init()
     mine_font = pygame.font.SysFont('Helvetica', 26)
@@ -23,7 +23,7 @@ class Tiles:
             is_mine: takes a bool if tile object is a mine
         @post Initializes display to display, surf to a surface size of 30x30 pixels, then fills each surface with a gray color"
         @return None
-        """ 
+        """
         self.is_revealed = is_revealed
         self.i = i
         self.j = j
@@ -62,7 +62,7 @@ class Tiles:
                 self.is_flag = True
                 if self.is_mine:
                     return 1
-                else: 
+                else:
                     return 0
             elif self.is_flag:
                 self.is_flag = False
