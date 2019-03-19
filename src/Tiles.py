@@ -2,14 +2,14 @@
 The tiles class handles the states of each tile object, letting the program know if a certain tile is a flag, a mine, or already revealed.
 """
 import pygame
-from random import randint
+import random
 flag_image = pygame.image.load("src/pixel_flag.png")
 
 class Tiles:
 
     num_adjacent_mines = 0
     pygame.font.init()
-    mine_font = pygame.font.SysFont('Helvetica', 26)
+    mine_font = pygame.font.SysFont('Helvetica', 30)
 
     # Constructor initializing a Tile object
     # Tile object will be set to self, booleans(is_revealed, is_flag, is_mine)
@@ -31,20 +31,26 @@ class Tiles:
         self.is_mine = is_mine
         self.display = display
         self.Rect = pygame.Rect((5 + 35 * self.j), (5 + 35 * self.i), 30, 30)
+        self.org_color=(50,205,50)
+        self.isHoverbool = False
+        self.hover_color = (152, 251, 152)
+        self.randompick=random.randint(0, 2)
 
     def draw_self(self):
         if self.is_flag:
             self.display.blit(flag_image, self.Rect)
 
         elif self.is_revealed:
-            pygame.draw.rect(self.display, (50, 50, 50), self.Rect)
+            pygame.draw.rect(self.display, ((222,184,135)), self.Rect)
             if self.num_adjacent_mines > 0:
+                color_plate=[(30, 144, 255), (0, 255, 0), (220, 20, 60)]
                 adj_text = str(self.num_adjacent_mines)
-                font_surf = self.mine_font.render(adj_text, True, (250, 250, 250))
+                font_surf = self.mine_font.render(adj_text, True, color_plate[self.randompick])
                 self.display.blit(font_surf, self.Rect)
-                pygame.display.flip()
+                #pygame.display.update()
         else:
-            pygame.draw.rect(self.display, (100, 100, 100), self.Rect)
+            pygame.draw.rect(self.display, (self.org_color), self.Rect)
+            #pygame.display.update()
 
     def get_coords(self):
         coords = (self.i, self.j)
@@ -86,3 +92,17 @@ class Tiles:
                     return 0
         else:
             return 0
+
+    def refill(self):
+        self.org_color=self.hover_color
+        self.isHoverbool = True
+    # Draws number of adjacent mines to screen
+    def isHover(self):
+        if not self.isHoverbool:
+            return False
+        else:
+            return True
+
+    def recoverColor(self):
+        self.org_color=(50,205,50)
+        self.isHoverbool = False

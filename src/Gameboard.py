@@ -8,6 +8,7 @@ import random
 
 
 from src.Tiles import Tiles
+from src.Animations_test import windisplay
 
 class Gameboard:
     """
@@ -30,6 +31,7 @@ class Gameboard:
         @post: A new Gameboard object is created
         @return: nothing
         """
+        self.winning=False
         self.cols = int(width)
         self.rows = int(height)
         self.mine_count = int(mine_count)
@@ -71,6 +73,9 @@ class Gameboard:
         for i in range(len(self.game_board)):
             for j in range(len(self.game_board[i])):
                 self.count_adjacent_mines(i, j)
+
+        self.winning=False
+        self.board_generator()
 
 
     # Generate board and create tiles.
@@ -165,13 +170,14 @@ class Gameboard:
         @post: The Tiles object is altered to be revealed or not, and its display is updated appropriately
         @return: nothing
         """
-        in_bounds = (0 <= row < self.rows) and (0 <= column < self.cols)
-        if not in_bounds:
-            return
-
-        not_mine = not self.game_board[row][column].is_mine
-        not_revealed = not self.game_board[row][column].is_revealed
-        not_flagged = not self.game_board[row][column].is_flag
+        in_bounds = (row >= 0 and row < self.rows) and (column >= 0 and column < self.cols)
+        not_mine = False; 
+        not_revealed = False; 
+        not_flagged = False; 
+        if in_bounds:
+            not_mine = not self.game_board[row][column].is_mine
+            not_revealed = not self.game_board[row][column].is_revealed
+            not_flagged = not self.game_board[row][column].is_flag
 
         if not_mine and not_revealed and not_flagged:
             self.game_board[row][column].tile_reveal()
@@ -238,10 +244,30 @@ class Gameboard:
         @pre: user has inputted board_size and mine count.
         @post: Draws the board and displays on screen.
         """
+        if not self.winning:
+            x_pos=0
+            y_pos=0
+            Pass=False
+            coords = pygame.mouse.get_pos()
+            for i in range(len(self.game_board)):
+             for j in range(len(self.game_board[i])):
+               if(self.game_board[i][j].Rect.collidepoint(coords)):
+                    Pass=True
+                    x_pos=i
+                    y_pos=j
+
+            if not self.game_board[x_pos][y_pos].is_revealed and not self.game_board[x_pos][y_pos].is_flag and Pass:
+                  self.game_board[x_pos][y_pos].refill()
+
         for i in range(self.rows):
-            for j in range(self.cols):
-                self.game_board[i][j].draw_self()
-        pygame.display.flip()
+         for j in range(self.cols):
+            if not self.winning and self.game_board[i][j].isHover() and (i != x_pos or j != y_pos):
+                if self.game_board[i][j].is_flag:
+                        pass
+                else:
+                   self.game_board[i][j].recoverColor()
+            self.game_board[i][j].draw_self()
+        #pygame.display.update()
 
     def detect_location(self):
         coords = pygame.mouse.get_pos()
@@ -263,6 +289,9 @@ class Gameboard:
             raise Exception('Oh no! You exploded!')  # raise exception to be caught by the calling loop
 
         elif self.win():
+            self.winning=True
+            win= windisplay(self.cols, self.rows, self.display)
+            win.displayfireworks()
             raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
 
     def on_right_click(self, i, j):
@@ -284,4 +313,7 @@ class Gameboard:
                 self.flag_count -= 1
 
             if self.win():
+                self.winning=True
+                win= windisplay(self.cols, self.rows, self.display)
+                win.displayfireworks()
                 raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop

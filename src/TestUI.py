@@ -40,13 +40,17 @@ class UI:
 
         #This sets the window size.
         surface = pygame.display.set_mode((UIColumnWidth + TestBoardSize * 35, 5 + TestBoardSize * 35))
-        pygame.display.flip()
+        pygame.display.update()
         self.startGame(TestBoardSize, TestBoardSize, TestBoardSize, True)
 
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
         self.Clock = Clock(25 + width * 35, 500, self.display)
         
+        click_sound=pygame.mixer.Sound("src/Tiny Button Push-SoundBible.com-513260752.wav")
+        pygame.mixer.music.load("src/sandstorm.mp3")
+        pygame.mixer.music.set_volume(4)
+        pygame.mixer.music.play(-1)
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
@@ -90,6 +94,7 @@ class UI:
                     #Detect left click on the location of the click
                     if (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
 
+                        click_sound.play()
                         #if gameBoard throws an exception, meaning you either won or lost, end the game
                         try:
                             coords = self.gameBoard.detect_location()
@@ -129,6 +134,8 @@ class UI:
                 self.gameBoard.update_board()
 
             #Refresh the screen
+
+            pygame.display.update()
 
             # TODO: Create update/draw  clock method (taking start)
             
@@ -267,8 +274,12 @@ class UI:
 
         #Draws the revealed board
         if(hasattr(self,"gameBoard")):
+           
+            self.display.fill((0, 0, 0))
             self.gameBoard.update_board()
+            pygame.display.update()
             del self.gameBoard
+        
         pygame.display.flip()
 
 
