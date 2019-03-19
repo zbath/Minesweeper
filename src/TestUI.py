@@ -17,7 +17,7 @@ class UI:
         self.secondsTimer = pygame.Rect(580,326,120,30)
         self.myClock = pygame.Rect(580,350,120,30)
   
-        self.start= time.time()
+        self.start= time.clock()
         #self.clock = time.clock()
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
@@ -53,6 +53,8 @@ class UI:
         if(not firstGame):
             self.clearBoard()
 
+        self.mytime=0 
+        self.start=0
         #The game is not over, so isGameOver is false
         self.isGameOver = False
 
@@ -117,6 +119,7 @@ class UI:
             if hasattr(self, "gameBoard") and not self.isGameOver:
                 
                 # TODO: Call update/draw clock method
+                self.start = time.clock()
                 self.draw_clock(self.start)
                 self.gameBoard.update_board()
 
@@ -127,9 +130,9 @@ class UI:
             pygame.display.flip()
 
     def draw_clock(self,start):
-        elapsed =0
-        self.start = start 
-        self.mytime = str(int(time.clock()))
+        
+        self.start = start
+        self.mytime = str(int(start))
         #time.sleep(1)
         pygame.draw.rect(self.display, (112, 128, 144), self.myClock)
         pygame.draw.rect(self.display, (112, 128, 144), self.secondsTimer)
@@ -137,7 +140,7 @@ class UI:
         text = self.clock_font.render( self.mytime  + " seconds", True, (250, 250, 250))
         self.display.blit(text, self.myClock)
         self.display.blit(text2, self.secondsTimer)
-    
+        
     #Draw each of the UI elements on the screen
     def DrawInput(self):
         #Draw the text inputs
@@ -221,6 +224,7 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
+            
             self.startGame(width, height, bombs, False)
 
     #Checks if the input given is valid
