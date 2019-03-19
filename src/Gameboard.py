@@ -129,7 +129,6 @@ class Gameboard:
             self.game_board[row][column].tile_reveal()
             self.num_revealed_tiles += 1    #increment number of revealed tiles
             if (self.game_board[row][column].num_adjacent_mines == 0):
-                # Update display (tile_reveal()) (TO BE FINISHED WHEN WE IMPLEMENT PYGAME)
                 self.rec_reveal(row - 1, column)          # (UP)
                 self.rec_reveal(row - 1, column - 1)
                 self.rec_reveal(row + 1, column)          # (DOWN)

@@ -37,6 +37,12 @@ class Tiles:
         self.randompick=random.randint(0, 2)
 
     def draw_self(self):
+        """
+        @pre Called from update_board in Gameboard.py
+        @param
+        @post Redraws the tile onto the board when doing an update to the gameboard, after a user action.
+        @return
+        """
         if self.is_flag:
             self.display.blit(flag_image, self.Rect)
 
@@ -53,6 +59,12 @@ class Tiles:
             #pygame.display.update()
 
     def get_coords(self):
+        """
+        @pre Grabs the coordinate of a tile that has been specified in boardGame[i][j]
+        @param
+        @post
+        @return Coordinates of the tile on the board
+        """
         coords = (self.i, self.j)
         return coords
 
@@ -61,10 +73,10 @@ class Tiles:
         """
         Displays the number of mines surrounding a revealed tile (if any exist)
 
-        @pre Expects a call from a user right-click
-        @param None
-        @post Revealed tiles will now display number of adjacent mines
-        @return None
+        @pre When user clicks and the specific tile(or area of recursively revealed tiles) it will change the tile to be revealed
+        @param
+        @post Shows the tile on the screen, changes tile objects value to true
+        @return
         """
         self.is_revealed = True
 
@@ -72,7 +84,7 @@ class Tiles:
         """
         Adds or removes flag image on tile
 
-        @pre Expects a call from a user left-click
+        @pre Expects a call from a user right-click
         @param None
         @post Flag is displayed or removed from tile
         @return Returns an integer that will add or subtract from the flag count that is being compared to the mine count
@@ -94,15 +106,34 @@ class Tiles:
             return 0
 
     def refill(self):
+        """
+        @pre After tile is redrawn on the board it is filled
+        @param
+
+        @post
+        @return
+        """
         self.org_color=self.hover_color
         self.isHoverbool = True
     # Draws number of adjacent mines to screen
     def isHover(self):
+        """
+        @pre If user is looking at the tile
+        @param
+        @post Switch the values of the isHoverBool
+        @return None
+        """
         if not self.isHoverbool:
             return False
         else:
             return True
 
     def recoverColor(self):
+        """
+        @pre After refilling and redrawing, the color is back using this function
+        @param
+        @post When the color breaks from refilling, change the color back to the desired color
+        @return None
+        """
         self.org_color=(50,205,50)
         self.isHoverbool = False
