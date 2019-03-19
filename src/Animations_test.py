@@ -3,12 +3,12 @@ import random
 
 class windisplay:
 
-
     def __init__(self, board_size_x, board_size_y, display):
       self.run = True
       self.board_size_x=225+board_size_x*35
-      self.board_size_y=5+board_size_y*35
+      self.board_size_y= max(5+board_size_y*35, 575)
       self.display=display
+
     def displayfireworks(self):
         #self.NewGameButton = ButtonInput("Restart game", (self.board_size_y/2)-100, 260, self.display, "lightgreen", self.NewGame)
         font =pygame.font.SysFont('comicsans', 50, True)

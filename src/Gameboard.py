@@ -5,10 +5,14 @@ Gameboard is responsible for managing the state of the game.  It is called by UI
 #This is the Gameboard class which will render the gameboard after a size and number of mines is initiated
 import pygame
 import random
+import copy
 
 
 from src.Tiles import Tiles
 from src.Animations_test import windisplay
+
+flag_image = pygame.image.load("src/pixel_flag.png")
+bomb_image = pygame.image.load("src/mine.jpg")
 
 class Gameboard:
     """
@@ -35,8 +39,6 @@ class Gameboard:
         self.cols = int(width)
         self.rows = int(height)
         self.mine_count = int(mine_count)
-        #^^this shit broken^^, does some weird count that is not the mine count, see trueMineCount for accurate mines given to the gameBoard
-        self.display    = display
         self.game_board = []
         self.total_mines = mine_count
         self.flag_count = mine_count
@@ -44,30 +46,32 @@ class Gameboard:
         self.num_revealed_tiles = 0
         self.number_of_tiles = 0
         self.trueMineCount = mine_count
-        self.board_generator()
+        self.board_generator(display)
 
     def shuffle_tiles(self):
         # append all tiles to a 1-D list and shuffle
         tile_list = []
         for i in range(len(self.game_board)):
             for j in range(len(self.game_board[i])):
-                tile_list.append(self.game_board[i][j])
+                tempTile = self.game_board[i][j]
+                if not tempTile.is_revealed:
+                    if not tempTile.is_flag:
+                        tile_list.append(self.game_board[i][j])
+                        self.game_board[i][j] = None
+                
         random.shuffle(tile_list)
 
         # assign shuffled tile its new coordinates, update member vars, and append to new_board
-        new_board = []
         for i in range(len(self.game_board)):
-            new_board.append([])
             for j in range (len(self.game_board)):
-                tile_list[0].i = i
-                tile_list[0].j = j
-                tile_list[0].num_adjacent_mines = 0
-                tile_list[0].Rect = pygame.Rect((5 + 35 * tile_list[0].j), (5 + 35 * tile_list[0].i), 30, 30)
-                new_board[i].append(tile_list[0])
-                tile_list.pop(0)
-
-        # replace self.game_board
-        self.game_board = new_board
+                if not self.game_board[i][j]:
+                    tempTile = tile_list[0]
+                    tempTile.i = i
+                    tempTile.j = j
+                    tempTile.num_adjacent_mines = 0
+                    tempTile.Rect = pygame.Rect((5 + 35 * tempTile.j), (5 + 35 * tempTile.i), 30, 30)
+                    self.game_board[i][j] = tempTile
+                    tile_list.pop(0)
 
         # recount mines
         for i in range(len(self.game_board)):
@@ -75,11 +79,10 @@ class Gameboard:
                 self.count_adjacent_mines(i, j)
 
         self.winning=False
-        self.board_generator()
 
 
     # Generate board and create tiles.
-    def board_generator(self):
+    def board_generator(self, display):
         """
         The gameboard is populated with tiles and randomly assigns mines to those tiles
 
@@ -91,7 +94,7 @@ class Gameboard:
         for i in range(self.rows):
             arr = []
             for j in range(self.cols):
-                arr.append(Tiles(i, j, False, False, False, self.display))
+                arr.append(Tiles(i, j, False, False, False, display))
             self.game_board.append(arr)
 
         # Randomly adds mines to the board until mine count equals zero
@@ -129,7 +132,7 @@ class Gameboard:
             #win condition is: user has clicked all tiles except bombs. so,
             #for a win, the num_revealed_tiles should be number_of_tiles minus number_of_bombs
         tilesToWin = self.number_of_tiles - self.trueMineCount
-
+        print(self.num_revealed_tiles, tilesToWin)
         if (int(self.num_revealed_tiles) == int(tilesToWin)):
             return True  #win
         else:
@@ -225,8 +228,8 @@ class Gameboard:
         @param row: the current row of the gameboard
         @param col: the current col of the gameboard
         """
-
-	#increment num_adjacent_mines including diagonals
+        self.game_board[row][column].num_adjacent_mines = 0
+	    #increment num_adjacent_mines including diagonals
         for row_inc in range (-1, 2):
             for col_inc in range (-1, 2):
 			    #first check for valid indices
@@ -235,9 +238,9 @@ class Gameboard:
                 if increment_coord_in_bounds and increment_not_zero:
                     #check if adjacent tile is a mine
                     if (self.game_board[row+row_inc][column+col_inc].is_mine):
-                        self.game_board[row][column].num_adjacent_mines+=1
+                        self.game_board[row][column].num_adjacent_mines += 1
 
-    def update_board(self):
+    def update_board(self, display, CheatModeEnabled=False):
         """
         This function creates and displays the board on the screen.
 
@@ -266,8 +269,30 @@ class Gameboard:
                         pass
                 else:
                    self.game_board[i][j].recoverColor()
-            self.game_board[i][j].draw_self()
+            self.DrawTile(self.game_board[i][j], display, CheatModeEnabled)
         #pygame.display.update()
+
+    def RevealAll(self, display):
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.DrawTile(self.game_board[i][j], display, True)
+        pygame.display.flip()
+
+    def DrawTile(self, tile, display, CheatModeEnabled):
+        if tile.is_flag and not CheatModeEnabled:
+            display.blit(flag_image, tile.Rect)
+        elif tile.is_mine and CheatModeEnabled:
+            display.blit(bomb_image, tile.Rect)
+        elif tile.is_revealed:
+            pygame.draw.rect(display, ((222,184,135)), tile.Rect)
+            if tile.num_adjacent_mines > 0:
+                color_plate=[(30, 144, 255), (0, 255, 0), (220, 20, 60)]
+                adj_text = str(tile.num_adjacent_mines)
+                font_surf = tile.mine_font.render(adj_text, True, color_plate[tile.randompick])
+                display.blit(font_surf, tile.Rect)
+                #pygame.display.update()
+        else:
+            pygame.draw.rect(display, (tile.org_color), tile.Rect)
 
     def detect_location(self):
         coords = pygame.mouse.get_pos()
@@ -277,24 +302,21 @@ class Gameboard:
                     print(f'Detected: ({self.game_board[i][j].i}, {self.game_board[i][j].j}{", mine!" if self.game_board[i][j].is_mine else ""})')
                     return (i, j)
 
-    def on_left_click(self, i, j):
+    def on_left_click(self, i, j, display):
         exploded = self.lose(i, j) and not self.game_board[i][j].is_flag
-        valid_tile = not (self.game_board[i][j].is_flag or self.game_board[i][j].is_revealed)
-        end_state = self.win() or exploded
 
-        if not end_state and not self.game_board[i][j].is_flag:
-            self.rec_reveal(i, j)
+        self.rec_reveal(i, j)
 
-        elif exploded:
+        if exploded:
             raise Exception('Oh no! You exploded!')  # raise exception to be caught by the calling loop
 
         elif self.win():
             self.winning=True
-            win= windisplay(self.cols, self.rows, self.display)
+            win= windisplay(self.cols, self.rows, display)
             win.displayfireworks()
             raise Exception('Congratulations, you win!')  # raise exception to be caught by the calling loop
 
-    def on_right_click(self, i, j):
+    def on_right_click(self, i, j, display):
         """
         This function manages flagging behavior.
 
@@ -314,6 +336,18 @@ class Gameboard:
 
             if self.win():
                 self.winning=True
-                win= windisplay(self.cols, self.rows, self.display)
+                win= windisplay(self.cols, self.rows, display)
                 win.displayfireworks()
                 raise Exception('Congratulations, you win!') #raise exception to be caught by the calling loop
+
+    def ToggleCheatMode(self, Enabled, display):
+        if Enabled:
+            # "reveal" all tiles and draw the board
+            GameBoardCopy = copy.deepcopy(self)
+            for i in range(GameBoardCopy.rows):
+                for j in range(GameBoardCopy.cols):
+                    GameBoardCopy.game_board[i][j].tile_reveal()
+            GameBoardCopy.update_board(display, True)
+        else:
+            # redraw the covered board
+            self.update_board(display)            

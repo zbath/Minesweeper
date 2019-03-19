@@ -29,7 +29,7 @@ class Tiles:
         self.j = j
         self.is_flag = is_flag
         self.is_mine = is_mine
-        self.display = display
+        #self.display = display
         self.Rect = pygame.Rect((5 + 35 * self.j), (5 + 35 * self.i), 30, 30)
         self.org_color=(50,205,50)
         self.isHoverbool = False
