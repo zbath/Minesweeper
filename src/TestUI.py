@@ -48,8 +48,7 @@ class UI:
         if(not firstGame):
             self.clearBoard()
 
-        self.mytime=0 
-        self.start=0
+
         #The game is not over, so isGameOver is false
         self.isGameOver = False
 
@@ -61,6 +60,8 @@ class UI:
             ## of the gameboard, which is deleted when a new game is started
         surface = pygame.display.set_mode((UIColumnWidth + width * 35, max(5 + height * 35, UIHeight)))
         self.drawUI(width, height, bombs)
+
+        self.Clock.offset = time.clock()
 
         #Event handling loop
         running = True
@@ -114,8 +115,7 @@ class UI:
             if hasattr(self, "gameBoard") and not self.isGameOver:
                 
                 # TODO: Call update/draw clock method
-                self.start = time.clock()
-                self.Clock.draw_clock(self.start)
+                self.Clock.draw_clock(time.clock())
                 self.gameBoard.update_board()
 
             #Refresh the screen
@@ -208,6 +208,7 @@ class UI:
         if self.GoodInput(width, height, bombs):
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
+            self.Clock.offset = time.clock()
             self.startGame(width, height, bombs, False)
 
     #Checks if the input given is valid
