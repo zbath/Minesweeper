@@ -1,22 +1,39 @@
 import pygame
 from src.Gameboard import Gameboard
-from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle
+from src.GUIElements import TextInput, ButtonInput, MessageBox, Toggle,Clock
+import time 
 from random import randint
 
 TestBoardSize = 15
 MaxBoardSize = 25
 UIColumnWidth = 225
-UIHeight = 500
+UIHeight = 575
 
 #Class to handle creating input boxes and buttons, also to handle taking input
 class UI:
+   
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
-
+        #self.clock = time.clock()
         #Normal mode is 0. Hard mode is 1
         self.mode = 0
 
+        
+        # Function will create a clock and will continue to increment up 
+        # by one representing the seconds passed, till the boolean value of InPlay becomes false. 
+        # Essentially, the clock will continue as long as the event (gamebeing played) is true 
+
+    # def clock_time(self,InPlay):
+       
+    #     start = time.time()
+    #     time.clock()
+    #     elapsed =0
+    #     while InPlay == True: 
+    #         elapsed = time.time() - start 
+    #         print  (time.clock() , elapsed)
+    #         time.sleep(1)
+         
     #Sets the window size and starts the game
     def launch(self):
         pygame.font.init()
@@ -28,9 +45,12 @@ class UI:
 
     #Creates the initial game board, draws the UI, and handles all input
     def startGame(self, width, height, bombs, firstGame):
+        self.Clock = Clock(25 + width * 35, 500, self.display)
+        
         #Dont clear the board if this is the initial game
         if(not firstGame):
             self.clearBoard()
+
 
         #The game is not over, so isGameOver is false
         self.isGameOver = False
@@ -44,16 +64,17 @@ class UI:
         surface = pygame.display.set_mode((UIColumnWidth + width * 35, max(5 + height * 35, UIHeight)))
         self.drawUI(width, height, bombs)
 
+        self.Clock.offset = time.clock()
+
         #Event handling loop
         running = True
+        # clock= 0 
+        self.start =0
         self.gameBoard.update_board()
         while(running):
+            
+            
             for event in pygame.event.get():
-                try:
-                    if(self.gameBoard.win()):
-                        self.gameBoard.winCondition()  # raise exception to be caught by the calling loop
-                except Exception as thrown:
-                    self.EndGame(thrown)
 
                 #if you quit the window, exit the game
                 if event.type == pygame.QUIT:
@@ -102,12 +123,17 @@ class UI:
 
             #if UI has a gameboard and the game is not over, draw the board
             if hasattr(self, "gameBoard") and not self.isGameOver:
+                
+                # TODO: Call update/draw clock method
+                self.Clock.draw_clock(time.clock())
                 self.gameBoard.update_board()
 
             #Refresh the screen
-            pygame.display.flip()
-            #self.gameBoard.win()
 
+            # TODO: Create update/draw  clock method (taking start)
+            
+            pygame.display.flip()
+        
     #Draw each of the UI elements on the screen
     def DrawInput(self):
         #Draw the text inputs
@@ -144,6 +170,7 @@ class UI:
 
     #Creates the UI elements
     def drawUI(self, width, height, bombs):
+        self.Clock = Clock(25 + width * 35, 500, self.display)
 
         #create the message boxes. There are currently 4, but can add more if necessary
         self.Message1 = MessageBox(25 + width * 35, 310, "", self.display)
@@ -192,7 +219,10 @@ class UI:
             #Clear the board by deleting the gameboard, and drawing a filled rectagle over the top,
             #then Draw a new board
             self.mode = 0
+            self.Clock.offset = time.clock()
             self.startGame(width, height, bombs, False)
+           
+           
 
     #Checks if the input given is valid
     def GoodInput(self, width, height, bombs):
@@ -244,6 +274,7 @@ class UI:
 
 
         #Game is over, so take no input on the gameboard.
+        
         self.isGameOver = True
 
         #Print the game ending message
