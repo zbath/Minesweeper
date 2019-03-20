@@ -204,7 +204,6 @@ class UI:
         self.Messages = [self.Message1, self.Message2, self.Message3, self.Message4]
 
         #Create two toggles, one Normal and one hard. Default to normal mode
-        print(self.mode)
         self.NormalToggle = Toggle("NORMAL", 25 + width * 35, 160, self.display, not self.mode)
         self.HardToggle = Toggle("HARD", 25 + width * 35, 210, self.display, self.mode)
 
@@ -270,7 +269,6 @@ class UI:
             return False
         if height > 25 or height < 2:
             self.PrintMessage(["Invalid Height:", "Input a value", "Between", "2 and 25"])
-            print("invalid height")
             return False
         if bombs > width * height - 1 or bombs < 1:
             self.PrintMessage(["Invalid Bombs:", "Input a value", "Between", "1 and " + str(width * height - 1)])
@@ -341,6 +339,5 @@ class UI:
         if hasattr(self, "gameBoard"):
             self.CheatModeEnabled = not self.CheatModeEnabled
             self.CheatButton.Toggle()
-            print("Cheat Mode Toggled")
             self.gameBoard.ToggleCheatMode(self.CheatButton.isActive, self.display)
 

@@ -53,7 +53,6 @@ class TextInput:
             if self.isActive:
                 if event.key == pygame.K_RETURN:
                     UI.NewGame()
-                    print("NewGame")
                 elif event.key == pygame.K_BACKSPACE:
                     if len(self.value) > 0:
                         self.value = self.value[:-1]
@@ -62,7 +61,6 @@ class TextInput:
                     self.NextInput()
                     if self.text == "Bombs: ":
                         UI.NewGame()
-                        print("NewGame")
                 elif pygame.key.name(event.key).isdigit():
                     if len(self.value) < 4:
                         self.value += pygame.key.name(event.key)
