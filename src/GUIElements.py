@@ -318,13 +318,13 @@ class Toggle:
 
         pygame.draw.rect(self.display, pygame.Color("black"), self.rect, 0)
         self.textBox = FONT.render(self.text, True, self.color)
-#Class is responsible for intializing a clock and its placement according to the gamescreen. 
-#Clock font is specified and the clock itself functions based on the start and offset integer variables
-#The start integer will increase as the program runs and when new game is pressed the value that offset takes 
-#will be exactly the same as starts, therefore start - offset will reset the clock to a value of 0 
+
 class Clock:
     """
-    The Clock class creates a clock to be displayed to the user.
+        Class is responsible for intializing a clock and its placement according to the gamescreen. 
+        Clock font is specified and the clock itself functions based on the start and offset integer variables
+        The start integer will increase as the program runs and when new game is pressed the value that offset takes 
+        will be exactly the same as starts, therefore start - offset will reset the clock to a value of 0 
     """
 
     def __init__(self, x, y, display):
@@ -344,15 +344,12 @@ class Clock:
         self.mytime = 0
         self.start = 0
         self.offset = 0
-    # This function is responsible for drawing the clock on the gameboard. 
-    #pygrame.draw.rect will draw both rectangles and text/text2 will specify the words stated on the 
-    #rectangles. Blit will simply display the text on the screen. 
+
     def draw_clock(self,start):
         """
-        Updates the time on the clock and displays it to the user.
-        
-        Arguments:
-            start {float} -- The time in seconds since the game was started.
+            This function is responsible for drawing the clock on the gameboard. 
+            pygrame.draw.rect will draw both rectangles and text/text2 will specify the words stated on the 
+            rectangles. Blit will simply display the text on the screen. 
         """
 
         self.mytime = str(int(start) - int(self.offset))
