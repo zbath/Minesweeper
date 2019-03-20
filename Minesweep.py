@@ -4,7 +4,7 @@ This is the main executable of the program, it runs UI.
 import pygame
 from pygame.locals import*
 
-import src.TestUI as TestUI
+import src.UI as UI
 
 pygame.init()
 
@@ -19,7 +19,7 @@ def main():
     display = pygame.display.set_mode((1000, 100))
     pygame.display.set_caption('Play Minesweeper!')
 
-    user = TestUI.UI(display) # TODO: pass clock to UI
+    user = UI.UI(display) # TODO: pass clock to UI
     user.launch()
 
 if __name__ == '__main__':
