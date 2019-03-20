@@ -206,8 +206,14 @@ class Toggle:
     def UpdateToggle(self):
         pygame.draw.rect(self.display, pygame.Color("black"), self.rect, 0)
         self.textBox = FONT.render(self.text, True, self.color)
-
+#Class is responsible for intializing a clock and its placement according to the gamescreen. 
+#Clock font is specified and the clock itself functions based on the start and offset integer variables
+#The start integer will increase as the program runs and when new game is pressed the value that offset takes 
+#will be exactly the same as starts, therefore start - offset will reset the clock to a value of 0 
 class Clock:
+    # Object will  represent create a clock and will continue to increment up 
+    # by one representing the seconds passed, till new game/ game over. 
+    # Essentially, the clock will continue as long as the event (gamebeing played) is true 
     def __init__(self, x, y, display):
         self.clock_font  = pygame.font.SysFont('Helvetica', 26)
         self.secondsTimer = pygame.Rect(x, y, 175, 30)
@@ -216,7 +222,9 @@ class Clock:
         self.mytime = 0
         self.start = 0
         self.offset = 0
-    
+    # This function is responsible for drawing the clock on the gameboard. 
+    #pygrame.draw.rect will draw both rectangles and text/text2 will specify the words stated on the 
+    #rectangles. Blit will simply display the text on the screen. 
     def draw_clock(self,start):
         self.mytime = str(int(start) - int(self.offset))
         pygame.draw.rect(self.display, (112, 128, 144), self.myClock)

@@ -15,15 +15,11 @@ class UI:
     #Pass the game surface as "display" for the UI to use
     def __init__(self, display):
         self.display = display
-        #self.clock = time.clock()
-        #Normal mode is 0. Hard mode is 1
         self.mode = 0
         self.CheatModeEnabled = False
 
         
-        # Function will create a clock and will continue to increment up 
-        # by one representing the seconds passed, till the boolean value of InPlay becomes false. 
-        # Essentially, the clock will continue as long as the event (gamebeing played) is true 
+        
          
     #Sets the window size and starts the game
     def launch(self):
@@ -39,8 +35,11 @@ class UI:
         self.Clock = Clock(25 + width * 35, 500, self.display)
         
         click_sound=pygame.mixer.Sound("src/Tiny Button Push-SoundBible.com-513260752.wav")
+        #simply sets the background music to sandstorm during gameplay 
         pygame.mixer.music.load("src/sandstorm.mp3")
+        #sets the volume
         pygame.mixer.music.set_volume(4)
+        #play music function 
         pygame.mixer.music.play(-1)
         #Dont clear the board if this is the initial game
         if(not firstGame):
